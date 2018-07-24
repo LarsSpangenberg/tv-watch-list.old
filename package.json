@@ -1,0 +1,22 @@
+{
+  "name": "tv-watch-list",
+  "version": "0.0.0",
+  "description": "An organizational app used to track TV shows for people who enjoy streaming and binge watching",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheGerman8or/tv-watch-list.git"
+  },
+  "author": "Lars Spangenberg <Lazerus88@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheGerman8or/tv-watch-list/issues"
+  },
+  "homepage": "https://github.com/TheGerman8or/tv-watch-list#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
