@@ -1,13 +1,14 @@
 var path = require('path');
 var srcPath = path.join(__dirname, 'src');
-var buildPath = path.join(__dirname, 'dist');
+var buildPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
+  mode: 'development',
   context: srcPath,
   entry: path.join(srcPath, 'js', 'client.js'),
   output: {
     path: buildPath,
-    fileName: 'bundle.js'
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -17,7 +18,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['react', 'env']
+            presets: ['env', 'react']
           }
         }
       }

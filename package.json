@@ -2,7 +2,7 @@
   "name": "tv-watch-list",
   "version": "0.0.0",
   "description": "An organizational app used to track TV shows for people who enjoy streaming and binge watching",
-  "main": "server.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/TheGerman8or/tv-watch-list#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -27,6 +28,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "webpack": "^4.16.2",
+    "webpack-command": "^0.4.1",
     "webpack-dev-server": "^3.1.5"
   }
 }
