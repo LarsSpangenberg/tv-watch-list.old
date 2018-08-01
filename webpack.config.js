@@ -15,8 +15,8 @@ module.exports = {
   mode: 'development',
   context: srcPath,
   entry: [
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', 
-    path.join(srcPath, 'js', 'client.js')
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    path.join(srcPath, 'js', 'app.js')
   ],
   plugins: [
     new CleanWebpackPlugin(['dist']),
