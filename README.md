@@ -7,4 +7,4 @@ The user will be able customize their own category groups of shows or movies and
 
 The built in filters include sorting by newest episodes/seasons, currently watching, plan to watch later, completed watching, etc.
 
-The app will also be able to build a schedule of newly released episodes for each show on the currently selected list. This app also uses a 3rd party api to provide data on shows the user wants to add to their list or already has added to the list.
+The app will also be able to build a schedule of newly released episodes for each show on the currently selected list. This app also uses a 3rd party API to provide data on shows the user wants to add to their list or already has added to the list.

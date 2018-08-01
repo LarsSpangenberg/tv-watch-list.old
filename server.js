@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -13,6 +15,6 @@ app.use(webpackDevMiddleware(compiler, {
 
 app.use(webpackHotMiddleware(compiler));
 
-app.listen(3000, function() {
-  console.log('listening on port 3000!\n');
+app.listen(process.env.PORT || 3000, function() {
+  console.log(`listening on port ${process.env.PORT || 3000}`);
 });
