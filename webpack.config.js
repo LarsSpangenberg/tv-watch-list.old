@@ -9,7 +9,7 @@ const buildPath = path.resolve(__dirname, 'dist');
 const htmlPlugin = new HtmlWebpackPlugin({
   template: './index.html',
   filename: './index.html'
-})
+});
 
 module.exports = {
   mode: 'development',
@@ -43,7 +43,7 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
           { loader: "style-loader" },
           {

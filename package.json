@@ -21,6 +21,7 @@
   "homepage": "https://github.com/TheGerman8or/tv-watch-list#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "normalize.css": "^8.0.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
