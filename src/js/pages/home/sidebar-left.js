@@ -1,8 +1,10 @@
 import React from 'react';
 
+import styles from './sidebar-left.css';
+
 const SidebarLeft = (props) => {
   return(
-    <aside>
+    <aside className={styles['sidebar-left']}>
       <ul>
         <li>All</li>
         <li>currently watching</li>
