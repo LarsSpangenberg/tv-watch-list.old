@@ -5,7 +5,7 @@ import styles from './sidebar-right.css';
 
 const SidebarRight = (props) => {
   return(
-    <aside className={styles['sidebar-right']}>
+    <aside className={styles.sidebar}>
 
     </aside>
   );

@@ -4,8 +4,8 @@ import styles from './main-content.css';
 
 const MainContent = (props) => {
   return(
-    <section className={styles['main-content']}>
-      <table className="lists">
+    <section className={styles.main}>
+      <table className={styles.list}>
         <caption>Favs</caption>
         <tr>
           <th></th>
@@ -45,5 +45,7 @@ const MainContent = (props) => {
     </section>
   );
 };
+
+console.log(styles);
 
 export default MainContent;

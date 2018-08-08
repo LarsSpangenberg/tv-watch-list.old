@@ -4,7 +4,7 @@ import styles from './sidebar-left.css';
 
 const SidebarLeft = (props) => {
   return(
-    <aside className={styles['sidebar-left']}>
+    <aside className={styles.sidebar}>
       <ul>
         <li>All</li>
         <li>currently watching</li>

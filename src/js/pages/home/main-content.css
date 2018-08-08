@@ -1,3 +1,8 @@
-.main-content {
+.main {
   grid-area: main;
+}
+
+.list {
+  margin: 20px auto;
+  width: 90%;
 }
