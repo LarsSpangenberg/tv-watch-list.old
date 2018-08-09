@@ -1,14 +1,14 @@
 import React from 'react';
 
-import styles from './sidebar-right.css';
+import styles from './SidebarRight.css';
 
 
-const SidebarRight = (props) => {
-  return(
+function SidebarRight(props) {
+  return (
     <aside className={styles.sidebar}>
-
+      Nothing yet
     </aside>
   );
-};
+}
 
 export default SidebarRight;

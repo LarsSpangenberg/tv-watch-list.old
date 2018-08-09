@@ -1,9 +1,9 @@
 import React from 'react';
 
-import styles from './sidebar-left.css';
+import styles from './SidebarLeft.css';
 
-const SidebarLeft = (props) => {
-  return(
+function SidebarLeft(props) {
+  return (
     <aside className={styles.sidebar}>
       <ul>
         <li>All</li>
@@ -23,6 +23,6 @@ const SidebarLeft = (props) => {
       </div>
     </aside>
   );
-};
+}
 
 export default SidebarLeft;

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import styles from './main-content.css';
+import styles from './MainContent.css';
 
-const MainContent = (props) => {
-  return(
+function MainContent(props) {
+  return (
     <section className={styles.main}>
       <table className={styles.list}>
         <caption>Favs</caption>
         <tr>
-          <th></th>
+          <th />
           <th className="title">Title</th>
           <th className="season">Season</th>
           <th className="episode">Episode</th>
@@ -16,7 +16,7 @@ const MainContent = (props) => {
         </tr>
         <tr>
           <td className="thumbnail">
-            <i className="far fa-image"></i>
+            <i className="far fa-image" />
           </td>
           <td className="title">Jessica Jones</td>
           <td className="season">2</td>
@@ -25,7 +25,7 @@ const MainContent = (props) => {
         </tr>
         <tr>
           <td className="thumbnail">
-            <i className="far fa-image"></i>
+            <i className="far fa-image" />
           </td>
           <td className="title">Gotham</td>
           <td className="season">4</td>
@@ -34,7 +34,7 @@ const MainContent = (props) => {
         </tr>
         <tr>
           <td className="thumbnail">
-            <i className="far fa-image"></i>
+            <i className="far fa-image" />
           </td>
           <td className="title">Legion</td>
           <td className="season">2</td>
@@ -44,8 +44,6 @@ const MainContent = (props) => {
       </table>
     </section>
   );
-};
-
-console.log(styles);
+}
 
 export default MainContent;

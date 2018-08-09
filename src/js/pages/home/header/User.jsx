@@ -1,14 +1,14 @@
 import React from 'react';
 
-import styles from './user.css'
+import styles from './User.css';
 
-const User = (props) => {
+function User(props) {
   return (
     <div className="user">
-      <i className="fas fa-user"></i>
+      <i className="fas fa-user" />
       <h2>Lazerus</h2>
     </div>
   );
-};
+}
 
 export default User;

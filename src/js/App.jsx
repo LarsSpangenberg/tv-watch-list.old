@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Home from './pages/home';
+import Home from './pages/Home';
 import 'normalize.css';
-import './app.css';
+import './App.css';
 
 const App = () => (
   <Router>
-    <Route exact path='/' component={Home} />
+    <Route exact path="/" component={Home} />
   </Router>
 );
 
