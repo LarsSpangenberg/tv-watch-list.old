@@ -1,10 +1,11 @@
 
-require('dotenv').config();// eslint-disable-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
+require('dotenv').config();
 
 const express = require('express');
-const webpack = require('webpack');// eslint-disable-line import/no-extraneous-dependencies
-const webpackDevMiddleware = require('webpack-dev-middleware');// eslint-disable-line import/no-extraneous-dependencies
-const webpackHotMiddleware = require('webpack-hot-middleware');// eslint-disable-line import/no-extraneous-dependencies
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const app = express();
 const config = require('./webpack.config');

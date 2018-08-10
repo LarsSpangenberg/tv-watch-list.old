@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './Branding.css';
+import styles from './Branding.scss';
 
 const Branding = props => (
   <div className="branding">

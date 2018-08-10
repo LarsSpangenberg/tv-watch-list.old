@@ -1,0 +1,25 @@
+.main {
+  grid-area: main;
+}
+
+.list {
+  margin: 20px auto;
+  width: 90%;
+}
+
+caption {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 20px;
+  text-align: center;
+}
+
+th {
+  /* text-align: left; */
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}

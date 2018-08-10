@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './SidebarLeft.css';
+import styles from './SidebarLeft.scss';
 
 function SidebarLeft(props) {
   return (
@@ -12,8 +12,12 @@ function SidebarLeft(props) {
         <li>completed</li>
       </ul>
       <div>
-        <h2>Groups</h2>
-        <p>add a group</p>
+        <div className={styles.listHeader}>
+          <h2>Lists</h2>
+          <button type="button" className={styles.addList}>
+            <i className="fas fa-plus" />
+          </button>
+        </div>
         <ul>
           <li>Favourites</li>
           <li>Movies</li>

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
 import 'normalize.css';
-import './App.css';
+import './Index.scss';
 
 const App = () => (
   <Router>

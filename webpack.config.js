@@ -1,6 +1,8 @@
+/* eslint-disable comma-dangle */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 const webpack = require('webpack');
 
 const srcPath = path.resolve(__dirname, 'src');
@@ -8,7 +10,16 @@ const buildPath = path.resolve(__dirname, 'dist');
 
 const htmlPlugin = new HtmlWebpackPlugin({
   template: './index.html',
-  filename: './index.html'
+  filename: './index.html',
+});
+
+const stylelintPlugin = new StylelintPlugin({
+  configFile: '.stylelintrc',
+  context: 'src',
+  failOnError: false,
+  files: '**/*.scss',
+  quiet: false,
+  syntax: 'scss'
 });
 
 module.exports = {
@@ -16,22 +27,23 @@ module.exports = {
   context: srcPath,
   entry: [
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-    path.join(srcPath, 'js', 'app.js')
+    path.join(srcPath, 'app', 'Index.jsx'),
   ],
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new webpack.HotModuleReplacementPlugin(),
-    htmlPlugin
+    htmlPlugin,
+    stylelintPlugin,
   ],
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
-    hot: true
+    hot: true,
   },
   output: {
     path: buildPath,
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -39,25 +51,36 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          { loader: "style-loader" },
+          { loader: 'style-loader' },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: true,
               importLoaders: 1,
-              localIdentName: "[name]_[local]_[hash:base64:5]",
+              localIdentName: '[name]_[local]_[hash:base64:5]',
               sourceMap: true,
-              minimize: true
+              minimize: true,
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              includePaths: [
+                path.resolve(srcPath, 'styles')
+              ]
             }
           }
         ]
-      }
-    ]
+      }]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   }
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './Home.css';
+import styles from './Home.scss';
 import Header from './home/Header';
 import MainContent from './home/MainContent';
 import SidebarLeft from './home/SidebarLeft';
@@ -16,7 +16,7 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div className={styles['app-container']}>
+      <div className={styles.appContainer}>
         <Header />
         <SidebarLeft />
         <MainContent />
