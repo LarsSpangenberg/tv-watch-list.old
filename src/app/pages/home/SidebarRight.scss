@@ -1,12 +1,22 @@
+@import "theme-colors";
+@import "dimensions";
+
 .sidebar {
+  background-color: $dark-gray;
+  color: $light-gray;
+  padding-top: $header-height;
   width: 50px;
+  grid-area: right;
+}
+
+.icons {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  grid-area: right;
+
 }
 
 .icon {
-  margin-top: 40px;
+  margin-top: 50px;
 }

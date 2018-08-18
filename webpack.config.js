@@ -27,7 +27,7 @@ module.exports = {
   context: srcPath,
   entry: [
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-    path.join(srcPath, 'app', 'Index.jsx'),
+    path.join(srcPath, 'app'),
   ],
   plugins: [
     new CleanWebpackPlugin(['dist']),
@@ -76,11 +76,28 @@ module.exports = {
                 path.resolve(srcPath, 'styles')
               ]
             }
+          },
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              context: path.resolve(srcPath, 'assets'),
+              outputPath: 'img/'
+            }
           }
         ]
-      }]
+      },
+    ]
   },
   resolve: {
+    alias: {
+      assets: path.resolve(srcPath, 'assets'),
+    },
     extensions: ['.js', '.jsx']
   }
 };

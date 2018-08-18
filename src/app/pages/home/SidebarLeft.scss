@@ -1,42 +1,191 @@
+@import "theme-colors";
+@import "dimensions";
+
 .sidebar {
-  padding-left: 20px;
-  padding-right: 20px;
-  width: 100px;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
   grid-area: left;
+  box-sizing: border-box;
 }
 
-.sidebar h2 {
-  color: white;
-  background-color: black;
-  font-size: 18px;
-  margin: 0;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100%;
+// -------------------------------show-hide sidebar tab-------------------------------
+.pullout {
+  font-size: .8em;
+  background-color: $white;
+  border: 0;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 10px;
+  margin-left: 5px;
+  height: 50px;
+  // width: 100px;
+  opacity: 0;
+  outline: 0;
+  overflow: hidden;
+  // transform: rotate(90deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .2s, color 1s;
   z-index: 2;
 }
 
-.listHeader {
-  width: 100%;
-  display: inline-flex;
+.pulloutArea {
+  height: 100vh;
+  width: 30px;
+  padding: 0;
+  position: absolute;
+  left: -5px;
+  display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  transition: all .3s;
+  z-index: 2;
 }
 
-.addList {
-  font-size: .8em;
-  color: white;
-  background-color: black;
+.pulloutArea:hover .pullout {
+  // font-size: 1em;
+  // height: 23px;
+  // margin-left: -34px;
+  padding: 10px;
+  padding-left: 5px;
+  border: 2px solid $light-gray;
+  border-left: 0;
+  opacity: 1;
+}
+
+.pullout:active,
+.pullout:hover {
+  // background-color: $accent-2;
+  // color: $white;
+  cursor: pointer;
+}
+
+.pullout:active {
+  color: $white;
+  font-size: 0;
   border: 0;
-  border-top: 0;
-  border-bottom-right-radius: 30px;
-  border-bottom-left-radius: 30px;
-  box-sizing: border-box;
-  margin-top: -7px;
-  padding: 5px;
-  width: 40px;
-  z-index: 0;
+  opacity: 0;
+  padding: 0;
+}
+
+.pulloutInner {
+  border-right: 1px solid $light-gray;
+  height: 100vh;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  transition: all .3s;
+}
+
+// ------------------------background color for the logo------------------------------
+.brandBackdrop {
+  background-color: $accent-2;
+  height: $header-height;
+}
+
+// ------------------------------List Tabs--------------------------------------------
+.lists {
+  margin-top: 20px;
+
+  li {
+    padding: 10px 5px 0;
+    border-bottom: 1px solid $light-gray;
+    text-align: left;
+    transition: all .3s;
+  }
+
+  li:hover,
+  li:focus,
+  li:active {
+    background-color: $accent-2;
+    cursor: pointer;
+  }
+
+  li:active {
+    font-size: .9em;
+    color: darken($main-theme, 15%)
+  }
+}
+
+.standardLists,
+.customLists {
+  padding: 20px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.standardLists {
+  font-weight: bold;
+}
+
+// -------------------list button in the middle of the sidebar-----------------------
+.listHeader {
+  margin-top: 20px;
+  width: 90%;
+  display: inline-flex;
+
+  h2,
+  .addList {
+    color: $dark-gray;
+    margin: 0;
+    padding: 5px;
+    border: 0;
+    box-shadow: 0 2px 0 $medium-gray;
+    transition: all .2s;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    background-color: $white;
+    width: 100%;
+  }
+
+  .addList {
+    font-size: .6em;
+    color: $dark-gray;
+    background-color: $white;
+    border-left: 1px solid $light-gray;
+    padding: 5px;
+    width: 40px;
+    outline: 0;
+    z-index: 0;
+  }
+}
+
+.listHeader:hover {
+  cursor: pointer;
+
+  .addList {
+    background-color: $main-theme;
+  }
+}
+
+.listHeader:active {
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  .addList {
+    font-size: 0;
+  }
+}
+
+// ========================= States ==========================================
+// ------------------------hide Sidebar---------------------------------------
+.active {
+
+  .pulloutArea {
+    left: $left-sbar-w - 5;
+  }
+
+  .pullout {
+    // left: $left-sbar-w - 33;
+  }
+
+  .pulloutInner {
+    width: $left-sbar-w;
+  }
 }

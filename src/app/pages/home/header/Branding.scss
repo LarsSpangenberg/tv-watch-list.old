@@ -1,0 +1,51 @@
+@import "theme-colors";
+@import "dimensions";
+
+.branding {
+  display: flex;
+  align-items: center;
+}
+
+.headerText {
+  color: $dark-gray;
+  margin-left: $left-sbar-w;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all .3s;
+
+  h1 {
+    font-size: 3em;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    font-weight: 400;
+    margin-left: 50px;
+  }
+}
+
+.logoContainer {
+  height: $header-height;
+  width: $left-sbar-w;
+  left: 0;
+  width: $left-sbar-w;
+  top: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  height: $header-height - 50;
+  width: auto;
+  // transform: rotate(10deg);
+  z-index: 1;
+}
+
+// -----------States--------------
+.leftActive.headerText {
+  margin-left: 0;
+}

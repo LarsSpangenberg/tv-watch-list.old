@@ -1,7 +1,9 @@
-@import url("https://fonts.googleapis.com/css?family=Julius+Sans+One|Monda");
+// @import url("https://fonts.googleapis.com/css?family=Julius+Sans+One|Monda");
+@import url("https://fonts.googleapis.com/css?family=Lato|Josefin+Sans");
 
 body {
-  font-family: "Monda", sans-serif;
+  // font-family: "Monda", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 16px;
 }
 
@@ -10,8 +12,11 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: "Julius Sans One", sans-serif;
+h6,
+caption {
+  // font-family: "Julius Sans One", sans-serif;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
 }
 
 ul {

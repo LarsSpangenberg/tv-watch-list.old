@@ -1,25 +1,47 @@
+@import "theme-colors";
+
 .main {
   grid-area: main;
+  margin-top: 20px;
 }
 
 .list {
   margin: 20px auto;
   width: 90%;
-}
+  border-spacing: 0;
+  border-radius: 10px;
+  box-shadow: 0 2px  $light-gray;
 
-caption {
-  font-size: 24px;
-  font-weight: bold;
-  padding: 20px;
-  text-align: center;
-}
+  caption {
+    background-color: $main-theme;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 10px 20px 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+  }
 
-th {
-  /* text-align: left; */
-}
+  thead {
+    background-color: $dark-main;
+    color: $white;
+  }
 
-th,
-td {
-  padding: 10px;
-  text-align: center;
+  tr {
+
+  }
+
+  th,
+  td {
+    padding: 10px;
+    text-align: center;
+  }
+
+  td {
+    border-right: .5px inset $light-gray;
+  }
+
+  td:last-of-type {
+    border-right: 0;
+  }
 }
