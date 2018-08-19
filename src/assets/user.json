@@ -1,0 +1,51 @@
+{
+  "_id": "randomNumber",
+  "userName": "LarzenDork",
+  "password": "abc123",
+  "shows": [
+    {
+      "title": "Jessica Jones",
+      "currentSeason": "2",
+      "currentEpisode": "13",
+      "comments": "finished latest episode",
+      "status": "completed",
+      "lists": [
+        "Marvel Netflix",
+        "Favourites",
+      ],
+      "data": {
+        "availableSeasons": "2",
+        "thumbnail": "url",
+        "description": "lots of words",
+        "lastEpisode": "13"
+      }
+    },
+    
+    {
+      "title": "Gotham",
+      "currentSeason": "4",
+      "currentEpisode": "22",
+      "comments": "finished latest episode",
+      "status": "completed",
+      "lists": [
+        "Superhero",
+        "Favourites",
+      ],
+      "data": {
+        "availableSeasons": "4",
+        "thumbnail": "url",
+        "description": "lots of words",
+        "lastEpisode": {
+          "number": "22",
+          "title": "episode title",
+          "releaseDate": "Date",
+        },
+        "nextEpisode": {
+          "number": "23",
+          "title": "episode title",
+          "releaseDate": "Date",
+        }
+      }
+    }
+  ]
+}

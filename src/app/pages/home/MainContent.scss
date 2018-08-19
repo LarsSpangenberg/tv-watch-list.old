@@ -12,6 +12,22 @@
   border-radius: 10px;
   box-shadow: 0 2px  $light-gray;
 
+  input {
+    padding: 5px;
+  }
+
+  input:hover {
+    background-color: $accent-2;
+  }
+
+  input[type="text"] {
+    width: 90%;
+  }
+
+  input[type="number"] {
+    width: 50px;
+  }
+
   caption {
     background-color: $main-theme;
     font-size: 32px;
