@@ -1,0 +1,58 @@
+@import "theme-colors";
+
+.list {
+  margin: 20px auto;
+  width: 90%;
+  border-spacing: 0;
+  border-radius: 10px;
+  box-shadow: 0 2px  $light-gray;
+
+  input {
+    padding: 5px;
+  }
+
+  input:hover {
+    background-color: $accent-2;
+  }
+
+  input[type="text"] {
+    width: 90%;
+  }
+
+  input[type="number"] {
+    width: 50px;
+  }
+
+  caption {
+    background-color: $main-theme;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 10px 20px 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+  }
+
+  thead {
+    background-color: $dark-main;
+    color: $white;
+  }
+
+  tr {
+
+  }
+
+  th,
+  td {
+    padding: 10px;
+    text-align: center;
+  }
+
+  td {
+    border-right: .5px inset $light-gray;
+  }
+
+  td:last-of-type {
+    border-right: 0;
+  }
+}

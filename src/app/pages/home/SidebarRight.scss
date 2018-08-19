@@ -4,6 +4,8 @@
 
 .sidebar {
   grid-area: right;
+  // position: absolute;
+  // right: 0;
 }
 
 .hoverArea {
@@ -41,6 +43,7 @@
   width: 0;
   overflow: hidden;
   position: relative;
+  box-sizing: border-box;
   transition: all .3s;
 }
 
