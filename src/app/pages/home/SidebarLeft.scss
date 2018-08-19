@@ -1,5 +1,6 @@
 @import "theme-colors";
 @import "dimensions";
+@import "sidebars";
 
 .sidebar {
   grid-area: left;
@@ -7,65 +8,61 @@
 }
 
 // -------------------------------show-hide sidebar tab-------------------------------
+
+.pulloutArea {
+  left: 0;
+
+  @include pulloutArea;
+}
+
 .pullout {
-  font-size: .8em;
   background-color: $white;
-  border: 0;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
-  padding: 10px;
-  margin-left: 5px;
-  height: 50px;
-  // width: 100px;
-  opacity: 0;
-  outline: 0;
-  overflow: hidden;
-  // transform: rotate(90deg);
+  margin-left: -10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all .2s, color 1s;
-  z-index: 2;
-}
-
-.pulloutArea {
-  height: 100vh;
-  width: 30px;
-  padding: 0;
-  position: absolute;
-  left: -5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   transition: all .3s;
   z-index: 2;
+
+  @include pullout;
 }
 
 .pulloutArea:hover .pullout {
-  // font-size: 1em;
-  // height: 23px;
-  // margin-left: -34px;
+  margin-left: -5px;
   padding: 10px;
-  padding-left: 5px;
-  border: 2px solid $light-gray;
+  border: 1px solid $light-gray;
   border-left: 0;
-  opacity: 1;
+
+  @include hoverPullout;
 }
 
 .pullout:active,
 .pullout:hover {
-  // background-color: $accent-2;
-  // color: $white;
   cursor: pointer;
 }
 
 .pullout:active {
   color: $white;
   font-size: 0;
-  border: 0;
-  opacity: 0;
   padding: 0;
+  border: 0;
 }
+
+// ------------------------ Sidebar active state ------------------------------
+.active {
+
+  .pulloutArea {
+    left: $left-sbar-w;
+  }
+
+  .pulloutInner {
+    width: $left-sbar-w;
+  }
+}
+
+// -------------------------- hideable Sidebar content -------------------------
 
 .pulloutInner {
   border-right: 1px solid $light-gray;
@@ -88,6 +85,7 @@
 // ------------------------------List Tabs--------------------------------------------
 .lists {
   margin-top: 20px;
+  width: $left-sbar-w - 20;
 
   li {
     padding: 10px 5px 0;
@@ -174,18 +172,3 @@
 }
 
 // ========================= States ==========================================
-// ------------------------hide Sidebar---------------------------------------
-.active {
-
-  .pulloutArea {
-    left: $left-sbar-w - 5;
-  }
-
-  .pullout {
-    // left: $left-sbar-w - 33;
-  }
-
-  .pulloutInner {
-    width: $left-sbar-w;
-  }
-}
