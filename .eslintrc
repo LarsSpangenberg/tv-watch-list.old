@@ -7,10 +7,13 @@
   },
   "rules": {
     "max-len": [1, 120, 2, {ignoreComments: true}],
-    "quote-props": [1, "consistent-as-needed"],
     "no-cond-assign": [2, "except-parens"],
-    "radix": 0,
     "no-unused-vars": [1, {"vars": "local", "args": "none"}],
+    "quote-props": [1, "consistent-as-needed"],
+    "radix": 0,
     "react/jsx-one-expression-per-line": 0
+  },
+  "settings": {
+    "import/resolver": webpack
   }
 }

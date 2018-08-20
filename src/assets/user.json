@@ -11,7 +11,7 @@
       "status": "completed",
       "lists": [
         "Marvel Netflix",
-        "Favourites",
+        "Favorites"
       ],
       "data": {
         "availableSeasons": "2",
@@ -20,7 +20,7 @@
         "lastEpisode": "13"
       }
     },
-    
+
     {
       "title": "Gotham",
       "currentSeason": "4",
@@ -29,7 +29,7 @@
       "status": "completed",
       "lists": [
         "Superhero",
-        "Favourites",
+        "Favorites"
       ],
       "data": {
         "availableSeasons": "4",
@@ -38,12 +38,34 @@
         "lastEpisode": {
           "number": "22",
           "title": "episode title",
-          "releaseDate": "Date",
+          "releaseDate": "date"
         },
         "nextEpisode": {
           "number": "23",
           "title": "episode title",
-          "releaseDate": "Date",
+          "releaseDate": "date"
+        }
+      }
+    },
+
+    {
+      "title": "Legion",
+      "currentSeason": "2",
+      "currentEpisode": "10",
+      "comments": "finished latest episode",
+      "status": "completed",
+      "lists": [
+        "Superhero",
+        "Favorites"
+      ],
+      "data": {
+        "availableSeasons": "2",
+        "thumbnail": "url",
+        "description": "lots of words",
+        "lastEpisode": {
+          "number": "13",
+          "title": "episode title",
+          "releaseDate": "date"
         }
       }
     }

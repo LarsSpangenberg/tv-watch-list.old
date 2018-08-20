@@ -1,0 +1,36 @@
+@import "theme-colors";
+
+.listItem {
+  height: 50px;
+
+  button {
+    font-size: .6em;
+    background-color: $white;
+    padding: 5px;
+    padding-bottom: 3px;
+    border: 0;
+    border-radius: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+
+    i {
+      pointer-events: none;
+    }
+  }
+
+  button:hover {
+    background-color: $dark-gray;
+    color: $white;
+  }
+
+  button:active {
+    font-size: 0;
+  }
+}
+
+.season:hover button,
+.episode:hover button {
+  opacity: 1;
+  visibility: visible;
+}

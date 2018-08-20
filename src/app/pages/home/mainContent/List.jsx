@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './List.scss';
 import ListHead from './list/ListHead';
@@ -14,14 +15,25 @@ class List extends Component {
   }
 
   render() {
+    const { children } = this.props;
     return (
       <table className={styles.list}>
         <caption>Favs</caption>
         <ListHead />
-        <ListBody />
+        <ListBody>
+          {children}
+        </ListBody>
       </table>
     );
   }
 }
+
+List.propTypes = {
+  children: PropTypes.node,
+};
+
+List.defaultProps = {
+  children: '',
+};
 
 export default List;

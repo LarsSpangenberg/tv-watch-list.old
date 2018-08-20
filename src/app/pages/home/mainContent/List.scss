@@ -9,10 +9,14 @@
 
   input {
     padding: 5px;
+    border-radius: 10px;
+    transition: all .3s;
   }
 
   input:hover {
-    background-color: $accent-2;
+    // font-size: 1.1em;
+    color: $white;
+    background-color: $dark-gray;
   }
 
   input[type="text"] {

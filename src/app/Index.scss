@@ -35,3 +35,8 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+button {
+  outline: 0;
+  border: 0;
+}
