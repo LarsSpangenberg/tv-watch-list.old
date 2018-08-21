@@ -7,25 +7,6 @@
   border-radius: 10px;
   box-shadow: 0 2px  $light-gray;
 
-  input {
-    padding: 5px;
-    border-radius: 10px;
-    transition: all .3s;
-  }
-
-  input:hover {
-    // font-size: 1.1em;
-    color: $white;
-    background-color: $dark-gray;
-  }
-
-  input[type="text"] {
-    width: 90%;
-  }
-
-  input[type="number"] {
-    width: 50px;
-  }
 
   caption {
     background-color: $main-theme;
@@ -40,10 +21,6 @@
   thead {
     background-color: $dark-main;
     color: $white;
-  }
-
-  tr {
-
   }
 
   th,

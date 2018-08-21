@@ -9,6 +9,7 @@ function Season({
   handleChange,
   handleIncDec,
 }) {
+  const inputWidth = { width: `${currentSeason.toString().length * 10}px` };
   return (
     <td className={styleClass}>
       <CellButton
@@ -17,9 +18,11 @@ function Season({
         handleIncDec={handleIncDec}
       />
       <input
+        style={inputWidth}
         name="currentSeason"
+        min="1"
         type="number"
-        value={currentSeason}
+        value={parseInt(currentSeason)}
         onChange={handleChange}
       />
       <CellButton

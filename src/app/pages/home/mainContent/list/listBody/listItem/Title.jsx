@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 function Title({ styleClass, title, handleChange }) {
   return (
     <td className={styleClass}>
-      <input
+      <div
+        contentEditable="true"
         name="title"
         type="text"
-        value={title}
         onChange={handleChange}
-      />
+      >
+        {title}
+      </div>
     </td>
   );
 }

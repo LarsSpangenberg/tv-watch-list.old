@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './ListBody.scss';
-import ListItem from './listBody/ListItem';
+// import ListItem from './listBody/ListItem';
 
 class ListBody extends Component {
   constructor(props) {

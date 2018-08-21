@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 function Comment({ styleClass, comments, handleChange }) {
   return (
     <td className={styleClass}>
-      <input
+      <div
+        contentEditable="true"
         name="comments"
         type="text"
-        value={comments}
         onChange={handleChange}
-      />
+      >
+        {comments}
+      </div>
     </td>
   );
 }

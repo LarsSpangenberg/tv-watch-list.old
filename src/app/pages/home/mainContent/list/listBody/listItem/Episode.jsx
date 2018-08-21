@@ -10,6 +10,7 @@ function Episode({
   handleChange,
   handleIncDec,
 }) {
+  const inputWidth = { width: `${currentEpisode.toString().length * 10}px` };
   return (
     <td className={styleClass}>
       <CellButton
@@ -18,6 +19,8 @@ function Episode({
         handleIncDec={handleIncDec}
       />
       <input
+        style={inputWidth}
+        min="1"
         max={lastEpisode}
         name="currentEpisode"
         type="number"

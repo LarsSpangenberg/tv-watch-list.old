@@ -51,16 +51,31 @@ class ListItem extends Component {
   }
 
   handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    if (value > 0) {
+      this.setState({
+        [name]: parseInt(value),
+      });
+    } else {
+      this.setState({
+        [name]: '',
+      });
+    }
   }
 
   handleIncDec(e) {
     const { name, value } = e.target;
-    this.setState({
-      [name]: (value == "plus" ? this.state[name] + 1 : this.state[name] - 1), // eslint-disable-line
-    });
+    /* eslint-disable react/destructuring-assignment */
+    if (this.state[name] >= 0 && value === 'plus') {
+      this.setState(prevState => ({
+        [name]: (prevState[name] + 1),
+      }));
+    } else if (this.state[name] > 0 && value === 'minus') {
+      this.setState(prevState => ({
+        [name]: (prevState[name] - 1),
+      }));
+    }
+    /* eslint-enable react/destructuring-assignment */
   }
 
   render() {
