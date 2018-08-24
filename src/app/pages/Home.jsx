@@ -12,7 +12,8 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+      username: '',
+      signedIn: false,
       shows: [],
       leftActive: false,
     };
@@ -27,7 +28,7 @@ export default class Home extends React.Component {
   fetchUser() {
     // const { shows } = this.state;
     this.setState({
-      userName: user.userName,
+      username: user.userName,
       shows: user.shows,
     });
   }
@@ -39,7 +40,8 @@ export default class Home extends React.Component {
 
   render() {
     const {
-      userName,
+      username,
+      signedIn,
       shows,
       leftActive,
     } = this.state;
@@ -47,7 +49,8 @@ export default class Home extends React.Component {
       <div className={styles.appContainer}>
         <Header
           leftActive={leftActive}
-          userName={userName}
+          username={username}
+          signedIn={signedIn}
         />
         <SidebarLeft
           isActive={leftActive}

@@ -4,29 +4,12 @@
   height: 50px;
 
   // ----------------------- text and number inputs -----------------------
-  input,
-  td div {
-    padding: 7px 5px 5px;
-    border-radius: 10px;
-    outline: 0;
-    transition: all .3s;
-  }
-
-  input:hover,
-  input:focus,
-  td div:hover,
-  td div:focus {
-    // font-size: 1.1em;
-    color: $white;
-    background-color: $dark-gray;
+  td {
+    vertical-align: top;
   }
 
   input[type="text"] {
     width: 90%;
-  }
-
-  input[type="number"] {
-    width: 50px;
   }
 
   .title {

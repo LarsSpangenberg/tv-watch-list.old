@@ -5,18 +5,31 @@ import styles from './Header.scss';
 import User from './header/User';
 import Branding from './header/Branding';
 
-function Header({ leftActive, userName }) {
+function Header({
+  username,
+  signedIn,
+  leftActive,
+}) {
   return (
     <header>
       <Branding leftActive={leftActive} />
-      <User userName={userName} />
+      <User
+        UN={username}
+        signedIn={signedIn}
+      />
     </header>
   );
 }
 
 Header.propTypes = {
   leftActive: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired,
+  username: PropTypes.string,
+  signedIn: PropTypes.bool.isRequired,
 };
+
+Header.defaultProps = {
+  username: '',
+};
+
 
 export default Header;

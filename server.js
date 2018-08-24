@@ -18,6 +18,10 @@ app.use(webpackDevMiddleware(compiler, {
 
 app.use(webpackHotMiddleware(compiler));
 
+// routes
+// const authRoutes = require('./routes/auth');
+// app.use('/auth', authRoutes);
+
 app.listen(process.env.PORT || 3000, () => {
   console.log(`listening on port ${process.env.PORT || 3000}`);
 });

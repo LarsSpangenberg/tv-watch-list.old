@@ -6,10 +6,10 @@ function Title({ styleClass, title, handleChange }) {
   return (
     <td className={styleClass}>
       <div
-        contentEditable="true"
         name="title"
         type="text"
         onChange={handleChange}
+        contentEditable="true"
       >
         {title}
       </div>

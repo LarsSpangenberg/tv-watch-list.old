@@ -40,9 +40,13 @@ function Episode({
 Episode.propTypes = {
   styleClass: PropTypes.string.isRequired,
   currentEpisode: PropTypes.number.isRequired,
-  lastEpisode: PropTypes.number.isRequired,
+  lastEpisode: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   handleIncDec: PropTypes.func.isRequired,
+};
+
+Episode.defaultProps = {
+  lastEpisode: '',
 };
 
 export default Episode;

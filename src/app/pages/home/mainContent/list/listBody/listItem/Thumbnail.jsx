@@ -10,7 +10,11 @@ function Thumbnail({ styleClass }) {
 }
 
 Thumbnail.propTypes = {
-  styleClass: PropTypes.string.isRequired,
+  styleClass: PropTypes.string,
+};
+
+Thumbnail.defaultProps = {
+  styleClass: '',
 };
 
 export default Thumbnail;

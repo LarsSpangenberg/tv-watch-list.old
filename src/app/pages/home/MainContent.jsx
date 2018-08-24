@@ -22,8 +22,8 @@ class MainContent extends Component {
           {shows.map(show => (
             <ListItem
               title={show.title}
-              currentSeason={show.currentSeason}
-              currentEpisode={show.currentEpisode}
+              currentSeason={parseInt(show.currentSeason)}
+              currentEpisode={parseInt(show.currentEpisode)}
               comments={show.comments}
               status={show.status}
               lists={show.lists}
@@ -40,8 +40,8 @@ MainContent.propTypes = {
   shows: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
-      currentSeason: PropTypes.number,
-      currentEpisode: PropTypes.number,
+      currentSeason: PropTypes.string,
+      currentEpisode: PropTypes.string,
       comments: PropTypes.string,
       status: PropTypes.string,
       lists: PropTypes.arrayOf(PropTypes.string),

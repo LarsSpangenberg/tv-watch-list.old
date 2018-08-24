@@ -5,10 +5,10 @@ function Comment({ styleClass, comments, handleChange }) {
   return (
     <td className={styleClass}>
       <div
-        contentEditable="true"
         name="comments"
         type="text"
         onChange={handleChange}
+        contentEditable="true"
       >
         {comments}
       </div>
