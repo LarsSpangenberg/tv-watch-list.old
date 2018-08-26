@@ -12,10 +12,12 @@ class User extends Component {
     this.state = {
       username: '',
       password: '',
-      login: true,
+      confirmPassword: '',
+      login: false,
     };
     // this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.toggleLogin = this.toggleLogin.bind(this);
   }
 
   // handleSubmit(e) {
@@ -34,14 +36,22 @@ class User extends Component {
     });
   }
 
+  toggleLogin() {
+    const { login } = this.state;
+    this.setState({
+      login: !login,
+    });
+  }
+
   render() {
     const {
       signedIn,
-      UN,
+      user,
     } = this.props;
     const {
       username,
       password,
+      confirmPassword,
       login,
     } = this.state;
     let userElement;
@@ -49,7 +59,7 @@ class User extends Component {
     if (signedIn) {
       userElement = (
         <SignedInUser
-          username={UN}
+          username={user.username}
           buttonClass={styles.buttons}
         />
       );
@@ -60,6 +70,7 @@ class User extends Component {
           password={password}
           buttonClass={styles.buttons}
           handleChange={this.handleChange}
+          toggleLogin={this.toggleLogin}
         />
       );
     } else {
@@ -67,8 +78,10 @@ class User extends Component {
         <SignUp
           username={username}
           password={password}
+          confirmPassword={confirmPassword}
           buttonClass={styles.buttons}
           handleChange={this.handleChange}
+          toggleLogin={this.toggleLogin}
         />
       );
     }
@@ -81,12 +94,12 @@ class User extends Component {
   }
 }
 User.propTypes = {
-  UN: PropTypes.string,
+  user: PropTypes.object, // eslint-disable-line
   signedIn: PropTypes.bool.isRequired,
 };
 
 User.defaultProps = {
-  UN: '',
+  user: {},
 };
 
 export default User;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import user from 'assets/user.json';
+import userObj from 'assets/user.json';
 
 import styles from './Home.scss';
 import Header from './home/Header';
@@ -12,9 +12,8 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      user: {},
       signedIn: false,
-      shows: [],
       leftActive: false,
     };
     this.fetchUser = this.fetchUser.bind(this);
@@ -28,8 +27,7 @@ export default class Home extends React.Component {
   fetchUser() {
     // const { shows } = this.state;
     this.setState({
-      username: user.userName,
-      shows: user.shows,
+      user: userObj,
     });
   }
 
@@ -40,16 +38,15 @@ export default class Home extends React.Component {
 
   render() {
     const {
-      username,
+      user,
       signedIn,
-      shows,
       leftActive,
     } = this.state;
     return (
       <div className={styles.appContainer}>
         <Header
+          user={user}
           leftActive={leftActive}
-          username={username}
           signedIn={signedIn}
         />
         <SidebarLeft
@@ -57,7 +54,7 @@ export default class Home extends React.Component {
           handleActive={this.hideLeft}
         />
         <MainContent
-          shows={shows}
+          shows={user.shows}
         />
         <SidebarRight />
       </div>

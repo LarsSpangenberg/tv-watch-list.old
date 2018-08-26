@@ -6,7 +6,7 @@ import User from './header/User';
 import Branding from './header/Branding';
 
 function Header({
-  username,
+  user,
   signedIn,
   leftActive,
 }) {
@@ -14,7 +14,7 @@ function Header({
     <header>
       <Branding leftActive={leftActive} />
       <User
-        UN={username}
+        user={user}
         signedIn={signedIn}
       />
     </header>
@@ -23,12 +23,12 @@ function Header({
 
 Header.propTypes = {
   leftActive: PropTypes.bool.isRequired,
-  username: PropTypes.string,
+  user: PropTypes.object, // eslint-disable-line
   signedIn: PropTypes.bool.isRequired,
 };
 
 Header.defaultProps = {
-  username: '',
+  user: {},
 };
 
 
