@@ -16,20 +16,26 @@ class MainContent extends Component {
 
   render() {
     const { shows } = this.props;
+    let listItems = '';
+
+    if (shows) {
+      listItems = shows.map(show => (
+        <ListItem
+          title={show.title}
+          currentSeason={parseInt(show.currentSeason)}
+          currentEpisode={parseInt(show.currentEpisode)}
+          comments={show.comments}
+          status={show.status}
+          lists={show.lists}
+          data={show.data}
+        />
+      ));
+    }
+
     return (
       <section className={styles.main}>
         <List>
-          {shows.map(show => (
-            <ListItem
-              title={show.title}
-              currentSeason={parseInt(show.currentSeason)}
-              currentEpisode={parseInt(show.currentEpisode)}
-              comments={show.comments}
-              status={show.status}
-              lists={show.lists}
-              data={show.data}
-            />
-          ))}
+          {listItems}
         </List>
       </section>
     );
@@ -51,7 +57,7 @@ MainContent.propTypes = {
 };
 
 MainContent.defaultProps = {
-  shows: 'no shows yet',
+  shows: [],
 };
 
 export default MainContent;

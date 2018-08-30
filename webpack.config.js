@@ -1,20 +1,15 @@
 /* eslint-disable comma-dangle, import/no-dynamic-require */
+require('dotenv').config();
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const webpack = require('webpack');
-const bodyParser = require('body-parser');
 
 const srcPath = path.resolve(__dirname, 'src');
 const buildPath = path.resolve(__dirname, 'dist');
 
-// ------------ Node Server stuff ------------------------
-
-const authPath = './server/routes/auth';
-const authRoutes = require(authPath);
-
-//  end server stuff
 
 const htmlPlugin = new HtmlWebpackPlugin({
   template: './index.html',
@@ -47,11 +42,9 @@ module.exports = {
     contentBase: './dist',
     hot: true,
     host: 'localhost',
-    port: 8080,
-    before: (app) => {
-      app.use(bodyParser.urlencoded({ extended: false }));
-
-      app.use('/auth', authRoutes);
+    port: 8000,
+    proxy: {
+      '/api': `http://localhost:${process.env.PORT || 3000}`
     }
   },
   output: {

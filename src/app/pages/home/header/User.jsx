@@ -13,7 +13,7 @@ class User extends Component {
       username: '',
       password: '',
       confirmPassword: '',
-      login: false,
+      login: true,
     };
     // this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -29,8 +29,6 @@ class User extends Component {
   // }
 
   handleChange(e) {
-    console.log(e.target.name);
-    console.log(e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -47,6 +45,7 @@ class User extends Component {
     const {
       signedIn,
       user,
+      handleUser,
     } = this.props;
     const {
       username,
@@ -61,6 +60,7 @@ class User extends Component {
         <SignedInUser
           username={user.username}
           buttonClass={styles.buttons}
+          handleUser={handleUser}
         />
       );
     } else if (login) {
@@ -68,8 +68,10 @@ class User extends Component {
         <Login
           username={username}
           password={password}
+          signedIn={signedIn}
           buttonClass={styles.buttons}
           handleChange={this.handleChange}
+          handleUser={handleUser}
           toggleLogin={this.toggleLogin}
         />
       );
@@ -78,9 +80,11 @@ class User extends Component {
         <SignUp
           username={username}
           password={password}
+          signedIn={signedIn}
           confirmPassword={confirmPassword}
           buttonClass={styles.buttons}
           handleChange={this.handleChange}
+          handleUser={handleUser}
           toggleLogin={this.toggleLogin}
         />
       );
@@ -96,6 +100,7 @@ class User extends Component {
 User.propTypes = {
   user: PropTypes.object, // eslint-disable-line
   signedIn: PropTypes.bool.isRequired,
+  handleUser: PropTypes.func.isRequired,
 };
 
 User.defaultProps = {

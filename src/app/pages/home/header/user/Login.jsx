@@ -14,17 +14,17 @@ class Login extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let { username, password } = this.props;
-    username = encodeURIComponent(username);
-    password = encodeURIComponent(password);
-    const formData = `username=${username}&password=${password}`;
+    const { username, password, handleUser } = this.props;
+    const formData = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/auth/login', true);
+    xhr.open('POST', '/api/auth/login', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
+        console.log(xhr.response);
+        handleUser(xhr.response, true);
         this.setState({
           errors: {},
         });
@@ -85,6 +85,7 @@ Login.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   buttonClass: PropTypes.string.isRequired,
+  handleUser: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   toggleLogin: PropTypes.func.isRequired,
 };

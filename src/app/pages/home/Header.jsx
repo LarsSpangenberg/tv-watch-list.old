@@ -9,6 +9,7 @@ function Header({
   user,
   signedIn,
   leftActive,
+  handleUser,
 }) {
   return (
     <header>
@@ -16,6 +17,7 @@ function Header({
       <User
         user={user}
         signedIn={signedIn}
+        handleUser={handleUser}
       />
     </header>
   );
@@ -25,6 +27,7 @@ Header.propTypes = {
   leftActive: PropTypes.bool.isRequired,
   user: PropTypes.object, // eslint-disable-line
   signedIn: PropTypes.bool.isRequired,
+  handleUser: PropTypes.func.isRequired,
 };
 
 Header.defaultProps = {
