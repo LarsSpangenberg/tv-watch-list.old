@@ -35,7 +35,7 @@ export default class SidebarLeft extends React.Component {
               <li>Completed</li>
             </ul>
             <div className={styles.listHeader}>
-              <h2>Lists</h2>
+              <h2>Tags</h2>
               <button type="button" className={styles.addList}>
                 <i className="fas fa-plus" />
               </button>

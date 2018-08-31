@@ -12,7 +12,7 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      user: {},
       signedIn: false,
       leftActive: false,
     };
@@ -21,17 +21,25 @@ export default class Home extends React.Component {
     this.hideLeft = this.hideLeft.bind(this);
   }
 
-  // componentWillMount() {
-  //   this.fetchUser();
-  // }
+  componentWillMount() {
+    this.fetchUser();
+  }
 
 
-  // fetchUser() {
-  //   // const { shows } = this.state;
-  //   this.setState({
-  //     user: userObj,
-  //   });
-  // }
+  fetchUser() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/auth/continue', true);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        this.setState({
+          user: xhr.response.user,
+          signedIn: true,
+        });
+      }
+    });
+    xhr.send();
+  }
 
   handleUser(userObj, loggedIn) {
     this.setState({

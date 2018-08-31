@@ -9,26 +9,22 @@ module.exports = (passport) => {
     passReqToCallback: true,
   }, (req, username, password, done) => {
     User.findOne({ username }, (err, user) => {
-      console.log(`Attempting to create new user: ${username}`);
       if (err) {
-        console.log(err);
         return done(err);
       }
       if (user) {
-        console.log('already exists');
-        return done(null, false, req.flash('message', 'user alredy exists'));
+        return done(null, false, { message: 'user already exists' });
       }
       req.session.username = username;
       const newUser = new User({
         username,
         password,
-        sessionID: req.sessionID,
       });
-      newUser.save((error) => {
+      return newUser.save((error) => {
         if (error) {
-          console.log(`couldn't save user: ${error}`);
           return done(error);
         }
+        req.session.user = newUser;
         return done(null, newUser);
       });
     });

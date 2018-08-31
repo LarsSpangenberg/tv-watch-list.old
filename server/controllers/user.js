@@ -1,7 +1,9 @@
-/* eslint-disabl */
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
+
+const User = require('../models/user');
 
 // sign up
 exports.create = [
@@ -17,20 +19,24 @@ exports.create = [
   sanitizeBody('password').trim().escape(),
 
   (req, res, next) => {
-    console.log('validating');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors);
       return res.status(400).json({
         success: false,
-        message: 'something went wrong :/',
+        message: errors.array()[0].msg,
         errors,
       });
     }
     return next(null, res);
   },
-  passport.authenticate('signup', { failureFlash: true }),
-  (req, res) => res.status(200).json(req.body),
+  (req, res) => {
+    passport.authenticate('signup', (err, user, info) => {
+      if (info) {
+        return res.status(400).json(info);
+      }
+      return res.status(200).json(user);
+    })(req, res);
+  },
 ];
 
 // log in
@@ -46,25 +52,42 @@ exports.login = [
   sanitizeBody('username').trim().escape(),
   sanitizeBody('password').trim().escape(),
   (req, res, next) => {
-    console.log('validating');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors);
       return res.status(400).json({
         success: false,
-        message: "Must've missed somethin' :/",
+        message: errors.array()[0].msg,
         errors,
       });
     }
     return next(null, res);
   },
-  passport.authenticate('login', { failureFlash: true }),
-  (req, res) => res.status(200).json(req.body),
+  (req, res) => {
+    passport.authenticate('login', (err, user, info) => {
+      if (info) {
+        return res.status(400).json(info);
+      }
+      return res.status(200).json(user);
+    })(req, res);
+  },
 ];
 
 // log out
 exports.logout = (req, res) => {
-  console.log('logging out');
   req.logout();
   res.end();
+};
+
+// persist session
+exports.continue = (req, res) => {
+  if (!req.session.user) return res.json({});
+  console.log(req.session.user);
+  return res.status(200).json({ user: req.session.user });
+  // User.findOne({ sessionID: req.sessionID }, (err, user) => {
+  //   if (err) return err;
+  //   if (!user) {
+  //     res.status(400).json('no session found');
+  //   }
+  //   return res.status(200).json(user);
+  // });
 };

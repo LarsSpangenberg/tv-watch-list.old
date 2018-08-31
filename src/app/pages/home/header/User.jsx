@@ -60,6 +60,7 @@ class User extends Component {
         <SignedInUser
           username={user.username}
           buttonClass={styles.buttons}
+          errorClass={styles.error}
           handleUser={handleUser}
         />
       );
@@ -70,6 +71,7 @@ class User extends Component {
           password={password}
           signedIn={signedIn}
           buttonClass={styles.buttons}
+          errorClass={styles.error}
           handleChange={this.handleChange}
           handleUser={handleUser}
           toggleLogin={this.toggleLogin}
@@ -83,6 +85,7 @@ class User extends Component {
           signedIn={signedIn}
           confirmPassword={confirmPassword}
           buttonClass={styles.buttons}
+          errorClass={styles.error}
           handleChange={this.handleChange}
           handleUser={handleUser}
           toggleLogin={this.toggleLogin}

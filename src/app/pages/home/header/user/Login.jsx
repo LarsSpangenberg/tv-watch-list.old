@@ -29,6 +29,7 @@ class Login extends Component {
           errors: {},
         });
       } else {
+        console.log(xhr.response);
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
 
@@ -46,6 +47,7 @@ class Login extends Component {
       username,
       password,
       buttonClass,
+      errorClass,
       handleChange,
       toggleLogin,
     } = this.props;
@@ -53,7 +55,6 @@ class Login extends Component {
       <div className={styles.login}>
         <form action="/" onSubmit={this.handleSubmit}>
           <h2>Log In</h2>
-          {errors.summary ? <p className={styles.errorMessage}>{errors.summary}</p> : ''}
           <input
             autoComplete="off"
             id="username"
@@ -67,7 +68,7 @@ class Login extends Component {
             autoComplete="off"
             id="password"
             name="password"
-            type="text"
+            type="password"
             value={password}
             placeholder="Password"
             onChange={handleChange}
@@ -77,6 +78,7 @@ class Login extends Component {
             <button type="button" onClick={toggleLogin}>Create new Account</button>
           </div>
         </form>
+        {errors.summary ? <p className={errorClass}>{`* ${errors.summary}`}</p> : ''}
       </div>
     );
   }
@@ -85,6 +87,7 @@ Login.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   buttonClass: PropTypes.string.isRequired,
+  errorClass: PropTypes.string.isRequired,
   handleUser: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   toggleLogin: PropTypes.func.isRequired,

@@ -97,3 +97,16 @@
     box-shadow: 0 0 0;
   }
 }
+
+.error {
+  font-size: .6em;
+  background-color: $dark-gray;
+  color: #E8816F;
+  margin: 0 auto;
+  padding: 5px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 0 1px $dark-gray;
+  max-width: 200px;
+  text-align: center;
+}
