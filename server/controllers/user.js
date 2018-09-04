@@ -1,5 +1,4 @@
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -19,6 +18,7 @@ exports.create = [
   sanitizeBody('password').trim().escape(),
 
   (req, res, next) => {
+    console.log('validating');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -29,12 +29,16 @@ exports.create = [
     }
     return next(null, res);
   },
-  (req, res) => {
+  (req, res, next) => {
     passport.authenticate('signup', (err, user, info) => {
+      if (err) return next(err);
       if (info) {
         return res.status(400).json(info);
       }
-      return res.status(200).json(user);
+      console.log('sending response');
+      console.log(user);
+      const { username, shows, tags } = user;
+      return res.status(200).json({ username, shows, tags });
     })(req, res);
   },
 ];
@@ -67,27 +71,22 @@ exports.login = [
       if (info) {
         return res.status(400).json(info);
       }
-      return res.status(200).json(user);
+      const { username, shows, tags } = user;
+      return res.status(200).json({ username, shows, tags });
     })(req, res);
   },
 ];
 
 // log out
 exports.logout = (req, res) => {
+  delete req.session.user;
   req.logout();
   res.end();
 };
 
 // persist session
 exports.continue = (req, res) => {
-  if (!req.session.user) return res.json({});
-  console.log(req.session.user);
-  return res.status(200).json({ user: req.session.user });
-  // User.findOne({ sessionID: req.sessionID }, (err, user) => {
-  //   if (err) return err;
-  //   if (!user) {
-  //     res.status(400).json('no session found');
-  //   }
-  //   return res.status(200).json(user);
-  // });
+  if (!req.session.user) return res.status(400).json({});
+  const { username, shows, tags } = req.session.user;
+  return res.status(200).json({ username, shows, tags });
 };

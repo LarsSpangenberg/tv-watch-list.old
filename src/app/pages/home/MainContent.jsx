@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 import styles from './MainContent.scss';
 import List from './mainContent/List';
-import ListItem from './mainContent/list/listBody/ListItem';
+import showsType from 'types';
+
 
 class MainContent extends Component {
   constructor(props) {
@@ -16,44 +17,17 @@ class MainContent extends Component {
 
   render() {
     const { shows } = this.props;
-    let listItems = '';
-
-    if (shows) {
-      listItems = shows.map(show => (
-        <ListItem
-          title={show.title}
-          currentSeason={parseInt(show.currentSeason)}
-          currentEpisode={parseInt(show.currentEpisode)}
-          comments={show.comments}
-          status={show.status}
-          lists={show.lists}
-          data={show.data}
-        />
-      ));
-    }
 
     return (
       <section className={styles.main}>
-        <List>
-          {listItems}
-        </List>
+        <List shows={shows} />
       </section>
     );
   }
 }
 
 MainContent.propTypes = {
-  shows: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      currentSeason: PropTypes.string,
-      currentEpisode: PropTypes.string,
-      comments: PropTypes.string,
-      status: PropTypes.string,
-      lists: PropTypes.arrayOf(PropTypes.string),
-      data: PropTypes.object,
-    }),
-  ),
+  shows: showsType,
 };
 
 MainContent.defaultProps = {

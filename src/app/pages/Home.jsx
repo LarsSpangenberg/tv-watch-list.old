@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { continueSession } from 'services/api-service';
 
 // import userObj from 'assets/user.json';
 
@@ -8,37 +10,39 @@ import MainContent from './home/MainContent';
 import SidebarLeft from './home/SidebarLeft';
 import SidebarRight from './home/SidebarRight';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {},
       signedIn: false,
       leftActive: false,
+      listStatus: 'All',
+      activeTags: [],
     };
     this.handleUser = this.handleUser.bind(this);
-    // this.fetchUser = this.fetchUser.bind(this);
+    this.startApp = this.startApp.bind(this);
     this.hideLeft = this.hideLeft.bind(this);
   }
 
-  componentWillMount() {
-    this.fetchUser();
+  componentDidMount() {
+    this.startApp();
   }
 
-
-  fetchUser() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/auth/continue', true);
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        this.setState({
-          user: xhr.response.user,
-          signedIn: true,
-        });
-      }
-    });
-    xhr.send();
+  startApp() {
+    fetch('/api/auth/continue')
+      .then((res) => {
+        if (res.status === 200) {
+          res.json().then((data) => {
+            this.setState({
+              user: data,
+              signedIn: true,
+            });
+          });
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
   }
 
   handleUser(userObj, loggedIn) {
@@ -59,10 +63,11 @@ export default class Home extends React.Component {
       signedIn,
       leftActive,
     } = this.state;
+    const shows = signedIn ? user.shows : [];
     return (
       <div className={styles.appContainer}>
         <Header
-          user={user}
+          user={signedIn ? user : {}}
           leftActive={leftActive}
           signedIn={signedIn}
           handleUser={this.handleUser}
@@ -72,10 +77,18 @@ export default class Home extends React.Component {
           handleActive={this.hideLeft}
         />
         <MainContent
-          shows={user !== null ? user.shows : []}
+          shows={shows}
         />
         <SidebarRight />
       </div>
     );
   }
 }
+
+// const mapStateToProps = state => ({
+//   user: {
+//     username,
+//   }
+// });
+
+export default connect()(Home);

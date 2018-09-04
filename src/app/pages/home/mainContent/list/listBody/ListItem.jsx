@@ -36,7 +36,7 @@ class ListItem extends Component {
       currentEpisode,
       comments,
       status,
-      lists,
+      tags,
       data,
     } = this.props;
     this.setState({
@@ -45,7 +45,7 @@ class ListItem extends Component {
       currentEpisode: parseInt(currentEpisode),
       comments,
       status,
-      lists,
+      tags,
       data,
     });
   }
@@ -85,7 +85,7 @@ class ListItem extends Component {
       currentEpisode,
       comments,
       status,
-      lists,
+      tags,
       data,
     } = this.state;
     return (
@@ -131,7 +131,7 @@ ListItem.propTypes = {
   currentEpisode: PropTypes.number,
   comments: PropTypes.string,
   status: PropTypes.string,
-  lists: PropTypes.arrayOf(PropTypes.string),
+  tags: PropTypes.arrayOf(PropTypes.string),
   data: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
@@ -140,7 +140,7 @@ ListItem.defaultProps = {
   currentEpisode: 1,
   comments: '',
   status: '',
-  lists: [],
+  tags: [],
   data: {},
 };
 

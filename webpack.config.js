@@ -103,8 +103,12 @@ module.exports = {
   },
   resolve: {
     alias: {
+      src: srcPath,
+      app: path.resolve(srcPath, 'app'),
+      components: path.resolve(srcPath, 'app/components'),
+      services: path.resolve(srcPath, 'app/services'),
+      types: path.resolve(srcPath, 'app/types'),
       assets: path.resolve(srcPath, 'assets'),
-      components: path.resolve(srcPath, 'app/components')
     },
     extensions: ['.js', '.jsx']
   }

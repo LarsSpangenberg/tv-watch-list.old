@@ -7,7 +7,6 @@ const ShowSchema = new Schema({
   title: {
     type: String,
     required: true,
-    unique: true,
   },
   current: {
     Season: {
@@ -28,8 +27,8 @@ const ShowSchema = new Schema({
     enum: ['current', 'completed', 'watch later', 'on hold'],
     default: 'current',
   },
-  lists: [String],
+  tags: [String],
   data: {},
 });
 
-module.exports = mongoose.model('Show', ShowSchema, 'WL-Shows');
+module.exports = ShowSchema;

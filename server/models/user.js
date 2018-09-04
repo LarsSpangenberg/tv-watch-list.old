@@ -3,22 +3,21 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
+const ShowSchema = require('./show');
 
 const UserSchema = new Schema({
   username: {
     type: String,
-    required: [true, 'You gotta have a name... right?'],
+    required: true,
   },
   password: {
     type: String,
-    required: [true, 'No password detected. Beep Boop'],
-    minlength: [8, 'Password must have at least 8 characters'],
-  },
-  sessionID: {
-    type: String,
     required: true,
   },
-  shows: [{ type: Schema.Types.ObjectId, ref: 'Show' }],
+  shows: [{ type: ShowSchema, sparse: true }],
+  tags: [String],
+  activeTags: [String],
+  activeStatus: String,
 });
 
 UserSchema.pre('save', function (next) {

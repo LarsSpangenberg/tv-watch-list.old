@@ -17,28 +17,30 @@ class Login extends Component {
     const { username, password, handleUser } = this.props;
     const formData = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/auth/login', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        console.log(xhr.response);
-        handleUser(xhr.response, true);
-        this.setState({
-          errors: {},
-        });
-      } else {
-        console.log(xhr.response);
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors,
-        });
-      }
-    });
-    xhr.send(formData);
+    fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+      body: formData,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          res.json().then((user) => {
+            handleUser(user, true);
+            this.setState({
+              errors: {},
+            });
+          });
+        } else {
+          res.json().then((errors) => {
+            this.setState({
+              errors: errors.message,
+            });
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -51,6 +53,9 @@ class Login extends Component {
       handleChange,
       toggleLogin,
     } = this.props;
+
+    const errorDisplay = Object.keys(errors).length !== 0 ? <p className={errorClass}>{`* ${errors}`}</p> : '';
+
     return (
       <div className={styles.login}>
         <form action="/" onSubmit={this.handleSubmit}>
@@ -78,7 +83,7 @@ class Login extends Component {
             <button type="button" onClick={toggleLogin}>Create new Account</button>
           </div>
         </form>
-        {errors.summary ? <p className={errorClass}>{`* ${errors.summary}`}</p> : ''}
+        {errorDisplay}
       </div>
     );
   }

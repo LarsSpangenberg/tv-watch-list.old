@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styles from './List.scss';
 import ListHead from './list/ListHead';
 import ListBody from './list/ListBody';
-
+import showsType from 'types';
 
 class List extends Component {
   constructor(props) {
@@ -15,25 +15,23 @@ class List extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { shows } = this.props;
     return (
       <table className={styles.list}>
-        <caption>Favs</caption>
+        <caption>All</caption>
         <ListHead />
-        <ListBody>
-          {children}
-        </ListBody>
+        <ListBody shows={shows} />
       </table>
     );
   }
 }
 
 List.propTypes = {
-  children: PropTypes.node,
+  shows: showsType,
 };
 
 List.defaultProps = {
-  children: '',
+  shows: [],
 };
 
 export default List;
