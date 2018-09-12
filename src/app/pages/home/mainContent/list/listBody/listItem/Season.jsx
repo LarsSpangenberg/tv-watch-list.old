@@ -15,7 +15,7 @@ function Season({
       <CellButton
         name="currentSeason"
         operation="minus"
-        handleIncDec={handleIncDec}
+        clickHandler={handleIncDec}
       />
       <input
         style={inputWidth}
@@ -28,7 +28,7 @@ function Season({
       <CellButton
         name="currentSeason"
         operation="plus"
-        handleIncDec={handleIncDec}
+        clickHandler={handleIncDec}
       />
     </td>
   );

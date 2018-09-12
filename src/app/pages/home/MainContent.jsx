@@ -20,7 +20,7 @@ class MainContent extends Component {
 
     return (
       <section className={styles.main}>
-        <List shows={shows} />
+        <List />
       </section>
     );
   }

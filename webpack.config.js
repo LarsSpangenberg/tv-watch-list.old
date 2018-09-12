@@ -106,6 +106,7 @@ module.exports = {
       src: srcPath,
       app: path.resolve(srcPath, 'app'),
       components: path.resolve(srcPath, 'app/components'),
+      modules: path.resolve(srcPath, 'app/modules'),
       services: path.resolve(srcPath, 'app/services'),
       types: path.resolve(srcPath, 'app/types'),
       assets: path.resolve(srcPath, 'assets'),

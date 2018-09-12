@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+import showsType from 'types';
 import styles from './ListBody.scss';
 import ListItem from './listBody/ListItem';
-import showsType from 'types';
+
+const mapStateToProps = (state) => {
+  const { shows } = state;
+  return { shows };
+};
 
 class ListBody extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.displayShows = this.displayShows.bind(this);
   }
 
-  render() {
+  displayShows() {
     const { shows } = this.props;
-    let listItems = '';
 
-    if (shows) {
-      listItems = shows.map(show => (
+    if (shows.length > 0) {
+      return shows.map(show => (
         <ListItem
+          key={show.id}
           title={show.title}
-          currentSeason={parseInt(show.currentSeason)}
-          currentEpisode={parseInt(show.currentEpisode)}
+          currentSeason={parseInt(show.current.season)}
+          currentEpisode={parseInt(show.current.episode)}
           comments={show.comments}
           status={show.status}
           lists={show.tags}
@@ -29,17 +34,13 @@ class ListBody extends Component {
         />
       ));
     }
+    return '';
+  }
 
+  render() {
     return (
       <tbody>
-        {listItems}
-        <tr>
-          <td className={styles.addShow} colSpan="10">
-            <button type="button">
-              <i className="fas fa-plus" />
-            </button>
-          </td>
-        </tr>
+        {this.displayShows()}
       </tbody>
     );
   }
@@ -53,4 +54,4 @@ ListBody.defaultProps = {
   shows: [],
 };
 
-export default ListBody;
+export default connect(mapStateToProps)(ListBody);

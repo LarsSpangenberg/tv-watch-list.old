@@ -1,10 +1,42 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as handleUser from 'modules/user';
 
 import styles from './User.scss';
 import Login from './user/Login';
 import SignUp from './user/SignUp';
 import SignedInUser from './user/SignedInUser';
+
+const mapStateToProps = (state) => {
+  const {
+    username,
+    errors,
+    newUser,
+    signedIn,
+  } = state.user;
+  return {
+    un: username,
+    newUser,
+    signedIn,
+    errors,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  const {
+    signup,
+    login,
+    logout,
+    toggleNewUser,
+  } = handleUser;
+  return {
+    signup: formData => dispatch(signup(formData)),
+    login: formData => dispatch(login(formData)),
+    logout: () => dispatch(logout()),
+    toggleNewUser: () => dispatch(toggleNewUser()),
+  };
+};
 
 class User extends Component {
   constructor(props) {
@@ -13,20 +45,10 @@ class User extends Component {
       username: '',
       password: '',
       confirmPassword: '',
-      login: true,
     };
-    // this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.toggleLogin = this.toggleLogin.bind(this);
+    this.handleUserUI = this.handleUserUI.bind(this);
   }
-
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   console.log('sign-up-form, username: ');
-  //   console.log(username);
-  //   // const xhr = new XMLHttpRequest();
-  //   // xhr.open('POST', '/', true);
-  // }
 
   handleChange(e) {
     this.setState({
@@ -34,80 +56,84 @@ class User extends Component {
     });
   }
 
-  toggleLogin() {
-    const { login } = this.state;
-    this.setState({
-      login: !login,
-    });
-  }
-
-  render() {
+  handleUserUI() {
     const {
+      un,
+      errors,
       signedIn,
-      user,
-      handleUser,
+      newUser,
+      signup,
+      login,
+      logout,
+      toggleNewUser,
     } = this.props;
     const {
       username,
       password,
       confirmPassword,
-      login,
     } = this.state;
-    let userElement;
-
     if (signedIn) {
-      userElement = (
+      return (
         <SignedInUser
-          username={user.username}
+          username={un}
           buttonClass={styles.buttons}
           errorClass={styles.error}
-          handleUser={handleUser}
+          logout={logout}
         />
       );
-    } else if (login) {
-      userElement = (
-        <Login
-          username={username}
-          password={password}
-          signedIn={signedIn}
-          buttonClass={styles.buttons}
-          errorClass={styles.error}
-          handleChange={this.handleChange}
-          handleUser={handleUser}
-          toggleLogin={this.toggleLogin}
-        />
-      );
-    } else {
-      userElement = (
+    }
+    if (newUser) {
+      return (
         <SignUp
           username={username}
           password={password}
-          signedIn={signedIn}
+          errors={errors}
           confirmPassword={confirmPassword}
           buttonClass={styles.buttons}
           errorClass={styles.error}
           handleChange={this.handleChange}
-          handleUser={handleUser}
-          toggleLogin={this.toggleLogin}
+          toggleNewUser={toggleNewUser}
+          signup={signup}
         />
       );
     }
+    return (
+      <Login
+        username={username}
+        password={password}
+        errors={errors}
+        buttonClass={styles.buttons}
+        errorClass={styles.error}
+        handleChange={this.handleChange}
+        toggleNewUser={toggleNewUser}
+        login={login}
+      />
+    );
+  }
 
+  render() {
     return (
       <div className={styles.user}>
-        {userElement}
+        {this.handleUserUI()}
       </div>
     );
   }
 }
+
 User.propTypes = {
-  user: PropTypes.object, // eslint-disable-line
+  un: PropTypes.string,
+  errors: PropTypes.string,
+  newUser: PropTypes.bool.isRequired,
   signedIn: PropTypes.bool.isRequired,
-  handleUser: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+  toggleNewUser: PropTypes.func.isRequired,
 };
 
 User.defaultProps = {
-  user: {},
+  un: '',
+  errors: '',
 };
 
-export default User;
+export default connect(mapStateToProps, mapDispatchToProps)(User);

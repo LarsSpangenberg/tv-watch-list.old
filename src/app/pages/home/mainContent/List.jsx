@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import styles from './List.scss';
 import ListHead from './list/ListHead';
 import ListBody from './list/ListBody';
-import showsType from 'types';
 
 class List extends Component {
   constructor(props) {
@@ -15,23 +15,14 @@ class List extends Component {
   }
 
   render() {
-    const { shows } = this.props;
     return (
       <table className={styles.list}>
         <caption>All</caption>
         <ListHead />
-        <ListBody shows={shows} />
+        <ListBody />
       </table>
     );
   }
 }
 
-List.propTypes = {
-  shows: showsType,
-};
-
-List.defaultProps = {
-  shows: [],
-};
-
-export default List;
+export default connect()(List);

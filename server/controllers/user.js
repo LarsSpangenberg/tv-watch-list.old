@@ -24,7 +24,7 @@ exports.create = [
       return res.status(400).json({
         success: false,
         message: errors.array()[0].msg,
-        errors,
+        errors: errors.array(),
       });
     }
     return next(null, res);
@@ -61,7 +61,7 @@ exports.login = [
       return res.status(400).json({
         success: false,
         message: errors.array()[0].msg,
-        errors,
+        errors: errors.array(),
       });
     }
     return next(null, res);
@@ -81,12 +81,13 @@ exports.login = [
 exports.logout = (req, res) => {
   delete req.session.user;
   req.logout();
-  res.end();
+  return res.status(204).end();
 };
 
 // persist session
 exports.continue = (req, res) => {
-  if (!req.session.user) return res.status(400).json({});
+  if (!req.session.user) return res.status(204).end();
+
   const { username, shows, tags } = req.session.user;
   return res.status(200).json({ username, shows, tags });
 };

@@ -19,9 +19,9 @@
 
 
 // ------------------------ Sidebar active state ------------------------------
-.sidebar:hover {
+.active {
 
-  .pulloutArea {
+  .hoverArea {
     right: $right-sbar-w;
   }
 
@@ -62,47 +62,47 @@
 }
 
 // --------------- pullout tab styles --------------------------------
-//
-// .pulloutArea {
-//   right: 0;
-//   align-items: flex-end;
-//
-//   @include pulloutArea;
-// }
-//
-// .pullout {
-//   color: $white;
-//   background-color: $dark-gray;
-//   border-top-left-radius: 30px;
-//   border-bottom-left-radius: 30px;
-//   margin-right: -100px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   transition: all .3s;
-//   z-index: 2;
-//
-//   @include pullout;
-//
-//   i {
-//     transition: all .3;
-//   }
-// }
-//
-// .pulloutArea:hover .pullout {
-//   margin-right: -5px;
-//
-//   @include hoverPullout;
-// }
-//
-// .pullout:active,
-// .pullout:hover {
-//   cursor: pointer;
-// }
-//
-// .pullout:active {
-//   color: $white;
-//   font-size: 0;
-//   border: 0;
-//   padding: 0;
-// }
+
+.hoverArea {
+  right: 0;
+  align-items: flex-end;
+
+  @include pulloutArea;
+}
+
+.pullout {
+  color: $white;
+  background-color: $dark-gray;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  margin-right: -100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .3s;
+  z-index: 2;
+
+  @include pullout;
+
+  i {
+    transition: all .3s;
+  }
+}
+
+.sidebar:hover .pullout {
+  margin-right: -5px;
+
+  @include hoverPullout;
+}
+
+.pullout:active,
+.pullout:hover {
+  cursor: pointer;
+}
+
+.pullout:active {
+  color: $white;
+  font-size: 0;
+  border: 0;
+  padding: 0;
+}

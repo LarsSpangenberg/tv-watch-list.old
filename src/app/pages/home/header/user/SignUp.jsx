@@ -6,56 +6,29 @@ import styles from './SignUp.scss';
 class SignUp extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      errors: {},
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { username, password, handleUser } = this.props;
+    const { username, password, signup } = this.props;
     const formData = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-
-    fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-      body: formData,
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          res.json().then((user) => {
-            handleUser(user, true);
-            this.setState({
-              errors: {},
-            });
-          });
-        } else {
-          res.json().then((errors) => {
-            this.setState({
-              errors: errors.message,
-            });
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    signup(formData);
   }
 
   render() {
-    const { errors } = this.state;
     const {
       username,
       password,
       confirmPassword,
+      errors,
       buttonClass,
       errorClass,
       handleChange,
-      toggleLogin,
+      toggleNewUser,
     } = this.props;
 
-    const errorDisplay = Object.keys(errors).length !== 0 ? <p className={errorClass}>{`* ${errors}`}</p> : '';
+    const errorDisplay = errors ? <p className={errorClass}>{`* ${errors}`}</p> : '';
 
     return (
       <div className={styles.signUp}>
@@ -81,7 +54,7 @@ class SignUp extends Component {
           />
           <div className={buttonClass}>
             <button type="submit">Submit</button>
-            <button type="button" onClick={toggleLogin}>Already have an Account</button>
+            <button type="button" onClick={toggleNewUser}>Already have an Account</button>
           </div>
         </form>
         {errorDisplay}
@@ -90,14 +63,15 @@ class SignUp extends Component {
   }
 }
 SignUp.propTypes = {
-  buttonClass: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   confirmPassword: PropTypes.string.isRequired,
+  errors: PropTypes.string.isRequired,
+  buttonClass: PropTypes.string.isRequired,
   errorClass: PropTypes.string.isRequired,
-  handleUser: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  toggleLogin: PropTypes.func.isRequired,
+  toggleNewUser: PropTypes.func.isRequired,
 };
 
 export default SignUp;

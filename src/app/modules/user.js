@@ -1,14 +1,15 @@
 const SIGN_OFF = 'tv-watch-list/user/SIGN_OFF';
-const NEW_USER = 'tv-watch-list/user/NEW_USER';
-const RETURNING_USER = 'tv-watch-list/user/RETURNING_USER';
-export const REQUEST_SUCCESS = 'tv-watch-list/user/REQUEST_SUCCESS';
-export const REQUEST_FAILED = 'tv-watch-list/user/REQUEST_FAILED';
+const TOGGLE_NEW_USER = 'tv-watch-list/user/TOGGLE_NEW_USER';
+const REQUEST_USER = 'tv-watch-list/user/REQUEST_USER';
+const REQUEST_SUCCESS = 'tv-watch-list/user/REQUEST_SUCCESS';
+const NO_ACTIVE_SESSION = 'tv-watch-list/user/NO_ACTIVE_SESSION'
+const REQUEST_FAILED = 'tv-watch-list/user/REQUEST_FAILED';
 
 const defaultState = {
+  username: '',
   signedIn: false,
   newUser: false,
-  username: '',
-  shows: [],
+  fetching: false,
   errors: '',
 };
 
@@ -17,34 +18,39 @@ const defaultState = {
 
 export default function userReducer(state = defaultState, action) {
   switch (action.type) {
+    case REQUEST_USER:
+      return {
+        ...state,
+        fetching: true,
+      };
     case REQUEST_FAILED:
       return {
         ...state,
-        errors: action.errors,
+        fetching: false,
+        errors: action.errors.message,
       };
     case REQUEST_SUCCESS:
       return {
         ...state,
+        fetching: false,
         signedIn: true,
         newUser: false,
-        username: action.username,
-        shows: action.shows,
+        username: action.result.username,
       };
     case SIGN_OFF:
       return {
         ...state,
+        username: '',
+        fetching: false,
         signedIn: false,
+        errors: '',
       };
-    case NEW_USER:
+    case TOGGLE_NEW_USER:
       return {
         ...state,
-        newUser: true,
+        newUser: !state.newUser,
       };
-    case RETURNING_USER:
-      return {
-        ...state,
-        newUser: false,
-      };
+    case NO_ACTIVE_SESSION:
     default:
       return state;
   }
@@ -52,34 +58,42 @@ export default function userReducer(state = defaultState, action) {
 
 // ---------------------- action creators ---------------------
 
-export function requestSuccess(user) {
-  return {
-    type: REQUEST_SUCCESS,
-    user,
-  };
-}
+export const toggleNewUser = () => ({
+  type: TOGGLE_NEW_USER,
+});
 
-export function requestFailed(errors) {
-  return {
-    type: REQUEST_FAILED,
-    errors,
-  };
-}
+// ---------------- api request action creators -----------------------
+// types array needs REQUEST, SUCCESS, FAILURE types for the corresponding
+// actions in that order. Optional 4th type for 204 status.
 
-export function signOff() {
-  return {
-    type: SIGN_OFF,
-  };
-}
+export const continueSession = () => ({
+  types: [REQUEST_USER, REQUEST_SUCCESS, REQUEST_FAILED, NO_ACTIVE_SESSION],
+  request: new Request('/api/auth/continue', {
+    method: 'GET',
+  }),
+});
 
-export function newUser() {
-  return {
-    type: NEW_USER,
-  };
-}
+export const signup = formData => ({
+  types: [REQUEST_USER, REQUEST_SUCCESS, REQUEST_FAILED],
+  request: new Request('/api/auth/signup', {
+    method: 'POST',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    body: formData,
+  }),
+});
 
-export function returningUser() {
-  return {
-    type: RETURNING_USER,
-  };
-}
+export const login = formData => ({
+  types: [REQUEST_USER, REQUEST_SUCCESS, REQUEST_FAILED],
+  request: new Request('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    body: formData,
+  }),
+});
+
+export const logout = () => ({
+  types: [REQUEST_USER, SIGN_OFF, REQUEST_FAILED],
+  request: new Request('/api/auth/logout', {
+    method: 'GET',
+  }),
+});

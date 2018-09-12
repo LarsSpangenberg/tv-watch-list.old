@@ -10,8 +10,8 @@ const showsType = arrayOf(
   shape({
     title: string,
     current: shape({
-      season: string,
-      episode: string,
+      season: number,
+      episode: number,
     }),
     comments: string,
     tags: arrayOf(string),

@@ -7,17 +7,21 @@ import Title from './listItem/Title';
 import Season from './listItem/Season';
 import Episode from './listItem/Episode';
 import Comment from './listItem/Comment';
+import Options from './listItem/Options';
+import Status from './listItem/Status';
+import Tags from './listItem/Tags';
 
 class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: '',
       title: '',
       currentSeason: 1,
       currentEpisode: 1,
       comments: '',
-      status: '',
-      lists: [],
+      status: 'current',
+      tags: [],
       data: {},
     };
     this.initItem = this.initItem.bind(this);
@@ -25,7 +29,7 @@ class ListItem extends Component {
     this.handleIncDec = this.handleIncDec.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.initItem();
   }
 
@@ -112,13 +116,25 @@ class ListItem extends Component {
           currentEpisode={currentEpisode}
           handleChange={this.handleChange}
           handleIncDec={this.handleIncDec}
-          lastEpisode={data.lastEpisode.number || data.lastEpisode}
+          lastEpisode={data.lastEpisode ? (data.lastEpisode.number || data.lastEpisode) : ''}
         />
 
         <Comment
           styleClass={styles.comment}
           comments={comments}
           handleChange={this.handleChange}
+        />
+
+        <Tags
+          styleClass={styles.tags}
+          tags={tags}
+        />
+        <Status
+          styleClass={styles.status}
+          status={status}
+        />
+        <Options
+          styleClass={styles.options}
         />
       </tr>
     );

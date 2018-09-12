@@ -16,7 +16,7 @@ function Episode({
       <CellButton
         name="currentEpisode"
         operation="minus"
-        handleIncDec={handleIncDec}
+        clickHandler={handleIncDec}
       />
       <input
         style={inputWidth}
@@ -30,7 +30,7 @@ function Episode({
       <CellButton
         name="currentEpisode"
         operation="plus"
-        handleIncDec={handleIncDec}
+        clickHandler={handleIncDec}
       /> / {lastEpisode}
     </td>
   );
@@ -40,7 +40,7 @@ function Episode({
 Episode.propTypes = {
   styleClass: PropTypes.string.isRequired,
   currentEpisode: PropTypes.number.isRequired,
-  lastEpisode: PropTypes.string,
+  lastEpisode: PropTypes.number,
   handleChange: PropTypes.func.isRequired,
   handleIncDec: PropTypes.func.isRequired,
 };

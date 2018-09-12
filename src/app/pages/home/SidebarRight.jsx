@@ -22,7 +22,15 @@ export default class SidebarRight extends React.Component {
     return (
       <aside className={`${styles.sidebar} ${isActive ? styles.active : ''}`}>
 
-        <div className={styles.hoverArea} />
+        <div className={styles.hoverArea}>
+          <button
+            className={styles.pullout}
+            onClick={this.handleActive}
+            type="button"
+          >
+            <i className="fas fa-chevron-left" />
+          </button>
+        </div>
         <div className={styles.pulloutInner}>
           <div className={styles.icons}>
             <i className={`fas fa-sort-alpha-down ${styles.icon}`} />

@@ -9,7 +9,8 @@ function Title({ styleClass, title, handleChange }) {
         name="title"
         type="text"
         onChange={handleChange}
-        contentEditable="true"
+        contentEditable
+        suppressContentEditableWarning
       >
         {title}
       </div>

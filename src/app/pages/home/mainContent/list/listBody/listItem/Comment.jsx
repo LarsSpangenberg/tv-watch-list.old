@@ -8,7 +8,8 @@ function Comment({ styleClass, comments, handleChange }) {
         name="comments"
         type="text"
         onChange={handleChange}
-        contentEditable="true"
+        contentEditable
+        suppressContentEditableWarning
       >
         {comments}
       </div>

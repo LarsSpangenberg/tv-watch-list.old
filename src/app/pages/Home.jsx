@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { continueSession } from 'services/api-service';
+import { continueSession } from 'modules/user';
 
 // import userObj from 'assets/user.json';
 
@@ -20,36 +21,12 @@ class Home extends React.Component {
       listStatus: 'All',
       activeTags: [],
     };
-    this.handleUser = this.handleUser.bind(this);
-    this.startApp = this.startApp.bind(this);
     this.hideLeft = this.hideLeft.bind(this);
   }
 
   componentDidMount() {
-    this.startApp();
-  }
-
-  startApp() {
-    fetch('/api/auth/continue')
-      .then((res) => {
-        if (res.status === 200) {
-          res.json().then((data) => {
-            this.setState({
-              user: data,
-              signedIn: true,
-            });
-          });
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
-  }
-
-  handleUser(userObj, loggedIn) {
-    this.setState({
-      user: userObj,
-      signedIn: loggedIn,
-    });
+    const { dispatch } = this.props;
+    dispatch(continueSession());
   }
 
   hideLeft(e) {
@@ -59,36 +36,26 @@ class Home extends React.Component {
 
   render() {
     const {
-      user,
-      signedIn,
       leftActive,
     } = this.state;
-    const shows = signedIn ? user.shows : [];
     return (
       <div className={styles.appContainer}>
         <Header
-          user={signedIn ? user : {}}
           leftActive={leftActive}
-          signedIn={signedIn}
-          handleUser={this.handleUser}
         />
         <SidebarLeft
           isActive={leftActive}
           handleActive={this.hideLeft}
         />
-        <MainContent
-          shows={shows}
-        />
+        <MainContent />
         <SidebarRight />
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => ({
-//   user: {
-//     username,
-//   }
-// });
+Home.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default connect()(Home);
