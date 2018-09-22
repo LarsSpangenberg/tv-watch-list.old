@@ -1,50 +1,44 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import showsType from 'types';
-import styles from './ListBody.scss';
+// import styles from './ListBody.scss';
 import ListItem from './listBody/ListItem';
+import NoShows from './listBody/NoShows';
+import LoadingShow from './listBody/LoadingShow';
 
-const mapStateToProps = (state) => {
-  const { shows } = state;
-  return { shows };
-};
-
-class ListBody extends Component {
-  constructor(props) {
-    super(props);
-    this.displayShows = this.displayShows.bind(this);
-  }
-
-  displayShows() {
-    const { shows } = this.props;
-
-    if (shows.length > 0) {
-      return shows.map(show => (
+const ListBody = ({ shows }) => {
+  let displayShows;
+  if (shows.length > 0) {
+    displayShows = shows.map((show) => {
+      if (!show) {
+        return <LoadingShow />;
+      }
+      return (
         <ListItem
-          key={show.id}
+          key={show._id}
+          showId={show._id}
           title={show.title}
-          currentSeason={parseInt(show.current.season)}
-          currentEpisode={parseInt(show.current.episode)}
+          currentSeason={parseInt(show.currentSeason)}
+          currentEpisode={parseInt(show.currentEpisode)}
           comments={show.comments}
-          status={show.status}
-          lists={show.tags}
+          status="completed"
+          tags={show.tags}
           data={show.data}
         />
-      ));
-    }
-    return '';
+      );
+    });
+  } else {
+    displayShows = <NoShows />;
   }
 
-  render() {
-    return (
-      <tbody>
-        {this.displayShows()}
-      </tbody>
-    );
-  }
-}
+  return (
+    <tbody>
+      {displayShows}
+    </tbody>
+  );
+};
+
 
 ListBody.propTypes = {
   shows: showsType,
@@ -54,4 +48,4 @@ ListBody.defaultProps = {
   shows: [],
 };
 
-export default connect(mapStateToProps)(ListBody);
+export default ListBody;

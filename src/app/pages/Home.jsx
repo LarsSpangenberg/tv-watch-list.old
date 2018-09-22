@@ -11,6 +11,10 @@ import MainContent from './home/MainContent';
 import SidebarLeft from './home/SidebarLeft';
 import SidebarRight from './home/SidebarRight';
 
+const mapStateToProps = state => ({
+  signedIn: state.user.signedIn,
+});
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -35,9 +39,8 @@ class Home extends React.Component {
   }
 
   render() {
-    const {
-      leftActive,
-    } = this.state;
+    const { leftActive } = this.state;
+    const { signedIn } = this.props;
     return (
       <div className={styles.appContainer}>
         <Header
@@ -47,7 +50,7 @@ class Home extends React.Component {
           isActive={leftActive}
           handleActive={this.hideLeft}
         />
-        <MainContent />
+        <MainContent signedIn={signedIn} />
         <SidebarRight />
       </div>
     );
@@ -55,7 +58,8 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
+  signedIn: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(Home);
+export default connect(mapStateToProps)(Home);

@@ -35,23 +35,22 @@ button:hover {
   cursor: pointer;
 }
 
-// -------------------- global inbut styles -----------------------------
+// -------------------- global input styles -----------------------------
 
 input,
 td div {
   padding: 7px 5px 5px;
   border: 0;
-  border-radius: 10px;
   outline: 0;
   text-align: center;
   transition: all .3s;
+  border-radius: 10px;
 }
 
 input:hover,
 input:focus,
-td div:hover,
-td div:focus {
-  // font-size: 1.1em;
+div[contentEditable]:hover,
+div[contentEditable]:focus {
   color: $white;
   background-color: $dark-gray;
 }
@@ -63,4 +62,9 @@ input[type="number"] {
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+[contentEditable]:empty:not(:focus):before {
+  content: attr(data-text);
+  color: $light-gray;
 }

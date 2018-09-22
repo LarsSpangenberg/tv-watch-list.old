@@ -1,0 +1,139 @@
+@import "theme-colors";
+@import "dimensions";
+@import "dropdowns";
+@import "keyframes";
+
+.tags {
+  font-size: .8em;
+  min-width: 60px;
+
+  ul {
+    overflow-y: hidden;
+    max-height: 55px;
+    transition: all .3s;
+  }
+
+  li {
+    margin: 0 auto;
+    padding: 0 10px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      margin: 3px 0 0;
+    }
+  }
+
+  .adding .addTag {
+    max-height: 500px;
+
+    li {
+      max-height: 200px;
+      padding: 0;
+    }
+
+    button {
+      font-size: 1em;
+      color: $dark-gray;
+      background-color: $main-theme;
+      margin: 0;
+      width: 100%;
+      max-height: 50px;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .lower {
+    background-color: $white;
+    max-height: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .manyTags.lower {
+    max-height: 12px;
+  }
+
+  .addTag {
+    padding-bottom: 0;
+    max-height: 0;
+    transition: all .3s;
+
+    button {
+      display: inline-block;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    button {
+      max-height: 0;
+      padding: 2px 0 0;
+    }
+  }
+
+  .ellipsis {
+    margin-top: 3px;
+    transition: all .3s;
+  }
+}
+
+.tags:hover,
+.tags.adding {
+
+  ul {
+    max-height: 500px;
+  }
+
+
+  .lower {
+    overflow: visible;
+    max-height: 200px;
+  }
+
+  .addTag {
+    background-color: $white;
+    max-height: 200px;
+    margin-top: -3px;
+
+    button {
+      color: $dark-gray;
+      background-color: $main-theme;
+      max-height: 20px;
+      width: 60px;
+    }
+
+    ul li {
+      width: 100%;
+      padding: 0;
+    }
+
+    ul li button {
+      width: 100%;
+      font-size: 1em;
+    }
+
+    button[value="plus"] {
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: $dark-gray;
+      color: $white;
+    }
+
+    button:active {
+      color: $main-theme;
+    }
+  }
+
+  .ellipsis {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+}

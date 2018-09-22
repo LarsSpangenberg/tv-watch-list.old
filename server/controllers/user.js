@@ -4,7 +4,8 @@ const { sanitizeBody } = require('express-validator/filter');
 
 const User = require('../models/user');
 
-// sign up
+// ----------------- sign up ------------------------------
+
 exports.create = [
   body('username')
     .isLength({ min: 1 })
@@ -35,15 +36,18 @@ exports.create = [
       if (info) {
         return res.status(400).json(info);
       }
-      console.log('sending response');
-      console.log(user);
-      const { username, shows, tags } = user;
-      return res.status(200).json({ username, shows, tags });
-    })(req, res);
+      return req.logIn(user, (error) => {
+        if (error) return next(error);
+        console.log('sending response');
+        const { username } = user;
+        return res.status(200).json({ username });
+      });
+    })(req, res, next);
   },
 ];
 
-// log in
+// ------------------------ log in -----------------------
+
 exports.login = [
   body('username')
     .isLength({ min: 1 })
@@ -66,28 +70,35 @@ exports.login = [
     }
     return next(null, res);
   },
-  (req, res) => {
+  (req, res, next) => {
     passport.authenticate('login', (err, user, info) => {
       if (info) {
         return res.status(400).json(info);
       }
-      const { username, shows, tags } = user;
-      return res.status(200).json({ username, shows, tags });
-    })(req, res);
+      return req.logIn(user, (error) => {
+        if (error) return next(error);
+        const { username } = user;
+        return res.status(200).json({ username });
+      });
+    })(req, res, next);
   },
 ];
 
-// log out
+// ----------------- log out ---------------------
+
 exports.logout = (req, res) => {
-  delete req.session.user;
+  delete req.session.username;
   req.logout();
   return res.status(204).end();
 };
 
-// persist session
-exports.continue = (req, res) => {
-  if (!req.session.user) return res.status(204).end();
+// ----------------- persist session -----------------------
 
-  const { username, shows, tags } = req.session.user;
-  return res.status(200).json({ username, shows, tags });
+exports.continue = (req, res) => {
+  console.log(req.isAuthenticated());
+  if (!req.isAuthenticated()) return res.status(204).end();
+
+  const { username } = req.session;
+  console.log(req.session);
+  return res.status(200).json({ username });
 };

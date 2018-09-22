@@ -18,17 +18,18 @@ const apiService = store => next => (action) => {
           type: SUCCESS,
         }));
     }
-
     if (!res.ok) {
-      throw res;
+      return res.json().then(errors => (
+        next({
+          ...rest,
+          errors,
+          type: FAILURE,
+        })
+      ));
     }
 
-    return next({ ...rest, type: NO_DATA_SUCCESS });
-  }).catch(res => res.json().then(errors => next({
-    ...rest,
-    errors,
-    type: FAILURE,
-  })));
+    return next({ ...rest, type: NO_DATA_SUCCESS || SUCCESS });
+  });
 };
 
 export default apiService;

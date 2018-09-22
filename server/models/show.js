@@ -4,27 +4,14 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ShowSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  current: {
-    Season: {
-      type: Number,
-      default: 1,
-    },
-    Episode: {
-      type: String,
-      default: 1,
-    },
-  },
-  comments: {
-    type: String,
-    default: '',
-  },
+  title: { type: String, default: '' },
+  currentSeason: { type: Number, default: 1 },
+  currentEpisode: { type: Number, default: 1 },
+  comments: { type: String, default: '' },
+  dateAdded: { type: Date, default: Date.now },
   status: {
     type: String,
-    enum: ['current', 'completed', 'watch later', 'on hold'],
+    enum: ['current', 'completed', 'watch later', 'on hold', 'dropped'],
     default: 'current',
   },
   tags: [String],

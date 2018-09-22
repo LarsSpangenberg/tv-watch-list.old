@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styles from './ListHead.scss';
+import ColumnSettings from './listHead/ColumnSettings';
 
 function ListHead(props) {
   return (
@@ -13,7 +14,7 @@ function ListHead(props) {
         <th className="comment">Comments</th>
         <th className="tags">Tags</th>
         <th className="status">Status</th>
-        <th className="columnSettings"><i className="fas fa-cog" /></th>
+        <ColumnSettings />
       </tr>
     </thead>
   );

@@ -2,7 +2,7 @@ const SIGN_OFF = 'tv-watch-list/user/SIGN_OFF';
 const TOGGLE_NEW_USER = 'tv-watch-list/user/TOGGLE_NEW_USER';
 const REQUEST_USER = 'tv-watch-list/user/REQUEST_USER';
 const REQUEST_SUCCESS = 'tv-watch-list/user/REQUEST_SUCCESS';
-const NO_ACTIVE_SESSION = 'tv-watch-list/user/NO_ACTIVE_SESSION'
+const NO_ACTIVE_SESSION = 'tv-watch-list/user/NO_ACTIVE_SESSION';
 const REQUEST_FAILED = 'tv-watch-list/user/REQUEST_FAILED';
 
 const defaultState = {
@@ -16,7 +16,7 @@ const defaultState = {
 
 // ----------------------- Reducer ---------------------------
 
-export default function userReducer(state = defaultState, action) {
+export default function user(state = defaultState, action) {
   switch (action.type) {
     case REQUEST_USER:
       return {
@@ -97,3 +97,5 @@ export const logout = () => ({
     method: 'GET',
   }),
 });
+
+// ---------------------- Selectors ---------------------------------

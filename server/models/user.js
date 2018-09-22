@@ -1,4 +1,3 @@
-/* eslint-disable */
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -6,38 +5,32 @@ const { Schema } = mongoose;
 const ShowSchema = require('./show');
 
 const UserSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  shows: [{ type: ShowSchema, sparse: true }],
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  shows: { type: [ShowSchema], default: [ShowSchema] },
   tags: [String],
   activeTags: [String],
   activeStatus: String,
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) { // eslint-disable-line
   const user = this;
 
   if (!user.isModified('password')) return next();
-  bcrypt.genSalt(12, function(err, salt) {
+  return bcrypt.genSalt(12, (err, salt) => {
     if (err) return next(err);
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      if (err) return next(err);
+    return bcrypt.hash(user.password, salt, (error, hash) => {
+      if (error) return next(error);
       user.password = hash;
-      next();
+      return next();
     });
   });
 });
 
-UserSchema.methods.comparePassword = function(candidate, cb) {
-  bcrypt.compare(candidate, this.password, function(err, isMatch) {
-    cb(null, isMatch);
-  })
-}
+UserSchema.methods.comparePassword = function(candidate, next) { // eslint-disable-line
+  bcrypt.compare(candidate, this.password, (err, isMatch) => {
+    next(null, isMatch);
+  });
+};
 
 module.exports = mongoose.model('User', UserSchema, 'WL-Users');

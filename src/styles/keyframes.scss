@@ -1,0 +1,49 @@
+// general --------------------------------------------
+
+@keyframes slidedown {
+
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 200px;
+  }
+}
+
+@keyframes textAppear {
+
+  from {
+    opactity: 0;
+    color: $white;
+  }
+
+  to {
+    opactiy: 1;
+    color: $dark-gray
+  }
+}
+
+// autoSuggest -------------------------------------------
+
+@keyframes mountDropdown {
+
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 100px;
+  }
+}
+
+@keyframes mountInput {
+
+  from {
+    padding: 0 10px;
+  }
+
+  to {
+    padding: 7px 10px 5px;;
+  }
+}

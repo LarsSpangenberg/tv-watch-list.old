@@ -19,7 +19,7 @@ module.exports = (passport) => {
             console.log('wrong password');
             return done(null, false, { message: "Password doesn't match" });
           }
-          req.session.user = user;
+          req.session.username = username;
           return done(null, user);
         });
       },

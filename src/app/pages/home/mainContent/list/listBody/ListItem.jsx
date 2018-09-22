@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import * as selectors from 'app/store';
+import * as handleShows from 'modules/shows/createList';
+import handleContentEditable from 'utils/handleContentEditable';
 
 import styles from './ListItem.scss';
 import Thumbnail from './listItem/Thumbnail';
@@ -11,22 +16,41 @@ import Options from './listItem/Options';
 import Status from './listItem/Status';
 import Tags from './listItem/Tags';
 
+const mapStateToProps = (state, ownProps) => ({
+  index: selectors.getShowIndexFromAll(state, ownProps.showId),
+  activeStatus: 'completed',
+  activeTags: ['Marvel', 'Netflix'],
+  tagList: ['Marvel', 'Netflix', 'Superhero', 'Comedy', 'Anime', 'Movie'],
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   addShow: (status, activeTags, prevItemIindex) => dispatch(handleShows.addShow()),
+//   updateShow: formData => dispatch(handleShows.updateShow(formData)),
+// });
+
 class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
       title: '',
       currentSeason: 1,
       currentEpisode: 1,
       comments: '',
-      status: 'current',
+      status: 'completed',
       tags: [],
       data: {},
+      postData: {},
     };
+    this.apiRequestTimer = null;
     this.initItem = this.initItem.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleIncDec = this.handleIncDec.bind(this);
+    this.handleTag = this.handleTag.bind(this);
+    this.addShow = this.addShow.bind(this);
+    this.removeShow = this.removeShow.bind(this);
+    this.updateShow = this.updateShow.bind(this);
+    this.generateWeakKey = this.generateWeakKey.bind(this);
   }
 
   componentDidMount() {
@@ -45,8 +69,8 @@ class ListItem extends Component {
     } = this.props;
     this.setState({
       title,
-      currentSeason: parseInt(currentSeason),
-      currentEpisode: parseInt(currentEpisode),
+      currentSeason,
+      currentEpisode,
       comments,
       status,
       tags,
@@ -54,33 +78,97 @@ class ListItem extends Component {
     });
   }
 
-  handleChange(e) {
+  // list item handlers -----------------------------------------------
+  addShow() {
+    const {
+      index,
+      activeStatus,
+      activeTags,
+      dispatch,
+    } = this.props;
+    dispatch(handleShows.addShow(activeStatus, activeTags, index + 1));
+  }
+
+  removeShow() {
+    const { showId, dispatch } = this.props;
+    dispatch(handleShows.removeShow(showId));
+  }
+
+  updateShow(key, value) {
+    this.setState(state => ({
+      [key]: value,
+      postData: { ...state.postData, [key]: value },
+    }));
+
+    clearTimeout(this.apiRequestTimer);
+
+    this.apiRequestTimer = setTimeout(() => {
+      const { dispatch, showId } = this.props;
+      const { postData } = this.state;
+      postData.id = showId;
+      console.log(postData);
+      dispatch(handleShows.updateShow(postData));
+    }, 1000);
+  }
+
+  // update show properties -------------------------------------------------
+
+  clickHandler(e) {
     const { name, value } = e.target;
-    if (value > 0) {
-      this.setState({
-        [name]: parseInt(value),
-      });
-    } else {
-      this.setState({
-        [name]: '',
-      });
+    this.updateShow(name, value);
+  }
+
+  handleChange(e) {
+    let { name, value } = e.target;
+
+    if (e.target.tagName === 'DIV') {
+      const { dataset, innerText } = e.target;
+      value = innerText;
+      name = dataset.name; // eslint-disable-line
+      handleContentEditable(e.target);
     }
+
+    this.updateShow(name, value);
   }
 
   handleIncDec(e) {
     const { name, value } = e.target;
-    /* eslint-disable react/destructuring-assignment */
-    if (this.state[name] >= 0 && value === 'plus') {
-      this.setState(prevState => ({
-        [name]: (prevState[name] + 1),
-      }));
-    } else if (this.state[name] > 0 && value === 'minus') {
-      this.setState(prevState => ({
-        [name]: (prevState[name] - 1),
-      }));
+    const { ...state } = this.state;
+    let nextValue;
+    if (state[name] >= 0 && value === 'plus') {
+      nextValue = state[name] + 1;
+    } else if (state[name] > 0 && value === 'minus') {
+      nextValue = state[name] - 1;
     }
-    /* eslint-enable react/destructuring-assignment */
+    this.updateShow(name, nextValue);
   }
+
+  handleTag(e) {
+    const { name, value } = e.target;
+    const { tags } = this.state;
+    let newTags;
+    if (value === 'minus' && tags.indexOf(name) !== -1) {
+      // --------- remove tag --------------
+      const index = tags.indexOf(name);
+      newTags = [
+        ...tags.slice(0, index),
+        ...tags.slice(index + 1),
+      ];
+    } else if (name === 'suggestions') {
+      // ------- add suggested tag -----------
+      newTags = [...tags, value];
+    }
+
+    this.updateShow('tags', newTags);
+  }
+
+  // utility ---------------------------------------------------------
+  generateWeakKey(data, index) {
+    const { showId } = this.props;
+    const name = data.replace(/ /g, '_');
+    return `${showId}-${name}-${index}`;
+  }
+
 
   render() {
     const {
@@ -92,6 +180,7 @@ class ListItem extends Component {
       tags,
       data,
     } = this.state;
+    const { tagList } = this.props;
     return (
       <tr className={styles.listItem}>
         <Thumbnail
@@ -116,7 +205,6 @@ class ListItem extends Component {
           currentEpisode={currentEpisode}
           handleChange={this.handleChange}
           handleIncDec={this.handleIncDec}
-          lastEpisode={data.lastEpisode ? (data.lastEpisode.number || data.lastEpisode) : ''}
         />
 
         <Comment
@@ -126,15 +214,26 @@ class ListItem extends Component {
         />
 
         <Tags
-          styleClass={styles.tags}
+          styleClass={{
+            tags: styles.tags,
+            adding: styles.adding,
+          }}
           tags={tags}
+          tagList={tagList}
+          handleChange={this.handleChange}
+          handleTag={this.handleTag}
+          generateWeakKey={this.generateWeakKey}
         />
         <Status
           styleClass={styles.status}
           status={status}
+          clickHandler={this.clickHandler}
+          generateWeakKey={this.generateWeakKey}
         />
         <Options
           styleClass={styles.options}
+          addShow={this.addShow}
+          removeShow={this.removeShow}
         />
       </tr>
     );
@@ -142,23 +241,31 @@ class ListItem extends Component {
 }
 
 ListItem.propTypes = {
-  title: PropTypes.string.isRequired,
+  showId: PropTypes.string.isRequired,
+  title: PropTypes.string,
   currentSeason: PropTypes.number,
   currentEpisode: PropTypes.number,
   comments: PropTypes.string,
   status: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  tagList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  data: PropTypes.object, // eslint-disable-line
+  activeStatus: PropTypes.string.isRequired,
+  activeTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  index: PropTypes.number,
+  dispatch: PropTypes.func.isRequired,
 };
 
 ListItem.defaultProps = {
+  title: '',
   currentSeason: 1,
   currentEpisode: 1,
   comments: '',
   status: '',
   tags: [],
   data: {},
+  index: 0,
 };
 
 
-export default ListItem;
+export default connect(mapStateToProps)(ListItem);

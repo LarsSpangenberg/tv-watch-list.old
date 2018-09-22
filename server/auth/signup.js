@@ -1,6 +1,6 @@
 
 const LocalStrategy = require('passport-local');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
@@ -24,7 +24,6 @@ module.exports = (passport) => {
         if (error) {
           return done(error);
         }
-        req.session.user = newUser;
         return done(null, newUser);
       });
     });

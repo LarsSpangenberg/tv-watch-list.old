@@ -8,20 +8,12 @@ import Login from './user/Login';
 import SignUp from './user/SignUp';
 import SignedInUser from './user/SignedInUser';
 
-const mapStateToProps = (state) => {
-  const {
-    username,
-    errors,
-    newUser,
-    signedIn,
-  } = state.user;
-  return {
-    un: username,
-    newUser,
-    signedIn,
-    errors,
-  };
-};
+const mapStateToProps = state => ({
+  un: state.user.username,
+  newUser: state.user.newUser,
+  signedIn: state.user.signedIn,
+  errors: state.user.errors,
+});
 
 const mapDispatchToProps = (dispatch) => {
   const {
@@ -47,7 +39,6 @@ class User extends Component {
       confirmPassword: '',
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleUserUI = this.handleUserUI.bind(this);
   }
 
   handleChange(e) {
@@ -56,7 +47,7 @@ class User extends Component {
     });
   }
 
-  handleUserUI() {
+  render() {
     const {
       un,
       errors,
@@ -72,8 +63,10 @@ class User extends Component {
       password,
       confirmPassword,
     } = this.state;
+
+    let userUi;
     if (signedIn) {
-      return (
+      userUi = (
         <SignedInUser
           username={un}
           buttonClass={styles.buttons}
@@ -81,9 +74,8 @@ class User extends Component {
           logout={logout}
         />
       );
-    }
-    if (newUser) {
-      return (
+    } else if (newUser) {
+      userUi = (
         <SignUp
           username={username}
           password={password}
@@ -96,25 +88,24 @@ class User extends Component {
           signup={signup}
         />
       );
+    } else {
+      userUi = (
+        <Login
+          username={username}
+          password={password}
+          errors={errors}
+          buttonClass={styles.buttons}
+          errorClass={styles.error}
+          handleChange={this.handleChange}
+          toggleNewUser={toggleNewUser}
+          login={login}
+        />
+      );
     }
-    return (
-      <Login
-        username={username}
-        password={password}
-        errors={errors}
-        buttonClass={styles.buttons}
-        errorClass={styles.error}
-        handleChange={this.handleChange}
-        toggleNewUser={toggleNewUser}
-        login={login}
-      />
-    );
-  }
 
-  render() {
     return (
       <div className={styles.user}>
-        {this.handleUserUI()}
+        {userUi}
       </div>
     );
   }

@@ -1,0 +1,76 @@
+@import "theme-colors";
+@import "dropdowns";
+@import "keyframes";
+
+.options {
+  max-height: 40px;
+  min-width: 35px;
+  max-width: 100px;
+  padding-bottom: 0;
+  box-sizing: border-box;
+
+  i {
+    font-size: .8em;
+    color: $dark-gray;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+    pointer-events: none;
+    animation: textAppear .3s ease;
+  }
+
+  ul {
+    background-color: $main-theme;
+    border-radius: 5px;
+    z-index: 3;
+    animation: slidedown .5s ease;
+
+    @include defaultDropdownContainer;
+  }
+
+  button {
+    background-color: $main-theme;
+    border-radius: 5px;
+
+    @include defaultDropdownButton;
+  }
+
+  button:active {
+    color: $main-theme;
+  }
+
+  .container {
+    position: relative;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.options:hover {
+
+  i {
+    font-size: 0;
+    line-height: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  ul {
+    height: auto;
+  }
+
+  button {
+    font-size: .6em;
+    height: 25px;
+    width: 120px;
+
+    @include onHoverDropdownButton;
+  }
+
+  .container {
+    left: -70px;
+    top: -15px;
+  }
+}

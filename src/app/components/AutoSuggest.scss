@@ -1,0 +1,98 @@
+@import "theme-colors";
+@import "dimensions";
+@import "dropdowns";
+
+div.autoSuggest {
+  width: 80px;
+  padding: 0;
+  display: block;
+  height: 20px;
+  transition: all .3s;
+
+  input[type="text"] {
+    background-color: $dark-gray;
+    padding: 7px 10px 5px;
+    // max-height: 50px;
+    border-radius: 0;
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box;
+    margin-left: auto;
+    animation: mountInput .3s;
+  }
+
+  input[type="text"]:focus {
+
+  }
+
+  ul.dropdown {
+    width: 80px;
+    max-height: 500px;
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 3;
+    transition: all .3s;
+    animation: mountDropdown .3s;
+  }
+
+  li {
+    background-color: $main-theme;
+    padding-bottom: 0;
+  }
+
+  button {
+    font-size: 1.5em;
+    margin: 0 2px;
+    padding: $buttonPadding;
+    border-radius: 0;
+    width: 20px;
+    height: 20px;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.autoSuggest:hover {
+  background-color: $white;
+}
+
+.autoSuggest.suggesting {
+
+  input[type="text"] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+div.autoSuggest.blurred {
+
+  ul {
+    max-height: 0;
+  }
+}
+
+// ---------------------- key frames -------------------------
+
+@keyframes mountDropdown {
+
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 100px;
+  }
+}
+
+@keyframes mountInput {
+
+  from {
+    padding: 0 10px;
+  }
+
+  to {
+    padding: 7px 10px 5px;;
+  }
+}

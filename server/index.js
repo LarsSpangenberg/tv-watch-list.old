@@ -10,6 +10,7 @@ const expressWinston = require('express-winston');
 
 const auth = require('./auth/init');
 const users = require('./routes/user');
+const shows = require('./routes/show');
 
 const app = express();
 
@@ -62,6 +63,7 @@ auth(passport);
 // ----------------------- Routes -----------------------------
 
 app.use('/api/auth', users);
+app.use('/api/shows', shows);
 
 // --------------------- Error Logger ------------------------
 

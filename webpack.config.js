@@ -110,6 +110,7 @@ module.exports = {
       services: path.resolve(srcPath, 'app/services'),
       types: path.resolve(srcPath, 'app/types'),
       assets: path.resolve(srcPath, 'assets'),
+      utils: path.resolve(srcPath, 'app/utils'),
     },
     extensions: ['.js', '.jsx']
   }
