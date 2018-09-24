@@ -4,8 +4,6 @@
 
 .sidebar {
   grid-area: right;
-  // position: absolute;
-  // right: 0;
 }
 
 .hoverArea {
@@ -15,6 +13,9 @@
   position: absolute;
   right: 0;
   transition: all .3s;
+  align-items: flex-end;
+
+  @include pulloutArea;
 }
 
 
@@ -62,13 +63,6 @@
 }
 
 // --------------- pullout tab styles --------------------------------
-
-.hoverArea {
-  right: 0;
-  align-items: flex-end;
-
-  @include pulloutArea;
-}
 
 .pullout {
   color: $white;

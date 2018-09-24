@@ -28,6 +28,9 @@ export default class SidebarLeft extends React.Component {
         <div className={styles.pulloutInner}>
           <div className={styles.brandBackdrop} />
           <div className={styles.lists}>
+            <div className={styles.listHeader}>
+              <h2>Status</h2>
+            </div>
             <ul className={styles.standardLists}>
               <li>All</li>
               <li>Current</li>

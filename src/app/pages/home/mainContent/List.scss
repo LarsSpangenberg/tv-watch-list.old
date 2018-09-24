@@ -1,7 +1,7 @@
 @import "theme-colors";
 
 .list {
-  margin: 20px auto;
+  margin: 20px 50px;;
   width: 90%;
   border-collapse: separate;
   border-spacing: 0;
@@ -18,23 +18,17 @@
     text-align: center;
   }
 
-  thead {
-    background-color: $dark-main;
-    color: $white;
-  }
-
-  th,
   td {
     padding: 10px;
     text-align: center;
   }
 
   td {
-    border-right: .5px inset $light-gray;
+    border-left: .5px solid $light-gray;
   }
 
-  td:last-of-type {
-    border-right: 0;
+  td:first-of-type {
+    border-left: 0;
   }
 
   button:hover {

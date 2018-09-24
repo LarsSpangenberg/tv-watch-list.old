@@ -1,17 +1,34 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import CreateOptionsCell from 'components/CreateOptionsCell';
+import columns from 'utils/hideableColumns';
+import { formatHeader } from 'utils/capitalizeWord';
 
-const ColumnSettings = ({ addShow, removeShow }) => {
-  const headers = ['Title', 'Season', 'Episode', 'Comments', 'Tags', 'Status'];
-  const dropdownItems = headers.map(header => (
-    <li key={header}>
-      <button type="button">
-        {header}
-      </button>
-    </li>
-  ));
+import SimpleDropdownComponent from 'components/SimpleDropdownComponent';
+
+import styles from './ColumnSettings.scss';
+
+const ColumnSettings = ({ isHidden, toggleColumn }) => {
+  const dropdownItems = columns.map((header) => {
+    const hiddenIcon = isHidden(header) ? <i className="fas fa-eye-slash" /> : '';
+    return (
+      <li key={`list_header_settings_${header}`}>
+        <button
+          type="button"
+          value={header}
+          onClick={toggleColumn}
+          className={isHidden(header) ? styles.hidden : ''}
+        >
+          <span className={styles.buttonText}>
+            {formatHeader(header)}
+          </span>
+          <div className={styles.iconWrapper}>
+            {hiddenIcon}
+          </div>
+        </button>
+      </li>
+    );
+  });
 
   return (
     <Fragment>
@@ -21,8 +38,9 @@ const ColumnSettings = ({ addShow, removeShow }) => {
 };
 
 ColumnSettings.propTypes = {
-  addShow: PropTypes.func.isRequired,
-  removeShow: PropTypes.func.isRequired,
+  isHidden: PropTypes.func.isRequired,
+  toggleColumn: PropTypes.func.isRequired,
 };
 
-export default CreateOptionsCell(ColumnSettings, 'th', 'far fa-eye');
+const placeholder = <i className="far fa-eye" />;
+export default SimpleDropdownComponent(ColumnSettings, 'th', placeholder);

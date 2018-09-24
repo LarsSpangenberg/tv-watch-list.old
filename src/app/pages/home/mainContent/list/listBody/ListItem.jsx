@@ -21,6 +21,7 @@ const mapStateToProps = (state, ownProps) => ({
   activeStatus: 'completed',
   activeTags: ['Marvel', 'Netflix'],
   tagList: ['Marvel', 'Netflix', 'Superhero', 'Comedy', 'Anime', 'Movie'],
+  isHidden: name => selectors.isColumnHidden(state, name),
 });
 
 // const mapDispatchToProps = dispatch => ({
@@ -166,7 +167,7 @@ class ListItem extends Component {
   generateWeakKey(data, index) {
     const { showId } = this.props;
     const name = data.replace(/ /g, '_');
-    return `${showId}-${name}-${index}`;
+    return `${showId}_${name}_${index}`;
   }
 
 
@@ -180,7 +181,12 @@ class ListItem extends Component {
       tags,
       data,
     } = this.state;
-    const { tagList } = this.props;
+    const { tagList, isHidden } = this.props;
+    const cellStyle = name => [
+      styles[name],
+      isHidden(name) ? styles.hidden : '',
+    ].join(' ');
+
     return (
       <tr className={styles.listItem}>
         <Thumbnail
@@ -188,34 +194,34 @@ class ListItem extends Component {
         />
 
         <Title
-          styleClass={styles.title}
+          styleClass={cellStyle('title')}
           title={title}
           handleChange={this.handleChange}
         />
 
         <Season
-          styleClass={styles.season}
+          styleClass={cellStyle('season')}
           currentSeason={currentSeason}
           handleChange={this.handleChange}
           handleIncDec={this.handleIncDec}
         />
 
         <Episode
-          styleClass={styles.episode}
+          styleClass={cellStyle('episode')}
           currentEpisode={currentEpisode}
           handleChange={this.handleChange}
           handleIncDec={this.handleIncDec}
         />
 
         <Comment
-          styleClass={styles.comment}
+          styleClass={cellStyle('comment')}
           comments={comments}
           handleChange={this.handleChange}
         />
 
         <Tags
           styleClass={{
-            tags: styles.tags,
+            tags: cellStyle('tags'),
             adding: styles.adding,
           }}
           tags={tags}
@@ -225,7 +231,7 @@ class ListItem extends Component {
           generateWeakKey={this.generateWeakKey}
         />
         <Status
-          styleClass={styles.status}
+          styleClass={cellStyle('status')}
           status={status}
           clickHandler={this.clickHandler}
           generateWeakKey={this.generateWeakKey}
@@ -253,6 +259,7 @@ ListItem.propTypes = {
   activeStatus: PropTypes.string.isRequired,
   activeTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   index: PropTypes.number,
+  isHidden: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

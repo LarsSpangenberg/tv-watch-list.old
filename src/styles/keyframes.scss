@@ -11,16 +11,25 @@
   }
 }
 
+@keyframes slideback {
+
+  from {
+    max-height: 200px;
+  }
+
+  to {
+    max-height: 0;
+  }
+}
+
 @keyframes textAppear {
 
   from {
     opactity: 0;
-    color: $white;
   }
 
   to {
     opactiy: 1;
-    color: $dark-gray
   }
 }
 

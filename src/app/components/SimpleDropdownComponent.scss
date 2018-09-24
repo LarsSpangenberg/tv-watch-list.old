@@ -1,0 +1,63 @@
+@import "theme-colors";
+@import "dropdowns";
+@import "keyframes";
+
+.options {
+  max-width: 40px;
+  min-width: 35px;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  font-size: 1em;
+
+  i {
+    pointer-events: none;
+  }
+
+  > button {
+    background-color: $white;
+    color: $dark-gray;
+
+    @include defaultPlaceholderButton
+  }
+
+  > button:active,
+  > button:focus {
+    opacity: 0;
+  }
+
+  ul {
+    background-color: $main-theme;
+    border-radius: 5px;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+
+    @include defaultDropdownContainer;
+
+    button {
+      background-color: $main-theme;
+      border-radius: 5px;
+
+      @include defaultDropdownButton;
+    }
+
+    button:active {
+      color: $main-theme;
+    }
+  }
+
+  .container {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    transition: all .3s;
+    left: -50px;
+    top: -15px;
+  }
+
+  ul.showing {
+    max-height: 200px;
+    opacity: 1;
+    visibility: visible;
+  }
+}

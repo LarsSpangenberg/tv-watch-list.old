@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import CreateOptionsCell from 'components/CreateOptionsCell';
+import SimpleDropdownComponent from 'components/SimpleDropdownComponent';
 
 const Options = ({ addShow, removeShow }) => (
   <Fragment>
@@ -28,4 +28,5 @@ Options.propTypes = {
   removeShow: PropTypes.func.isRequired,
 };
 
-export default CreateOptionsCell(Options, 'td', 'fas fa-ellipsis-v');
+const placeholder = <i className="fas fa-ellipsis-v" />;
+export default SimpleDropdownComponent(Options, 'td', placeholder);

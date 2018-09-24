@@ -16,7 +16,7 @@ const defaultState = {
 
 // ----------------------- Reducer ---------------------------
 
-export default function user(state = defaultState, action) {
+const user = (state = defaultState, action) => {
   switch (action.type) {
     case REQUEST_USER:
       return {
@@ -54,7 +54,9 @@ export default function user(state = defaultState, action) {
     default:
       return state;
   }
-}
+};
+
+export default user;
 
 // ---------------------- action creators ---------------------
 

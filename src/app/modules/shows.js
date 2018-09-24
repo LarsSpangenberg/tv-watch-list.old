@@ -42,21 +42,3 @@ export const getShowIndexFromAll = (state, id) => (
 );
 
 // ---------------------- action creators ---------------------
-
-// ---------------- api request action creators -----------------------
-// types array needs REQUEST, SUCCESS, FAILURE types for the corresponding
-// actions in that order. Optional 4th type for 204 status.
-
-// export const initShows = () => ({
-//   types: [REQUEST_SHOWS, INIT_SHOWS, REQUEST_FAILED],
-//   request: new Request('/api/shows/init', {
-//     method: 'GET',
-//   }),
-// });
-//
-// export const addShow = () => ({
-//   types: [REQUEST_SHOWS, ADD_SHOW, REQUEST_FAILED],
-//   request: new Request('/api/shows/create', {
-//     method: 'GET',
-//   }),
-// });

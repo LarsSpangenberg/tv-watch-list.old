@@ -8,13 +8,12 @@ import styles from './Status.scss';
 const Status = ({
   status,
   clickHandler,
-  generateWeakKey,
 }) => {
   const allStatuses = ['current', 'completed', 'watch later', 'on hold', 'dropped'];
   const buttons = allStatuses.filter(stat => (
     stat !== status
   )).map((stat, i) => (
-    <li key={generateWeakKey(stat, i + 1)}>
+    <li key={`sidebar_left_status_${stat}`}>
       <button
         type="button"
         name="status"
@@ -28,7 +27,7 @@ const Status = ({
 
   return (
     <Fragment>
-      <li key={generateWeakKey(status, 0)}>
+      <li key={`sidebar_left_status_${status}`}>
         <button
           type="button"
           name="status"
@@ -46,7 +45,6 @@ const Status = ({
 Status.propTypes = {
   status: PropTypes.string.isRequired,
   clickHandler: PropTypes.func.isRequired,
-  generateWeakKey: PropTypes.func.isRequired,
 };
 
-export default SimpleDropdownComponent(Status, 'td', 'status');
+export default SimpleDropdownComponent(Status, 'div', 'status');

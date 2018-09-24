@@ -4,11 +4,13 @@
 @import "keyframes";
 
 .listItem {
+  z-index: 3;
 
   // =================== text and number inputs =======================
   td {
     height: 100%;
-    vertical-align: center;
+    margin-left: 0;
+    transition: all .3s;
 
     ul {
       margin: 0;
@@ -49,6 +51,24 @@
 
   .episode {
     min-width: 130px;
+  }
+
+  // --------------------- hidden column -------------------
+
+  td.hidden {
+    opacity: 0;
+    visibility: hidden;
+    min-width: 0;
+    max-width: 0;
+    padding: 0;
+    border: 0;
+    overflow-x: hidden;
+
+    * {
+      margin-left: -200px;
+      min-width: 0;
+      font-size: 0;
+    }
   }
 }
 
@@ -102,8 +122,65 @@
   }
 }
 
-.listItem:hover .options i {
-  margin-top: 5px;
+// status column adjustments to Simple dropdown --------
+
+.listItem td.status {
+  min-width: 120px;
+
+  > button {
+    min-width: 100px;
+  }
+
+  > div {
+    left: 0;
+  }
+
+  ul {
+    width: 100px;
+
+    button {
+      font-size: .8em;
+      width: 100%;
+    }
+
+    li:first-of-type button {
+      background-color: $dark-gray;
+      color: $white;
+      z-index: 5;
+    }
+  }
+}
+
+
+// options column adjustments to Simple dropdown --------
+
+.listItem .options {
+  padding: 5px 0;
+
+  > button {
+    background-color: $white;
+    color: $dark-gray;
+    margin-top: 0;
+    width: 90%;
+    height: 30px;
+    opacity: 0;
+    visibility: hidden;
+    animation: textAppear .3s ease;
+    z-index: 5;
+
+    i {
+      font-size: 1.5em;
+      transition: all .3s;
+    }
+  }
+
+  > button:hover i {
+    transform: rotate(90deg);
+    -webkit-transform-origin: 50%  51%;
+  }
+}
+
+.listItem:hover .options button {
   opacity: 1;
   visibility: visible;
 }
