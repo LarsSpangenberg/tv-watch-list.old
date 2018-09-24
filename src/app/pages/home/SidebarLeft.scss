@@ -1,0 +1,174 @@
+@import "theme-colors";
+@import "dimensions";
+@import "sidebars";
+
+.sidebar {
+  grid-area: left;
+  box-sizing: border-box;
+}
+
+// -------------------------------show-hide sidebar tab-------------------------------
+
+.pulloutArea {
+  left: 0;
+
+  @include pulloutArea;
+}
+
+.pullout {
+  background-color: $white;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-left: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .3s;
+  z-index: 2;
+
+  @include pullout;
+}
+
+.pulloutArea:hover .pullout {
+  margin-left: -5px;
+  padding: 10px;
+  border: 1px solid $light-gray;
+  border-left: 0;
+
+  @include hoverPullout;
+}
+
+.pullout:active,
+.pullout:hover {
+  cursor: pointer;
+}
+
+.pullout:active {
+  color: $white;
+  font-size: 0;
+  padding: 0;
+  border: 0;
+}
+
+// ------------------------ Sidebar active state ------------------------------
+.active {
+
+  .pulloutArea {
+    left: $left-sbar-w;
+  }
+
+  .pulloutInner {
+    width: $left-sbar-w;
+  }
+}
+
+// -------------------------- hideable Sidebar content -------------------------
+
+.pulloutInner {
+  border-right: 1px solid $light-gray;
+  height: 100vh;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  transition: all .3s;
+}
+
+// ------------------------background color for the logo------------------------------
+.brandBackdrop {
+  background-color: $accent-2;
+  height: $header-height;
+}
+
+// ------------------------------List Tabs--------------------------------------------
+.lists {
+  margin-top: 20px;
+  width: $left-sbar-w - 20;
+
+  li {
+    padding: 10px 5px 0;
+    border-bottom: 1px solid $light-gray;
+    text-align: left;
+    transition: all .3s;
+  }
+
+  li:hover,
+  li:focus,
+  li:active {
+    background-color: $accent-2;
+    cursor: pointer;
+  }
+
+  li:active {
+    font-size: .9em;
+    color: darken($main-theme, 15%)
+  }
+}
+
+.standardLists,
+.customLists {
+  padding: 20px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.standardLists {
+  font-weight: bold;
+}
+
+// -------------------list button in the middle of the sidebar-----------------------
+.listHeader {
+  margin-top: 20px;
+  width: 90%;
+  display: inline-flex;
+
+  h2,
+  .addList {
+    color: $dark-gray;
+    margin: 0;
+    padding: 5px;
+    border: 0;
+    box-shadow: 0 2px 0 $medium-gray;
+    transition: all .2s;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    background-color: $white;
+    width: 100%;
+  }
+
+  .addList {
+    font-size: .6em;
+    color: $dark-gray;
+    background-color: $white;
+    border-left: 1px solid $light-gray;
+    padding: 5px;
+    width: 40px;
+    outline: 0;
+    z-index: 0;
+  }
+}
+
+.listHeader:hover {
+  cursor: pointer;
+
+  .addList {
+    background-color: $main-theme;
+  }
+}
+
+.listHeader:active {
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  .addList {
+    font-size: 0;
+  }
+}
+
+// ========================= States ==========================================

@@ -1,0 +1,102 @@
+@import "theme-colors";
+@import "dimensions";
+@import "sidebars";
+
+.sidebar {
+  grid-area: right;
+}
+
+.hoverArea {
+  padding: 0;
+  height: 100vh;
+  width: 60px;
+  position: absolute;
+  right: 0;
+  transition: all .3s;
+  align-items: flex-end;
+
+  @include pulloutArea;
+}
+
+
+// ------------------------ Sidebar active state ------------------------------
+.active {
+
+  .hoverArea {
+    right: $right-sbar-w;
+  }
+
+  .pullout i {
+    transform: rotate(180deg);
+  }
+
+  .pulloutInner {
+    width: $right-sbar-w;
+  }
+}
+
+// ----------- hideable Sidebar content -----------------------------
+.pulloutInner {
+  background-color: $dark-gray;
+  color: $light-gray;
+  padding-top: $header-height;
+  height: 100vh;
+  width: 0;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  transition: all .3s;
+}
+
+// ----------------------- icons -------------------------------------
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+
+.icon {
+  margin-top: 50px;
+}
+
+// --------------- pullout tab styles --------------------------------
+
+.pullout {
+  color: $white;
+  background-color: $dark-gray;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  margin-right: -100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .3s;
+  z-index: 2;
+
+  @include pullout;
+
+  i {
+    transition: all .3s;
+  }
+}
+
+.sidebar:hover .pullout {
+  margin-right: -5px;
+
+  @include hoverPullout;
+}
+
+.pullout:active,
+.pullout:hover {
+  cursor: pointer;
+}
+
+.pullout:active {
+  color: $white;
+  font-size: 0;
+  border: 0;
+  padding: 0;
+}

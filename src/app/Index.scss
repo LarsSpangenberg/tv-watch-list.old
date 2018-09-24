@@ -1,0 +1,70 @@
+// @import url("https://fonts.googleapis.com/css?family=Julius+Sans+One|Monda");
+@import url("https://fonts.googleapis.com/css?family=Lato|Josefin+Sans");
+@import "theme-colors";
+
+
+body {
+  // font-family: "Monda", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+caption {
+  // font-family: "Julius Sans One", sans-serif;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+button {
+  outline: 0;
+  border: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+// -------------------- global input styles -----------------------------
+
+input,
+td div {
+  padding: 7px 5px 5px;
+  border: 0;
+  outline: 0;
+  text-align: center;
+  transition: all .3s;
+  border-radius: 10px;
+}
+
+input:hover,
+input:focus,
+div[contentEditable]:hover,
+div[contentEditable]:focus {
+  color: $white;
+  background-color: $dark-gray;
+}
+
+input[type="number"] {
+  text-align: center;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+[contentEditable]:empty:not(:focus):before {
+  content: attr(data-text);
+  color: $light-gray;
+}

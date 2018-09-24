@@ -1,0 +1,83 @@
+@import "theme-colors";
+@import "dimensions";
+
+.listHead {
+
+  th {
+    background-color: $dark-main;
+    color: $white;
+    padding: 0;
+    max-width: 200px;
+    transition: all .3s;
+  }
+
+  // --------- hideable main column headers --------------
+
+  .hideable {
+    overflow: hidden;
+  }
+
+  th.hideable button {
+    background-color: $dark-main;
+    color: $white;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    transition: all .3s;
+
+    i {
+      font-size: 0;
+      pointer-events: none;
+      transition: all .3s;
+    }
+  }
+
+  th.hideable:hover button i {
+    margin-left: 10px;
+    font-size: .7em;
+  }
+
+  // ------ hidden column --------
+
+  th.hidden {
+    min-width: 0;
+    max-width: 0;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+
+    * {
+      opacity: 0;
+      visibility: hidden;
+      margin-left: -200px;
+    }
+  }
+
+  // ------------------ settings cell on the right ----------------
+
+  .settings {
+    max-height: 40px;
+    max-width: 40px;
+    padding: 5px;
+
+    ul {
+      z-index: 5;
+    }
+
+    > button {
+      color: $white;
+      background-color: $dark-main;
+      opacity: 1;
+      visibility: visible;
+      padding-bottom: 2px;
+    }
+
+    > button:hover {
+      background-color: $white;
+      color: $dark-gray;
+    }
+  }
+}
