@@ -1,0 +1,19 @@
+@import "theme-colors";
+
+.NotSignedInDisplay {
+  background-color: lighten($main-theme, 35%);
+  margin: 20px auto;
+  height: 50vh;
+  width: 90%;
+  border-radius: 10px;
+  box-shadow: 0 2px 1px  $light-gray;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h2 {
+    font-size: 1.5em;
+  }
+}

@@ -1,0 +1,58 @@
+// general --------------------------------------------
+
+@keyframes slidedown {
+
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 200px;
+  }
+}
+
+@keyframes slideback {
+
+  from {
+    max-height: 200px;
+  }
+
+  to {
+    max-height: 0;
+  }
+}
+
+@keyframes textAppear {
+
+  from {
+    opactity: 0;
+  }
+
+  to {
+    opactiy: 1;
+  }
+}
+
+// autoSuggest -------------------------------------------
+
+@keyframes mountDropdown {
+
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 100px;
+  }
+}
+
+@keyframes mountInput {
+
+  from {
+    padding: 0 10px;
+  }
+
+  to {
+    padding: 7px 10px 5px;;
+  }
+}

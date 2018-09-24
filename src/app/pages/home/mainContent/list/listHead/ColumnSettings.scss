@@ -1,0 +1,21 @@
+@import "theme-colors";
+
+// ---------- dropdown buttons -----------------------
+
+button.hidden .iconWrapper {
+  position: relative;
+  float: right;
+  margin-right: 15px;
+
+  i {
+    font-size: 1em;
+    opacity: 1;
+    visibility: visible;
+    position: absolute;
+    float: right;
+  }
+}
+
+.buttonText {
+  pointer-events: none;
+}

@@ -1,0 +1,186 @@
+@import "theme-colors";
+@import "dimensions";
+@import "dropdowns";
+@import "keyframes";
+
+.listItem {
+  z-index: 3;
+
+  // =================== text and number inputs =======================
+  td {
+    height: 100%;
+    margin-left: 0;
+    transition: all .3s;
+
+    ul {
+      margin: 0;
+    }
+  }
+
+  input[type="text"],
+  div[contentEditable] {
+    min-width: 90%;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  div[contentEditable] {
+    display: inline-block;
+  }
+
+  // ---------------------- content editable divs ---------------------
+
+  .title {
+    min-width: 150px;
+  }
+
+  .comment {
+    min-width: 130px;
+    max-width: 200px;
+    font-size: .8em;
+
+    div[contentEditable] {
+      text-align: left;
+    }
+  }
+
+  .season {
+    min-width: 95px;
+  }
+
+  .episode {
+    min-width: 130px;
+  }
+
+  // --------------------- hidden column -------------------
+
+  td.hidden {
+    opacity: 0;
+    visibility: hidden;
+    min-width: 0;
+    max-width: 0;
+    padding: 0;
+    border: 0;
+    overflow-x: hidden;
+
+    * {
+      margin-left: -200px;
+      min-width: 0;
+      font-size: 0;
+    }
+  }
+}
+
+// ------------------- increment decrement buttons-------------------
+
+.episode,
+.season,
+.tags {
+
+  button {
+    font-size: 0;
+    background-color: $white;
+    padding: 0;
+    padding-bottom: 0;
+    width: 0;
+    height: 0;
+    border: 0;
+    border-radius: 50%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+
+    i {
+      pointer-events: none;
+    }
+  }
+
+  button:active {
+    font-size: 0;
+  }
+}
+
+.season:hover,
+.episode:hover,
+.tags:hover,
+.tags.adding {
+
+  button {
+    font-size: .7em;
+    margin: 0 2px;
+    padding: $buttonPadding;
+    width: 20px;
+    height: 20px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  button:active {
+    font-size: .5em;
+    color: $main-theme;
+  }
+}
+
+// status column adjustments to Simple dropdown --------
+
+.listItem td.status {
+  min-width: 120px;
+
+  > button {
+    min-width: 100px;
+  }
+
+  > div {
+    left: 0;
+  }
+
+  ul {
+    width: 100px;
+
+    button {
+      font-size: .8em;
+      width: 100%;
+    }
+
+    li:first-of-type button {
+      background-color: $dark-gray;
+      color: $white;
+      z-index: 5;
+    }
+  }
+}
+
+
+// options column adjustments to Simple dropdown --------
+
+.listItem .options {
+  padding: 5px 0;
+
+  > button {
+    background-color: $white;
+    color: $dark-gray;
+    margin-top: 0;
+    width: 90%;
+    height: 30px;
+    opacity: 0;
+    visibility: hidden;
+    animation: textAppear .3s ease;
+    z-index: 5;
+
+    i {
+      font-size: 1.5em;
+      transition: all .3s;
+    }
+  }
+
+  > button:hover i {
+    transform: rotate(90deg);
+    -webkit-transform-origin: 50%  51%;
+  }
+}
+
+.listItem:hover .options button {
+  opacity: 1;
+  visibility: visible;
+}
