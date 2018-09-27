@@ -4,14 +4,13 @@
 
 .sidebar {
   grid-area: right;
+  display: flex;
 }
 
 .hoverArea {
   padding: 0;
   height: 100vh;
-  width: 60px;
-  position: absolute;
-  right: 0;
+  width: 20px;
   transition: all .3s;
   align-items: flex-end;
 
@@ -43,7 +42,6 @@
   height: 100vh;
   width: 0;
   overflow: hidden;
-  position: relative;
   box-sizing: border-box;
   transition: all .3s;
 }
@@ -99,4 +97,15 @@
   font-size: 0;
   border: 0;
   padding: 0;
+}
+
+// ---- hover area header color div ---------------
+
+.headerColor {
+  background-color: $main-theme;
+  height: $header-height;
+  width: 30px;
+  position: absolute;
+  top: 0;
+  z-index: 0;
 }

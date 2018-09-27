@@ -233,6 +233,7 @@ class ListItem extends Component {
         <Status
           styleClass={cellStyle('status')}
           status={status}
+          placeholder={status}
           clickHandler={this.clickHandler}
           generateWeakKey={this.generateWeakKey}
         />

@@ -49,4 +49,4 @@ Status.propTypes = {
   generateWeakKey: PropTypes.func.isRequired,
 };
 
-export default SimpleDropdownComponent(Status, 'td', 'status');
+export default SimpleDropdownComponent(Status, 'td');

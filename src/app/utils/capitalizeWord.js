@@ -10,3 +10,13 @@ export const formatHeader = (name) => {
   }
   return capitalized;
 };
+
+export const formatSpacedOutWords = (str) => {
+  let newStr;
+  if (/\s/g.test(str)) {
+    newStr = str.split(' ').map(word => capitalize(word)).join(' ');
+  } else {
+    newStr = capitalize(str);
+  }
+  return newStr;
+};

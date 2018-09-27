@@ -79,5 +79,10 @@
       background-color: $white;
       color: $dark-gray;
     }
+
+    > div {
+      left: -50px;
+      top: -15px;
+    }
   }
 }

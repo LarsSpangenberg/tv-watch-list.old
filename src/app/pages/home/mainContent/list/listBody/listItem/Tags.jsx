@@ -20,16 +20,6 @@ class Tags extends Component {
     this.preventBlur = this.preventBlur.bind(this);
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { showInput } = this.state;
-  //   if (prevProps.preventBlur && prevProps.showInput && prevProps.showInput !== showInput) {
-  //     this.setState({
-  //       showInput: true,
-  //     });
-  //   }
-  // }
-
-
   onClick() {
     this.setState({
       showInput: true,
@@ -148,7 +138,10 @@ class Tags extends Component {
 }
 
 Tags.propTypes = {
-  styleClass: PropTypes.string.isRequired,
+  styleClass: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   handleTag: PropTypes.func.isRequired,

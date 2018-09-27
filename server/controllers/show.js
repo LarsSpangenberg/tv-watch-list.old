@@ -136,7 +136,7 @@ exports.remove = [
           if (error) return next(error);
           return res.status(200).json({
             id,
-            message: `user with id ${id} successfully removed`,
+            message: `show with id ${id} successfully removed`,
           });
         });
       },

@@ -4,13 +4,13 @@
 
 .sidebar {
   grid-area: left;
+  display: flex;
   box-sizing: border-box;
 }
 
-// -------------------------------show-hide sidebar tab-------------------------------
+// -------- show-hide sidebar tab ------------------------------
 
 .pulloutArea {
-  left: 0;
 
   @include pulloutArea;
 }
@@ -19,28 +19,20 @@
   background-color: $white;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
-  margin-left: -10px;
   display: flex;
   justify-content: center;
-  align-items: center;
   transition: all .3s;
-  z-index: 2;
 
   @include pullout;
 }
 
 .pulloutArea:hover .pullout {
-  margin-left: -5px;
+  margin-left: -6px;
   padding: 10px;
   border: 1px solid $light-gray;
   border-left: 0;
 
   @include hoverPullout;
-}
-
-.pullout:active,
-.pullout:hover {
-  cursor: pointer;
 }
 
 .pullout:active {
@@ -50,10 +42,11 @@
   border: 0;
 }
 
-// ------------------------ Sidebar active state ------------------------------
+// --------- Sidebar active state ------------------------------
 .active {
 
   .pulloutArea {
+    margin-left: -1px;
     left: $left-sbar-w;
   }
 
@@ -62,7 +55,7 @@
   }
 }
 
-// -------------------------- hideable Sidebar content -------------------------
+// -------- hideable Sidebar content -------------------------
 
 .pulloutInner {
   border-right: 1px solid $light-gray;
@@ -70,105 +63,118 @@
   width: 0;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
-  position: relative;
+  // position: relative;
   transition: all .3s;
 }
 
-// ------------------------background color for the logo------------------------------
-.brandBackdrop {
-  background-color: $accent-2;
-  height: $header-height;
+
+// ---------- navigational content ------------------
+
+.content {
+  margin-top: 10px;
+  width: $left-sbar-w;
+
+  .list {
+    padding: 0 30px 20px;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
 }
 
-// ------------------------------List Tabs--------------------------------------------
-.lists {
-  margin-top: 20px;
-  width: $left-sbar-w - 20;
+// ------- background color for the logo ------------------------------
 
-  li {
+.brandBackdrop {
+  background-color: $accent-2;
+  min-height: $header-height;
+  max-height: $header-height;
+}
+
+.headerColor {
+  background-color: $main-theme;
+  height: $header-height;
+  width: 30px;
+  position: absolute;
+  top: 0;
+  z-index: 0;
+}
+
+// Status adjustments to SimpleDropdownComponent -------------------------
+
+.status .list,
+.tags {
+  max-width: 200px;
+
+  > div {
+    top: 0;
+  }
+
+  ul {
+    position: static;
+    box-shadow: none;
+    border-radius: 0;
+
+    li {
+      padding: 0;
+      background-color: $white;
+    }
+  }
+
+  button {
+    background-color: $white;
+    height: auto;
+  }
+
+  input:focus,
+  input:hover,
+  button:hover,
+  button:active {
+    background-color: $accent-2;
+    color: $dark-gray;
+  }
+
+  button:active {
+    font-size: .9em;
+  }
+
+  ul li button,
+  > button,
+  input {
+    font-size: 1em;
     padding: 10px 5px 0;
     border-bottom: 1px solid $light-gray;
+    border-radius: 0;
+    width: 100%;
     text-align: left;
     transition: all .3s;
   }
 
-  li:hover,
-  li:focus,
-  li:active {
-    background-color: $accent-2;
-    cursor: pointer;
-  }
-
-  li:active {
-    font-size: .9em;
-    color: darken($main-theme, 15%)
+  input {
+    box-sizing: border-box;
   }
 }
 
-.standardLists,
-.customLists {
-  padding: 20px;
-  margin-bottom: 0;
-  margin-top: 0;
+.status ul li:first-of-type button {
+  background-color: $accent-2;
 }
 
-.standardLists {
-  font-weight: bold;
-}
 
-// -------------------list button in the middle of the sidebar-----------------------
-.listHeader {
+// ------- label headers -----------------------
+.label {
   margin-top: 20px;
-  width: 90%;
+  margin-bottom: 5px;
+  width: 100%;
   display: inline-flex;
 
-  h2,
-  .addList {
+  h2 {
+    font-size: .8em;
     color: $dark-gray;
+    background-color: $white;
     margin: 0;
+    margin-left: 10px;
     padding: 5px;
-    border: 0;
-    box-shadow: 0 2px 0 $medium-gray;
+    width: 100%;
     transition: all .2s;
   }
-
-  h2 {
-    font-size: 1.2em;
-    background-color: $white;
-    width: 100%;
-  }
-
-  .addList {
-    font-size: .6em;
-    color: $dark-gray;
-    background-color: $white;
-    border-left: 1px solid $light-gray;
-    padding: 5px;
-    width: 40px;
-    outline: 0;
-    z-index: 0;
-  }
 }
-
-.listHeader:hover {
-  cursor: pointer;
-
-  .addList {
-    background-color: $main-theme;
-  }
-}
-
-.listHeader:active {
-
-  h2 {
-    font-size: 1.3em;
-  }
-
-  .addList {
-    font-size: 0;
-  }
-}
-
-// ========================= States ==========================================

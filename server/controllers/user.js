@@ -95,9 +95,7 @@ exports.logout = (req, res) => {
 // ----------------- persist session -----------------------
 
 exports.continue = (req, res) => {
-  console.log(req.isAuthenticated());
   if (!req.isAuthenticated()) return res.status(204).end();
-
   const { username } = req.session;
   console.log(req.session);
   return res.status(200).json({ username });

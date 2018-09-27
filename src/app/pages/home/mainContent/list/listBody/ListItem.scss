@@ -132,7 +132,9 @@
   }
 
   > div {
-    left: 0;
+    display: flex;
+    justify-content: center;
+    top: -15px;
   }
 
   ul {
@@ -177,6 +179,11 @@
   > button:hover i {
     transform: rotate(90deg);
     -webkit-transform-origin: 50%  51%;
+  }
+
+  > div {
+    left: -50px;
+    top: -15px;
   }
 }
 

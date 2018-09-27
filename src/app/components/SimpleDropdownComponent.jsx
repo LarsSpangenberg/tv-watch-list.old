@@ -17,11 +17,11 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
     }
 
     componentDidMount() {
-      document.addEventListener('mousedown', this.closeDropdown, false);
+      document.addEventListener('mousedown', this.closeDropdown);
     }
 
     componentWillUnmout() {
-      document.removeEventListener('mousedown', this.closeDropdown, false);
+      document.removeEventListener('mousedown', this.closeDropdown);
     }
 
     openDropdown() {
@@ -52,15 +52,8 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
     }
 
     render() {
-      const { styleClass, ...props } = this.props;
+      const { styleClass, placeholder, ...props } = this.props;
       const { active } = this.state;
-
-      let placeholder;
-      if (defaultElement === 'status') {
-        placeholder = props.status;
-      } else {
-        placeholder = defaultElement;
-      }
 
       let displayOptions;
       if (active) {
@@ -74,7 +67,7 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
       } else {
         displayOptions = (
           <button type="button" onMouseUp={this.openDropdown}>
-            {placeholder}
+            {placeholder || defaultElement}
           </button>
         );
       }
@@ -89,10 +82,16 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
 
   Dropdown.propTypes = {
     styleClass: PropTypes.string,
+    placeholder: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.number,
+    ]),
   };
 
   Dropdown.defaultProps = {
     styleClass: '',
+    placeholder: null,
   };
 
   return Dropdown;

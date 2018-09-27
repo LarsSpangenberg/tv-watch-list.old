@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import SimpleDropdownComponent from 'components/SimpleDropdownComponent';
 
-import styles from './Status.scss';
+import { allStatuses } from 'utils/statusArray';
+import { formatSpacedOutWords } from 'utils/capitalizeWord';
+// import styles from './Status.scss';
 
 const Status = ({
   status,
   clickHandler,
 }) => {
-  const allStatuses = ['current', 'completed', 'watch later', 'on hold', 'dropped'];
   const buttons = allStatuses.filter(stat => (
     stat !== status
   )).map((stat, i) => (
@@ -20,7 +21,7 @@ const Status = ({
         value={stat}
         onClick={clickHandler}
       >
-        {stat}
+        {formatSpacedOutWords(stat)}
       </button>
     </li>
   ));
@@ -33,7 +34,7 @@ const Status = ({
           name="status"
           value={status}
         >
-          {status}
+          {formatSpacedOutWords(status)}
         </button>
       </li>
       {buttons}
@@ -47,4 +48,4 @@ Status.propTypes = {
   clickHandler: PropTypes.func.isRequired,
 };
 
-export default SimpleDropdownComponent(Status, 'div', 'status');
+export default SimpleDropdownComponent(Status, 'div');
