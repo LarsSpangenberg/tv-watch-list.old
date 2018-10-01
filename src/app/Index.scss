@@ -35,6 +35,10 @@ button:hover {
   cursor: pointer;
 }
 
+i {
+  pointer-events: none;
+}
+
 // -------------------- global input styles -----------------------------
 
 input,

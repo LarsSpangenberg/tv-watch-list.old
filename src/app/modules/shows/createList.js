@@ -32,6 +32,7 @@ const createList = (status) => {
       }
       case REMOVE_SHOW_SUCCESS: {
         const index = state.indexOf(action.id);
+        if (index === -1) return state;
         return [
           ...state.slice(0, index),
           ...state.slice(index + 1),

@@ -13,15 +13,16 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
       this.timer = null;
       this.dropdown = createRef();
       this.openDropdown = this.openDropdown.bind(this);
+      this.handleClickOutside = this.handleClickOutside.bind(this);
       this.closeDropdown = this.closeDropdown.bind(this);
     }
 
     componentDidMount() {
-      document.addEventListener('mousedown', this.closeDropdown);
+      document.addEventListener('mousedown', this.handleClickOutside);
     }
 
     componentWillUnmout() {
-      document.removeEventListener('mousedown', this.closeDropdown);
+      document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
     openDropdown() {
@@ -34,12 +35,16 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
       });
     }
 
-    closeDropdown(e) {
+    handleClickOutside(e) {
       const { active } = this.state;
       if (active && this.dropdown.current.contains(e.target)) {
         return;
       }
 
+      this.closeDropdown(e);
+    }
+
+    closeDropdown(e) {
       if (this.dropdown.current) {
         this.dropdown.current.classList.remove(styles.showing);
 
@@ -51,6 +56,7 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
       }
     }
 
+
     render() {
       const { styleClass, placeholder, ...props } = this.props;
       const { active } = this.state;
@@ -60,7 +66,7 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
         displayOptions = (
           <div className={styles.container}>
             <ul ref={this.dropdown}>
-              <WrappedComponent {...props} />
+              <WrappedComponent {...props} closeDropdown={this.closeDropdown} />
             </ul>
           </div>
         );

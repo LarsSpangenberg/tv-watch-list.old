@@ -10,7 +10,13 @@ import { formatSpacedOutWords } from 'utils/capitalizeWord';
 const Status = ({
   status,
   clickHandler,
+  closeDropdown,
 }) => {
+  function handleClick(e) {
+    clickHandler(e);
+    closeDropdown();
+  }
+
   const buttons = allStatuses.filter(stat => (
     stat !== status
   )).map((stat, i) => (
@@ -19,7 +25,7 @@ const Status = ({
         type="button"
         name="status"
         value={stat}
-        onClick={clickHandler}
+        onClick={handleClick}
       >
         {formatSpacedOutWords(stat)}
       </button>
@@ -46,6 +52,7 @@ const Status = ({
 Status.propTypes = {
   status: PropTypes.string.isRequired,
   clickHandler: PropTypes.func.isRequired,
+  closeDropdown: PropTypes.func.isRequired,
 };
 
 export default SimpleDropdownComponent(Status, 'div');

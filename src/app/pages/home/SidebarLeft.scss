@@ -52,6 +52,13 @@
 
   .pulloutInner {
     width: $left-sbar-w;
+    overflow: visible;
+  }
+
+  .content {
+    width: $left-sbar-w;
+    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -65,7 +72,6 @@
   flex-direction: column;
   text-align: left;
   overflow: hidden;
-  // position: relative;
   transition: all .3s;
 }
 
@@ -74,7 +80,10 @@
 
 .content {
   margin-top: 10px;
-  width: $left-sbar-w;
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s, opacity .5s ease .2s;
 
   .list {
     padding: 0 30px 20px;
@@ -111,14 +120,15 @@
   }
 
   ul {
-    position: static;
+    // position: static;
     box-shadow: none;
     border-radius: 0;
 
-    li {
-      padding: 0;
-      background-color: $white;
-    }
+  }
+
+  li {
+    padding: 0;
+    background-color: $white;
   }
 
   button {
@@ -138,7 +148,7 @@
     font-size: .9em;
   }
 
-  ul li button,
+  li button,
   > button,
   input {
     font-size: 1em;
@@ -155,8 +165,17 @@
   }
 }
 
+.status .list ul {
+  position: static;
+  box-shadow: none;
+}
+
 .status ul li:first-of-type button {
   background-color: $accent-2;
+}
+
+.tags .list {
+  margin-top: 5px;
 }
 
 
