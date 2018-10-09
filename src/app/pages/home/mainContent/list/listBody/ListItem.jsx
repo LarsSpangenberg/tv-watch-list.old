@@ -18,9 +18,9 @@ import Tags from './listItem/Tags';
 
 const mapStateToProps = (state, ownProps) => ({
   index: selectors.getShowIndexFromAll(state, ownProps.showId),
-  activeStatus: 'completed',
-  activeTags: ['Marvel', 'Netflix'],
-  tagList: ['Marvel', 'Netflix', 'Superhero', 'Comedy', 'Anime', 'Movie'],
+  activeStatus: selectors.getActiveStatus(state),
+  activeTags: selectors.getTagNames(state, 'active'),
+  tagList: selectors.getTagNames(state, 'all'),
   isHidden: name => selectors.isColumnHidden(state, name),
 });
 

@@ -8,8 +8,14 @@ import styles from './Status.scss';
 const Status = ({
   status,
   clickHandler,
+  closeDropdown,
   generateWeakKey,
 }) => {
+  function handleClick(e) {
+    clickHandler(e);
+    closeDropdown();
+  }
+
   const allStatuses = ['current', 'completed', 'watch later', 'on hold', 'dropped'];
   const buttons = allStatuses.filter(stat => (
     stat !== status
@@ -19,7 +25,7 @@ const Status = ({
         type="button"
         name="status"
         value={stat}
-        onClick={clickHandler}
+        onClick={handleClick}
       >
         {stat}
       </button>
@@ -33,6 +39,7 @@ const Status = ({
           type="button"
           name="status"
           value={status}
+          onClick={closeDropdown}
         >
           {status}
         </button>
@@ -46,6 +53,7 @@ const Status = ({
 Status.propTypes = {
   status: PropTypes.string.isRequired,
   clickHandler: PropTypes.func.isRequired,
+  closeDropdown: PropTypes.func.isRequired,
   generateWeakKey: PropTypes.func.isRequired,
 };
 

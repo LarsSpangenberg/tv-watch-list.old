@@ -39,6 +39,7 @@ const Status = ({
           type="button"
           name="status"
           value={status}
+          onClick={closeDropdown}
         >
           {formatSpacedOutWords(status)}
         </button>

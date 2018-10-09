@@ -143,8 +143,6 @@ class Tags extends Component {
       topTags,
     } = this.state;
 
-    // TODO: get sort by active working --------------------------------
-
     const tagList = getTags(sortBy, sortOrder, topTags).map((tag) => {
       const { _id, name, active } = tag;
       let removeTag;

@@ -7,6 +7,7 @@ import status, * as handleStatus from 'modules/status';
 import tags, * as handleTags from 'modules/tags';
 import ui, * as handleUi from 'modules/ui';
 
+import { formatSpacedOutWords } from 'utils/capitalizeWord';
 import apiService from './middleware/api-service';
 
 const rootReducer = combineReducers({
@@ -44,6 +45,25 @@ export const getShowIndexFromAll = (state, id) => (
   handleShows.getShowIndexFromAll(state.shows, id)
 );
 
+export const createListCaption = (state) => {
+  const activeStatus = formatSpacedOutWords(handleStatus.getActiveStatus(state.status));
+  const activeTags = handleTags.getTagNames(state.tags, 'active');
+  let tagString;
+  if (activeTags.length > 1) {
+    tagString = `${activeTags.slice(0, -1).join(', ')}, and ${activeTags[activeTags.length - 1]}`;
+  } else {
+    tagString = activeTags;
+  }
+
+  if (activeStatus === 'Watch Later') {
+    return `${tagString} Shows to ${activeStatus}`;
+  }
+  if (activeStatus === 'On Hold') {
+    return `${tagString} Shows on Hold`;
+  }
+  return `${activeStatus} ${tagString} Shows`;
+};
+
 // Status ----------------------------------------------------------
 
 export const getActiveStatus = state => (
@@ -56,8 +76,8 @@ export const getSortedTags = (state, ...args) => (
   handleTags.getFullySortedTags(state.tags, ...args)
 );
 
-export const getActiveTags = state => (
-  handleTags.getActiveTagNames(state.tags)
+export const getTagNames = (state, listName) => (
+  handleTags.getTagNames(state.tags, listName)
 );
 
 export const getNumberOfTags = state => (

@@ -55,8 +55,8 @@ export const getFullySortedTags = (state, property, order, byActive) => {
   return result;
 };
 
-export const getActiveTagNames = (state) => {
-  const ids = list.getIds(state.tagList.active);
+export const getTagNames = (state, listName) => {
+  const ids = list.getIds(state.tagList[listName]);
   return ids.map(id => tag.getTagName(state.byId, id));
 };
 
