@@ -231,7 +231,10 @@ class Tags extends Component {
             <i className="fas fa-edit" />
           </button>
         </div>
-        <ul className={styleClass.list} ref={this.tagList}>
+        <ul
+          className={[styleClass.list, styles.list].join(' ')}
+          ref={this.tagList}
+        >
           {addTag}
           {count === 0 ? noTags : tagList}
         </ul>

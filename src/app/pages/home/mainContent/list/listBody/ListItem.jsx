@@ -37,7 +37,7 @@ class ListItem extends Component {
       currentSeason: 1,
       currentEpisode: 1,
       comments: '',
-      status: 'completed',
+      status: '',
       tags: [],
       data: {},
       postData: {},
@@ -79,7 +79,6 @@ class ListItem extends Component {
     });
   }
 
-  // list item handlers -----------------------------------------------
   addShow() {
     const {
       index,
@@ -111,8 +110,6 @@ class ListItem extends Component {
       dispatch(handleShows.updateShow(postData));
     }, 1000);
   }
-
-  // update show properties -------------------------------------------------
 
   clickHandler(e) {
     const { name, value } = e.target;
@@ -149,21 +146,18 @@ class ListItem extends Component {
     const { tags } = this.state;
     let newTags;
     if (value === 'minus' && tags.indexOf(name) !== -1) {
-      // --------- remove tag --------------
       const index = tags.indexOf(name);
       newTags = [
         ...tags.slice(0, index),
         ...tags.slice(index + 1),
       ];
     } else if (name === 'suggestions') {
-      // ------- add suggested tag -----------
       newTags = [...tags, value];
     }
 
     this.updateShow('tags', newTags);
   }
 
-  // utility ---------------------------------------------------------
   generateWeakKey(data, index) {
     const { showId } = this.props;
     const name = data.replace(/ /g, '_');
@@ -269,7 +263,7 @@ ListItem.defaultProps = {
   currentSeason: 1,
   currentEpisode: 1,
   comments: '',
-  status: '',
+  status: 'current',
   tags: [],
   data: {},
   index: 0,

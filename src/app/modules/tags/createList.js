@@ -15,16 +15,11 @@ export const TOGGLE_ACTIVE_SUCCESS = 'tv-watch-list/tags/TOGGLE_ACTIVE_SUCCESS';
 // ----------------------- Reducer ---------------------------
 
 const createList = (filter) => {
-  const handleFilter = (isActive) => {
-    if (
-      (filter === 'active' && isActive)
-      || (filter === 'inactive' && !isActive)
-      || filter === 'all'
-    ) {
-      return true;
-    }
-    return false;
-  };
+  const handleFilter = isActive => (
+    (filter === 'active' && isActive)
+    || (filter === 'inactive' && !isActive)
+    || filter === 'all'
+  );
 
   const ids = (state = [], action) => {
     switch (action.type) {

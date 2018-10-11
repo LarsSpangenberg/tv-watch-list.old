@@ -33,23 +33,32 @@ export const getSignedIn = state => handleUser.getSignedIn(state.user);
 
 // Shows -----------------------------------------------------------
 
-export const getVisibleShows = (state, activeStatus) => (
-  handleShows.getShowsbyStatus(state.shows, activeStatus)
-);
+export const getVisibleShows = (state) => {
+  const activeStatus = handleStatus.getActiveStatus(state.status);
+  const activeTags = handleTags.getTagNames(state.tags, 'active');
+  return handleShows.getShowsbyStatus(state.shows, activeStatus, activeTags);
+};
 
-export const isListUpdating = (state, activeStatus) => (
-  handleShows.getIsFetchingbyStatus(state.shows, activeStatus)
-);
+export const isListUpdating = (state) => {
+  const activeStatus = handleStatus.getActiveStatus(state.status);
+  return handleShows.getIsFetchingbyStatus(state.shows, activeStatus);
+};
 
 export const getShowIndexFromAll = (state, id) => (
   handleShows.getShowIndexFromAll(state.shows, id)
+);
+
+export const getNumberOfShows = (state, listName) => (
+  handleShows.getNumberOfShows(state.shows, listName || handleStatus.getActiveStatus(state.status))
 );
 
 export const createListCaption = (state) => {
   const activeStatus = formatSpacedOutWords(handleStatus.getActiveStatus(state.status));
   const activeTags = handleTags.getTagNames(state.tags, 'active');
   let tagString;
-  if (activeTags.length > 1) {
+  if (activeTags.length === 2) {
+    tagString = `${activeTags[0]} and ${activeTags[1]}`;
+  } else if (activeTags.length > 1) {
     tagString = `${activeTags.slice(0, -1).join(', ')}, and ${activeTags[activeTags.length - 1]}`;
   } else {
     tagString = activeTags;

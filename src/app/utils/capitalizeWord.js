@@ -20,3 +20,15 @@ export const formatSpacedOutWords = (str) => {
   }
   return newStr;
 };
+
+export const camelCase = (str) => {
+  let newStr;
+  if (/\s/g.test(str)) {
+    newStr = str.split(' ').map((word, i) => (
+      i > 0 ? capitalize(word) : word.toLowerCase()
+    )).join('');
+  } else {
+    newStr = str;
+  }
+  return newStr;
+};
