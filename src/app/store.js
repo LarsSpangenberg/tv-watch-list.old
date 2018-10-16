@@ -44,12 +44,24 @@ export const isListUpdating = (state) => {
   return handleShows.getIsFetchingbyStatus(state.shows, activeStatus);
 };
 
+export const getShowIds = (state, listName) => (
+  handleShows.getShowIds(state.shows, listName)
+);
+
+export const isShowNew = (state, id) => (
+  handleShows.getLastAdded(state.shows) === id
+);
+
 export const getShowIndexFromAll = (state, id) => (
   handleShows.getShowIndexFromAll(state.shows, id)
 );
 
 export const getNumberOfShows = (state, listName) => (
   handleShows.getNumberOfShows(state.shows, listName || handleStatus.getActiveStatus(state.status))
+);
+
+export const getShowTags = (state, id) => (
+  handleShows.getShowTags(state.shows, id)
 );
 
 export const createListCaption = (state) => {

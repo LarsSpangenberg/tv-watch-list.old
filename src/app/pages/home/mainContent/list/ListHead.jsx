@@ -64,7 +64,6 @@ class ListHead extends Component {
     return (
       <thead className={styles.listHead}>
         <tr>
-          <th />
           {headers}
           <ColumnSettings
             styleClass={styles.settings}

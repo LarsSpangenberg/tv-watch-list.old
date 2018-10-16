@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import { camelCase } from 'utils/capitalizeWord';
 import byId, * as show from './shows/byId';
 import createList, * as list from './shows/createList';
+import updateTracker, * as tracker from './shows/updateTracker'
 
 
 // ----------------------- Reducer ---------------------------
@@ -20,6 +21,7 @@ const listByStatus = combineReducers({
 const shows = combineReducers({
   byId,
   listByStatus,
+  tracker: updateTracker,
 });
 
 export default shows;
@@ -32,7 +34,7 @@ export const getShowsbyStatus = (state, status, tags) => {
   ids.forEach((id) => {
     const showObj = show.getShow(state.byId, id);
     let isVisible = false;
-    console.log(showObj);
+
     if (tags.length > 0) {
       const containsActiveTag = tag => (
         showObj.tags.includes(tag) && !isVisible
@@ -53,8 +55,8 @@ export const getIsFetchingbyStatus = (state, status) => (
   list.getIsFetching(state.listByStatus[status])
 );
 
-export const getAllIds = state => (
-  list.getIds(state.listByStatus.all)
+export const getShowIds = (state, listName) => (
+  list.getIds(state.listByStatus[listName])
 );
 
 export const getShowIndexFromAll = (state, id) => (
@@ -63,6 +65,14 @@ export const getShowIndexFromAll = (state, id) => (
 
 export const getNumberOfShows = (state, status) => (
   list.getNumberOfIds(state.listByStatus[status])
+);
+
+export const getShowTags = (state, id) => (
+  show.getShowTags(state.byId, id)
+);
+
+export const getLastAdded = state => (
+  tracker.getLastAdded(state.tracker)
 );
 
 // ---------------------- action creators ---------------------

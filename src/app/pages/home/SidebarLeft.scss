@@ -48,17 +48,23 @@
   .pulloutArea {
     margin-left: -1px;
     left: $left-sbar-w;
+    // overflow: hidden;
   }
 
   .pulloutInner {
     width: $left-sbar-w;
+    height: 100%;
     overflow: visible;
   }
 
   .content {
+    background-color: $white;
     width: $left-sbar-w;
     opacity: 1;
     visibility: visible;
+    position: sticky;
+    top: 20px;
+    z-index: 3;
   }
 }
 

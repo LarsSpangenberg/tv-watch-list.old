@@ -17,14 +17,6 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
       this.closeDropdown = this.closeDropdown.bind(this);
     }
 
-    componentDidMount() {
-      document.addEventListener('mousedown', this.handleClickOutside);
-    }
-
-    componentWillUnmout() {
-      document.removeEventListener('mousedown', this.handleClickOutside);
-    }
-
     openDropdown() {
       this.setState({
         active: true,
@@ -37,14 +29,16 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
 
     handleClickOutside(e) {
       const { active } = this.state;
-      if (active && this.dropdown.current.contains(e.target)) {
-        return;
+      if (active) {
+        if (this.dropdown.current && this.dropdown.current.contains(e.target)) {
+          return;
+        }
       }
 
-      this.closeDropdown(e);
+      this.closeDropdown();
     }
 
-    closeDropdown(e) {
+    closeDropdown() {
       if (this.dropdown.current) {
         this.dropdown.current.classList.remove(styles.showing);
 
@@ -63,6 +57,7 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
 
       let displayOptions;
       if (active) {
+        document.addEventListener('mousedown', this.handleClickOutside);
         displayOptions = (
           <div className={styles.container}>
             <ul ref={this.dropdown}>
@@ -71,8 +66,13 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement) =>
           </div>
         );
       } else {
+        document.removeEventListener('mousedown', this.handleClickOutside);
         displayOptions = (
-          <button type="button" onMouseUp={this.openDropdown}>
+          <button
+            type="button"
+            onMouseUp={this.openDropdown}
+            onFocus={this.openDropdown}
+          >
             {placeholder || defaultElement}
           </button>
         );

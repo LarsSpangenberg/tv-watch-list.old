@@ -1,151 +1,246 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 
-import CellButton from 'components/CellButton';
-import AutoSuggest from 'components/AutoSuggest';
-
+import SimpleDropdownComponent from 'components/SimpleDropdownComponent';
+import queryArray, { findMatch } from 'utils/queryArray';
+import handleKeypress, { handleCursor } from 'utils/handleKeypress';
 import styles from './Tags.scss';
+
 
 class Tags extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInput: false,
-      preventBlur: false,
+      input: '',
+      usedTags: [],
+      unusedTags: [],
+      suggestedUsed: [],
+      suggestedUnused: [],
+      numShowing: 0,
+      cursor: 0,
     };
-    this.onClick = this.onClick.bind(this);
-    this.addingTag = this.addingTag.bind(this);
-    this.removeTag = this.removeTag.bind(this);
-    this.blurHandler = this.blurHandler.bind(this);
-    this.preventBlur = this.preventBlur.bind(this);
+    this.inputRef = createRef();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleTag = this.handleTag.bind(this);
+    this.setupSuggestions = this.setupSuggestions.bind(this);
+    this.sortSuggestions = this.sortSuggestions.bind(this);
+    this.navigateSuggestions = this.navigateSuggestions.bind(this);
+    this.clickInput = this.clickInput.bind(this);
+    this.submitInput = this.submitInput.bind(this);
   }
 
-  onClick() {
-    this.setState({
-      showInput: true,
-    });
-  }
-
-  addingTag(e) {
-    const { handleTag } = this.props;
-    this.onClick();
-    handleTag(e);
-  }
-
-  removeTag(e) {
-    const { handleTag } = this.props;
-    const { showInput } = this.state;
-    handleTag(e);
-    if (showInput) {
-      this.onClick();
-      this.preventBlur();
-    }
-  }
-
-  blurHandler() {
-    const { preventBlur } = this.state;
-    if (!preventBlur) {
-      setTimeout(() => {
-        this.setState({
-          showInput: false,
-        });
-      }, 400);
-    }
-  }
-
-  preventBlur() {
-    this.setState({
-      preventBlur: true,
-    });
+  componentDidMount() {
+    this.setupSuggestions();
     setTimeout(() => {
-      this.setState({
-        preventBlur: false,
-      });
-    }, 300);
+      this.inputRef.current.focus();
+    }, 200);
+    document.addEventListener('keyup', this.navigateSuggestions);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.navigateSuggestions);
+  }
+
+  setupSuggestions() {
+    const { tags, allTags } = this.props;
+    const unusedTags = [...allTags];
+
+    tags.forEach((tag) => {
+      const i = unusedTags.indexOf(tag);
+      unusedTags.splice(i, 1);
+    });
+
+    this.setState({
+      usedTags: tags,
+      unusedTags,
+      suggestedUsed: tags,
+      suggestedUnused: unusedTags,
+      numShowing: allTags.length,
+    });
+  }
+
+  sortSuggestions() {
+    const { usedTags, unusedTags, input } = this.state;
+    const suggestedUsed = queryArray(usedTags, input);
+    const suggestedUnused = queryArray(unusedTags, input);
+    const numShowing = suggestedUsed.length + suggestedUnused.length;
+    this.setState({
+      suggestedUsed,
+      suggestedUnused,
+      numShowing,
+    });
+  }
+
+  handleChange(e) {
+    const { value } = e.target || e;
+    this.setState({
+      input: value,
+      cursor: 0,
+    }, () => {
+      this.sortSuggestions();
+    });
+  }
+
+  handleTag(e) {
+    const { updateShow } = this.props;
+    const { usedTags: used, unusedTags: unused, input } = this.state;
+    const { name, value } = e.target || e;
+
+    function adjustArrays(addingTo, removingFrom) {
+      const i = removingFrom.indexOf(value);
+      return [
+        [...addingTo, value],
+        [...removingFrom.slice(0, i), ...removingFrom.slice(i + 1)],
+      ];
+    }
+
+    let usedTags;
+    let unusedTags;
+    if (name === 'tags') {
+      [unusedTags, usedTags] = adjustArrays(unused, used);
+    } else if (name === 'suggestions') {
+      [usedTags, unusedTags] = adjustArrays(used, unused);
+    } else if (name === 'search') {
+      usedTags = [...used, value];
+      unusedTags = [...unused];
+    }
+
+    updateShow('tags', usedTags);
+    this.setState({
+      usedTags,
+      unusedTags,
+      suggestedUsed: queryArray(usedTags, input),
+      suggestedUnused: queryArray(unusedTags, input),
+    });
+  }
+
+  navigateSuggestions(e) {
+    const { cursor, numShowing } = this.state;
+    const { closeDropdown } = this.props;
+    const newIndex = handleCursor(e.keyCode, cursor, numShowing + 1);
+
+    const options = {
+      esc: closeDropdown,
+      tab: closeDropdown,
+      submit: () => {
+        const el = document.getElementsByClassName(styles.focus)[0];
+        if (cursor === 0) {
+          this.submitInput(el);
+        } else {
+          this.handleTag(el);
+        }
+      },
+    };
+    handleKeypress(e.keyCode, options);
+    this.setState({ cursor: newIndex });
+  }
+
+  clickInput() {
+    this.setState({ cursor: 0 });
+  }
+
+  submitInput(el) {
+    const { input, usedTags, unusedTags } = this.state;
+    const { addTag } = this.props;
+    const usedMatch = findMatch(usedTags, input);
+    const unusedMatch = findMatch(unusedTags, input);
+
+    let values = el;
+    if (usedMatch) {
+      values = { name: 'tags', value: usedMatch };
+    } else if (unusedMatch) {
+      values = { name: 'suggestions', value: unusedMatch };
+    } else {
+      addTag(input);
+    }
+    this.handleTag(values);
+
+    this.setState({
+      cursor: 0,
+      input: '',
+    });
+    this.sortSuggestions();
   }
 
   render() {
     const {
-      styleClass,
-      tags,
-      tagList: userTags,
-      generateWeakKey,
-    } = this.props;
-    const { showInput, preventBlur } = this.state;
-    const ellipsis = tags.length > 3 ? <i className={`fas fa-ellipsis-h ${styles.ellipsis}`} /> : null;
+      input,
+      suggestedUsed,
+      suggestedUnused,
+      numShowing,
+      cursor,
+    } = this.state;
+    const { generateWeakKey } = this.props;
+    const inputId = generateWeakKey('input');
 
-    // generate list of current tags for this show
-    const tagList = tags.map((tag, i) => (
-      <li
-        key={generateWeakKey(tag, i)}
-      >
-        <p>
-          {tag}
-        </p>
-        <CellButton
-          name={tag}
-          operation="minus"
-          clickHandler={this.removeTag}
-          mouseDown={this.preventBlur}
-        />
-      </li>
-    ));
+    let i = 1;
+    const createSuggestions = (array, name) => {
+      const icon = name === 'tags' ? 'minus' : 'plus';
+      return array.map((suggestion) => {
+        const id = generateWeakKey('suggestions', i);
+        const index = i;
+        i += 1;
+        return (
+          <li
+            key={id}
+            className={styles.tags}
+          >
+            <button
+              className={cursor === index ? styles.focus : ''}
+              name={name}
+              type="button"
+              value={suggestion}
+              onClick={this.handleTag}
+              tabIndex="-1"
+            >
+              {suggestion}
+              <div className={styles.iconWrapper}>
+                <i className={`fas fa-${icon}`} />
+              </div>
+            </button>
+          </li>
+        );
+      });
+    };
 
-    // components that handle ability to add another tag to this show
-    let addTag;
-    if (showInput) {
-      addTag = (
-        <AutoSuggest
-          alreadyUsed={tags}
-          suggestionsArray={userTags}
-          handleSuggestion={this.addingTag}
-          generateWeakKey={generateWeakKey}
-          onBlur={this.blurHandler}
-          preventBlur={preventBlur}
-        />
-      );
-    } else {
-      addTag = (
-        <CellButton
-          name="tags"
-          operation="plus"
-          clickHandler={this.onClick}
-        />
-      );
+    let suggestions;
+    if (numShowing > 0) {
+      suggestions = [
+        ...createSuggestions(suggestedUsed, 'tags'),
+        ...createSuggestions(suggestedUnused, 'suggestions'),
+      ];
     }
 
     return (
-      <td className={[
-        styleClass.tags,
-        styles.tags,
-        showInput ? `${styleClass.adding} ${styles.adding}` : ''].join(' ')}
-      >
-        <ul>
-          {tagList}
-        </ul>
-        <div className={[
-          ellipsis ? styles.manyTags : '',
-          styles.lower].join(' ')}
+      <Fragment>
+        <li
+          key={inputId}
+          id={inputId}
+          className={styles.tags}
         >
-          {ellipsis}
-          <div className={styles.addTag}>
-            {addTag}
-          </div>
-        </div>
-      </td>
+          <input
+            className={cursor === 0 ? styles.focus : ''}
+            name="search"
+            value={input}
+            type="text"
+            onChange={this.handleChange}
+            onClick={this.clickInput}
+            ref={this.inputRef}
+          />
+        </li>
+        {suggestions}
+      </Fragment>
     );
   }
 }
 
 Tags.propTypes = {
-  styleClass: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  tagList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  handleTag: PropTypes.func.isRequired,
+  allTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  addTag: PropTypes.func.isRequired,
+  updateShow: PropTypes.func.isRequired,
+  closeDropdown: PropTypes.func.isRequired,
   generateWeakKey: PropTypes.func.isRequired,
 };
 
-export default Tags;
+export default SimpleDropdownComponent(Tags, 'td');

@@ -28,9 +28,9 @@ class NoShows extends Component {
 
   render() {
     const { numOfAllShows, numOfActiveShows } = this.props;
-    let buttonText = 'No shows that contain selected tags available! Click here to add a show!';
+    let buttonText = 'No shows that contain selected tags are available! Click here to add a show!';
     if (numOfActiveShows === 0) {
-      buttonText = 'No shows with selected status available! Click here to add a show!';
+      buttonText = 'No shows with selected status are available! Click here to add a show!';
     } else if (numOfAllShows === 0) {
       buttonText = 'Your watchlist is empty! Click here to add a show!';
     }

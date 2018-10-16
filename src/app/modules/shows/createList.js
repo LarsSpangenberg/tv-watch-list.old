@@ -13,7 +13,6 @@ export const UPDATE_SHOW_SUCCESS = 'tv-watch-list/shows/UPDATE_SHOW_SUCCESS';
 
 
 // ----------------------- Reducer ---------------------------
-// TODO: fix createlist id adding (only adds to the all list right now)
 
 const createList = (status) => {
   const statusMatches = showStatus => (
@@ -32,11 +31,11 @@ const createList = (status) => {
         return nextState;
       }
       case ADD_SHOW_SUCCESS: {
-        const { index } = action;
+        const i = action.index ? action.index : state.length;
         return statusMatches(action.result.status) ? [
-          ...state.slice(0, index),
+          ...state.slice(0, i),
           action.result._id,
-          ...state.slice(index),
+          ...state.slice(i),
         ] : state;
       }
       case UPDATE_SHOW_SUCCESS: {

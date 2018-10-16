@@ -93,13 +93,29 @@ exports.removeTag = [
       { _id },
       (err, user) => {
         if (err) return next(err);
-        user.tags.id(tagId).remove();
+
+        const updatedShows = [];
+        const tag = user.tags.id(tagId);
+        const { name } = tag;
+        user.set({
+          shows: user.shows.map((show) => {
+            const { tags } = show;
+            const index = tags.indexOf(name);
+            if (index !== -1) {
+              tags.splice(index, 1);
+              updatedShows.push(show);
+            }
+            return show;
+          }),
+        });
+        tag.remove();
 
         return user.save((error) => {
           if (error) return next(error);
 
           return res.status(200).json({
             tagId,
+            updatedShows,
             message: `tag with id ${tagId} successfully removed`,
           });
         });

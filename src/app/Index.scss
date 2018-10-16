@@ -72,3 +72,8 @@ input[type="number"]::-webkit-inner-spin-button {
   content: attr(data-text);
   color: $light-gray;
 }
+
+input::selection,
+div[contentEditable]::selection {
+  background-color: $light-gray;
+}

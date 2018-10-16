@@ -20,8 +20,7 @@
     @include defaultPlaceholderButton
   }
 
-  > button:active,
-  > button:focus {
+  > button:active {
     opacity: 0;
   }
 
@@ -57,5 +56,6 @@
     max-height: 200px;
     opacity: 1;
     visibility: visible;
+    margin-bottom: 20px;
   }
 }

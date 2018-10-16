@@ -38,24 +38,15 @@ exports.create = [
     }
 
     const { index, tags, status } = req.body;
+    const _id = new ObjectId();
     const newShowParams = {
-      _id: new ObjectId(),
-      tags,
-      status,
+      $each: [{ _id, tags, status }],
     };
-
-    console.log(newShowParams);
+    if (index) newShowParams.$position = index;
 
     return User.findOneAndUpdate(
       { username },
-      {
-        $push: {
-          shows: {
-            $each: [newShowParams],
-            $position: index,
-          },
-        },
-      },
+      { $push: { shows: newShowParams } },
       { new: true },
       (err, user) => {
         if (err) return next(err);
@@ -63,9 +54,7 @@ exports.create = [
         return user.save((error) => {
           if (error) return next(error);
 
-          // const { _id, dateAdded } = user.shows[user.shows.length - 1];
-          const newShow = user.shows[index];
-          console.log(newShowParams, newShow, user);
+          const newShow = user.shows.id(_id);
           return res.status(200).json(newShow);
         });
       },
@@ -117,7 +106,6 @@ exports.remove = [
   (req, res, next) => {
     const { username } = req.session;
     const { id } = req.body;
-    console.log(id);
 
     if (!username) {
       return res.status(400).json({ message: 'no username found in session' });

@@ -23,7 +23,6 @@ const ListBody = ({ shows }) => {
           currentEpisode={parseInt(show.currentEpisode)}
           comments={show.comments}
           status={show.status}
-          tags={show.tags}
           data={show.data}
         />
       );

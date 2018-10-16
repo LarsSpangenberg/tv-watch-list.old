@@ -130,13 +130,17 @@ button.editTags:hover {
 }
 
 .noTags {
-  font-size: .8em;
+  font-size: .75em;
   line-height: 1.5em;
-  margin-top: 20px;
   opacity: 1;
   visibility: visible;
   transition: all .3s;
   animation: appear 1s;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
 }
 
 .addTagContainer {

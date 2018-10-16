@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import SimpleDropdownComponent from 'components/SimpleDropdownComponent';
 
-import styles from './Status.scss';
+// import styles from './Status.scss';
 
 const Status = ({
   status,

@@ -203,7 +203,11 @@ class Tags extends Component {
 
     const noTags = (
       <li className={styles.noTags}>
-        You have no tags yet. Click the edit button to add or remove tags.
+        <p>
+          Create your own custom tags here.<br />
+        e.g. Comedy, Action, Favourite, etc.
+        </p>
+        <p>Click the edit button on the right to add or remove tags.</p>
       </li>
     );
 

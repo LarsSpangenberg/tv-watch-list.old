@@ -33,6 +33,10 @@
 
   .title {
     min-width: 150px;
+
+    div[contentEditable]:focus {
+      text-align: left;
+    }
   }
 
   .comment {
@@ -72,11 +76,38 @@
   }
 }
 
+// -------------------- even row coloration -------------------
+
+.listItem:nth-of-type(even) {
+
+  td {
+    background-color: lighten($accent-2, 22%);
+
+    > input,
+    > button,
+    > div[contentEditable] {
+      background-color: lighten($accent-2, 22%);
+    }
+
+    > button:hover,
+    > button:focus,
+    > input:hover,
+    > input:focus,
+    > div[contentEditable]:hover,
+    > div[contentEditable]:focus {
+      background-color: $dark-gray;
+    }
+  }
+
+  .options > button:hover {
+    background-color: transparent;
+  }
+}
+
 // ------------------- increment decrement buttons-------------------
 
 .episode,
-.season,
-.tags {
+.season {
 
   button {
     font-size: 0;
@@ -102,9 +133,7 @@
 }
 
 .season:hover,
-.episode:hover,
-.tags:hover,
-.tags.adding {
+.episode:hover, {
 
   button {
     font-size: .7em;
@@ -122,9 +151,10 @@
   }
 }
 
-// status column adjustments to Simple dropdown --------
+// status and tags column adjustments to Simple dropdown --------
 
-.listItem td.status {
+.listItem td.status,
+.listItem td.tags {
   min-width: 120px;
 
   > button {
@@ -140,17 +170,29 @@
   ul {
     width: 100px;
 
-    button {
+    button,
+    input {
       font-size: .8em;
       width: 100%;
+      border-radius: 0;
     }
 
     li:first-of-type button {
       background-color: $dark-gray;
       color: $white;
-      z-index: 5;
+    }
+
+    input {
+      background-color: $dark-gray;
+      color: $white;
+      text-align: left;
+      box-sizing: border-box;
     }
   }
+}
+
+.listItem .tags ul {
+  max-height: 500px;
 }
 
 
@@ -176,9 +218,13 @@
     }
   }
 
-  > button:hover i {
-    transform: rotate(90deg);
-    -webkit-transform-origin: 50%  51%;
+  > button:hover {
+    background-color: transparent;
+
+    i {
+      transform: rotate(90deg);
+      -webkit-transform-origin: 50%  51%;
+    }
   }
 
   > div {
