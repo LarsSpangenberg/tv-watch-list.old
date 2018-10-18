@@ -191,10 +191,26 @@
   }
 }
 
-.listItem .tags ul {
-  max-height: 500px;
-}
+.listItem .tags {
 
+  ul {
+    max-height: 500px;
+  }
+
+  > button {
+    font-size: .7em;
+
+    i {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  > button:hover i {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 
 // options column adjustments to Simple dropdown --------
 
@@ -208,7 +224,6 @@
     width: 90%;
     height: 30px;
     opacity: 0;
-    visibility: hidden;
     animation: appear .3s ease;
     z-index: 5;
 
@@ -218,7 +233,8 @@
     }
   }
 
-  > button:hover {
+  > button:hover,
+  > button:focus {
     background-color: transparent;
 
     i {
@@ -235,5 +251,9 @@
 
 .listItem:hover .options button {
   opacity: 1;
-  visibility: visible;
+}
+
+.options button:focus {
+  background-color: $main-theme;
+  color: $dark-gray;
 }

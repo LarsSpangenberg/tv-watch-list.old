@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import SimpleDropdownComponent from 'components/SimpleDropdownComponent';
 import queryArray, { findMatch } from 'utils/queryArray';
-import handleKeypress, { handleCursor } from 'utils/handleKeypress';
+import { handleEnter } from 'utils/handleKeypress';
 import styles from './Tags.scss';
 
 
@@ -30,15 +30,12 @@ class Tags extends Component {
   }
 
   componentDidMount() {
+    document.addEventListener('keydown', this.navigateSuggestions);
     this.setupSuggestions();
-    setTimeout(() => {
-      this.inputRef.current.focus();
-    }, 200);
-    document.addEventListener('keyup', this.navigateSuggestions);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.navigateSuggestions);
+    document.removeEventListener('keydown', this.navigateSuggestions);
   }
 
   setupSuggestions() {
@@ -115,24 +112,15 @@ class Tags extends Component {
   }
 
   navigateSuggestions(e) {
-    const { cursor, numShowing } = this.state;
-    const { closeDropdown } = this.props;
-    const newIndex = handleCursor(e.keyCode, cursor, numShowing + 1);
-
-    const options = {
-      esc: closeDropdown,
-      tab: closeDropdown,
-      submit: () => {
-        const el = document.getElementsByClassName(styles.focus)[0];
-        if (cursor === 0) {
-          this.submitInput(el);
-        } else {
-          this.handleTag(el);
-        }
-      },
+    const el = document.getElementsByClassName(styles.focus)[0];
+    const submit = () => {
+      if (el.name === 'search') {
+        this.submitInput(el);
+      } else {
+        this.handleTag(el);
+      }
     };
-    handleKeypress(e.keyCode, options);
-    this.setState({ cursor: newIndex });
+    handleEnter(e.keyCode, submit);
   }
 
   clickInput() {
@@ -186,7 +174,6 @@ class Tags extends Component {
             className={styles.tags}
           >
             <button
-              className={cursor === index ? styles.focus : ''}
               name={name}
               type="button"
               value={suggestion}
@@ -219,7 +206,6 @@ class Tags extends Component {
           className={styles.tags}
         >
           <input
-            className={cursor === 0 ? styles.focus : ''}
             name="search"
             value={input}
             type="text"
@@ -243,4 +229,7 @@ Tags.propTypes = {
   generateWeakKey: PropTypes.func.isRequired,
 };
 
-export default SimpleDropdownComponent(Tags, 'td');
+const style = {
+  focus: styles.focus,
+};
+export default SimpleDropdownComponent(Tags, 'td', null, style);

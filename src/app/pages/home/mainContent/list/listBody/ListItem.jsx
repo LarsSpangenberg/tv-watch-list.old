@@ -26,6 +26,13 @@ const mapStateToProps = (state, ownProps) => ({
   isHidden: name => selectors.isColumnHidden(state, name),
 });
 
+// TODO: map all dispatches
+
+const mapDispatchToProps = dispatch => ({
+  addTag: tag => dispatch(handleTags.addTag(tag)),
+  dispatch,
+});
+
 class ListItem extends Component {
   constructor(props) {
     super(props);
@@ -104,12 +111,8 @@ class ListItem extends Component {
     }, 1000);
   }
 
-  addTag(tag) {
-    dispatch(handleTag.addTag(tag));
-  }
-
   clickHandler(e) {
-    const { name, value } = e.target;
+    const { name, value } = e.target || e;
     this.updateShow(name, value);
   }
 
@@ -158,7 +161,7 @@ class ListItem extends Component {
       tags,
       isHidden,
       isNew,
-      dispatch,
+      addTag,
     } = this.props;
 
     const cellStyle = name => [
@@ -166,11 +169,15 @@ class ListItem extends Component {
       isHidden(name) ? styles.hidden : '',
     ].join(' ');
 
-    const tagsPlaceholder = (
-      tags.length < 6 ? tags.join(', ') : `${tags.slice(0, 4).join(', ')}, ...`
-    );
-
-    const addTag = tag => dispatch(handleTags.addTag(tag));
+    const tagNum = tags.length;
+    let tagsPlaceholder;
+    if (tagNum === 0) {
+      tagsPlaceholder = <i className="fas fa-plus" />;
+    } else if (tagNum < 6) {
+      tagsPlaceholder = tags.join(', ');
+    } else {
+      tagsPlaceholder = `${tags.slice(0, 5).join(', ')}, ...`;
+    }
 
     return (
       <tr className={styles.listItem}>
@@ -195,12 +202,6 @@ class ListItem extends Component {
           handleIncDec={this.handleIncDec}
         />
 
-        <Comment
-          styleClass={cellStyle('comment')}
-          comments={comments}
-          handleChange={this.handleChange}
-        />
-
         <Tags
           styleClass={cellStyle('tags')}
           placeholder={tagsPlaceholder}
@@ -210,6 +211,7 @@ class ListItem extends Component {
           updateShow={this.updateShow}
           generateWeakKey={this.generateWeakKey}
         />
+
         <Status
           styleClass={cellStyle('status')}
           status={status}
@@ -217,6 +219,13 @@ class ListItem extends Component {
           clickHandler={this.clickHandler}
           generateWeakKey={this.generateWeakKey}
         />
+
+        <Comment
+          styleClass={cellStyle('comment')}
+          comments={comments}
+          handleChange={this.handleChange}
+        />
+
         <Options
           styleClass={styles.options}
           addShow={this.addShow}
@@ -257,4 +266,4 @@ ListItem.defaultProps = {
 };
 
 
-export default connect(mapStateToProps)(ListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem);

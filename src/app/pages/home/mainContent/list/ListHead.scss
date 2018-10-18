@@ -35,10 +35,12 @@
     }
   }
 
-  th.hideable:hover button i {
+  th.hideable:hover button i,
+  .hideable button:focus i {
     margin-left: 10px;
     font-size: .7em;
   }
+
 
   // ------ hidden column --------
 

@@ -11,12 +11,20 @@ const Options = ({ addShow, removeShow }) => (
       </button>
     </li>
     <li>
-      <button type="button" onClick={addShow}>
+      <button
+        type="button"
+        tabIndex="-1"
+        onClick={addShow}
+      >
         Add another Show
       </button>
     </li>
     <li>
-      <button type="button" onClick={removeShow}>
+      <button
+        type="button"
+        tabIndex="-1"
+        onClick={removeShow}
+      >
         Remove this Show
       </button>
     </li>
@@ -29,4 +37,5 @@ Options.propTypes = {
 };
 
 const placeholder = <i className="fas fa-ellipsis-v" />;
+
 export default SimpleDropdownComponent(Options, 'td', placeholder);

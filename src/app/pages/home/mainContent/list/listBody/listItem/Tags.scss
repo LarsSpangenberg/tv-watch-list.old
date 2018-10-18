@@ -22,6 +22,10 @@
     background-color: $accent-2;
   }
 
+  button:focus {
+    color: $dark-gray;
+  }
+
   button:hover,
   button.focus {
     background-color: $dark-gray;

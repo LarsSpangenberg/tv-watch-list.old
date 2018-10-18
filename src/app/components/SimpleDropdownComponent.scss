@@ -43,6 +43,11 @@
     button:active {
       color: $main-theme;
     }
+
+    button.focus {
+      background-color: $dark-gray;
+      color: $white;
+    }
   }
 
   .container {
@@ -57,5 +62,6 @@
     opacity: 1;
     visibility: visible;
     margin-bottom: 20px;
+
   }
 }

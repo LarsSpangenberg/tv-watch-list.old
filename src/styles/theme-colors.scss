@@ -12,3 +12,8 @@ $main-theme: #2ce198;
 $dark-main: #1e392a;
 $accent-1: #828082;
 $accent-2: #e9e891;
+
+@mixin hover {
+  background-color: $dark-gray;
+  color: $white;
+}
