@@ -23,6 +23,7 @@ export default class SidebarRight extends React.Component {
       <aside className={`${styles.sidebar} ${isActive ? styles.active : ''}`}>
 
         <div className={styles.hoverArea}>
+          <div className={styles.headerColor} />
           <button
             className={styles.pullout}
             onClick={this.handleActive}

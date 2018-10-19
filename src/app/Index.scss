@@ -35,6 +35,10 @@ button:hover {
   cursor: pointer;
 }
 
+i {
+  pointer-events: none;
+}
+
 // -------------------- global input styles -----------------------------
 
 input,
@@ -67,4 +71,9 @@ input[type="number"]::-webkit-inner-spin-button {
 [contentEditable]:empty:not(:focus):before {
   content: attr(data-text);
   color: $light-gray;
+}
+
+input::selection,
+div[contentEditable]::selection {
+  background-color: $light-gray;
 }

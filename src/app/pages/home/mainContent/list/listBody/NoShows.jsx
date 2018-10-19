@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import * as selectors from 'app/store';
 import { addShow } from 'modules/shows/createList';
 import styles from './NoShows.scss';
 
-const mapStateToProps = state => ({
-  activeStatus: 'current',
-  activeTags: ['Marvel', 'Netflix'],
-});
+function mapStateToProps(state) {
+  return {
+    activeStatus: selectors.getActiveStatus(state),
+    activeTags: selectors.getTagNames(state, 'active'),
+    numOfAllShows: selectors.getNumberOfShows(state, 'all'),
+    numOfActiveShows: selectors.getNumberOfShows(state),
+  };
+}
 
 class NoShows extends Component {
   constructor() {
@@ -22,11 +27,18 @@ class NoShows extends Component {
   }
 
   render() {
+    const { numOfAllShows, numOfActiveShows } = this.props;
+    let buttonText = 'No shows that contain selected tags are available! Click here to add a show!';
+    if (numOfActiveShows === 0) {
+      buttonText = 'No shows with selected status are available! Click here to add a show!';
+    } else if (numOfAllShows === 0) {
+      buttonText = 'Your watchlist is empty! Click here to add a show!';
+    }
     return (
       <tr className={styles.noShows}>
         <td colSpan="10">
           <button type="button" onClick={this.addShow}>
-            Your watchlist is empty! Click here to add a show!
+            {buttonText}
           </button>
         </td>
       </tr>
@@ -37,6 +49,8 @@ class NoShows extends Component {
 NoShows.propTypes = {
   activeStatus: PropTypes.string.isRequired,
   activeTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  numOfAllShows: PropTypes.number.isRequired,
+  numOfActiveShows: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

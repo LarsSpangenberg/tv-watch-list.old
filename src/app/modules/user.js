@@ -101,3 +101,5 @@ export const logout = () => ({
 });
 
 // ---------------------- Selectors ---------------------------------
+
+export const getSignedIn = state => state.signedIn;

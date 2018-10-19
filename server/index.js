@@ -11,6 +11,7 @@ const expressWinston = require('express-winston');
 const auth = require('./auth/init');
 const users = require('./routes/user');
 const shows = require('./routes/show');
+const tags = require('./routes/tag');
 
 const app = express();
 
@@ -64,6 +65,7 @@ auth(passport);
 
 app.use('/api/auth', users);
 app.use('/api/shows', shows);
+app.use('/api/tags', tags);
 
 // --------------------- Error Logger ------------------------
 

@@ -20,8 +20,7 @@
     @include defaultPlaceholderButton
   }
 
-  > button:active,
-  > button:focus {
+  > button:active {
     opacity: 0;
   }
 
@@ -44,6 +43,11 @@
     button:active {
       color: $main-theme;
     }
+
+    button.focus {
+      background-color: $dark-gray;
+      color: $white;
+    }
   }
 
   .container {
@@ -51,13 +55,13 @@
     padding: 0;
     margin: 0;
     transition: all .3s;
-    left: -50px;
-    top: -15px;
   }
 
   ul.showing {
     max-height: 200px;
     opacity: 1;
     visibility: visible;
+    margin-bottom: 20px;
+
   }
 }

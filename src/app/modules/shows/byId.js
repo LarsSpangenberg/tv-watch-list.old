@@ -5,18 +5,18 @@ import {
   UPDATE_SHOW_SUCCESS,
   REMOVE_SHOW_SUCCESS,
 } from './createList';
-
-// const UPDATE_LIST_ITEM = 'tv-watch-list/show/UPDATE_LIST_ITEM';
+import { REMOVE_TAG_SUCCESS } from '../tags/createList';
 
 // ----------------------- Reducer ---------------------------
 
 const byId = (state = {}, action) => {
   switch (action.type) {
+    case REMOVE_TAG_SUCCESS:
     case FETCH_SHOWS_SUCCESS: {
+      const { result } = action;
       const nextState = { ...state };
-      action.result.forEach((show) => {
-        nextState[show._id] = show;
-      });
+      const shows = result.updatedShows ? result.updatedShows : result;
+      shows.forEach((show) => { nextState[show._id] = show; });
       return nextState;
     }
     case ADD_SHOW_SUCCESS:
@@ -37,24 +37,7 @@ const byId = (state = {}, action) => {
 
 export default byId;
 
-
-// ---------------------- action creators ---------------------
-
-// const handleChange = (id, key, value) => ({
-//   type: UPDATE_LIST_ITEM,
-//   id,
-//   key,
-//   value,
-// });
-//
-// const handleIncDec = (id, key, operation) => ({
-//
-// });
-
-// ---------------- api request action creators -----------------------
-// types array needs REQUEST, SUCCESS, FAILURE types for the corresponding
-// actions in that order. Optional 4th type for 204 status.
-
 // ------------------------- Selectors ----------------------
 
 export const getShow = (state, id) => state[id];
+export const getShowTags = (state, id) => state[id].tags;

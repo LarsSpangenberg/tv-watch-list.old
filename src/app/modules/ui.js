@@ -1,5 +1,6 @@
-const TOGGLE_LIST_COLUMN = 'tv-watch-list/ui/TOGGLE_LIST_COLUMN';
+import columns from 'utils/hideableColumns';
 
+const TOGGLE_LIST_COLUMN = 'tv-watch-list/ui/TOGGLE_LIST_COLUMN';
 
 const defaultState = {
   hiddenListColumns: [],
@@ -37,9 +38,12 @@ export const toggleListColumn = name => ({
 
 // ---------------------- Selectors ---------------------------------
 
-export const isColumnHidden = (state, name) => (
-  state.hiddenListColumns.indexOf(name) !== -1
-);
+export const isColumnHidden = (state, name) => {
+  if (columns.indexOf(name) === -1) {
+    console.log(`invalid name: ${name}`);
+  }
+  return state.hiddenListColumns.indexOf(name) !== -1;
+};
 
 export const getNumberOfHiddenColumns = state => (
   state.hiddenListColumns.length

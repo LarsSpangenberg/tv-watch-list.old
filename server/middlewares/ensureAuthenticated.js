@@ -3,7 +3,9 @@ const ensureAuthenticated = (req, res, next) => {
     return next();
   }
   return res.status(401)
-    .json({ message: 'tsk, tsk, you are not authorized. Prove you are worthy by signing in!' });
+    .json({
+      message: 'tsk, tsk, you are not authorized. Prove you are worthy by signing in!',
+    });
 };
 
 module.exports = ensureAuthenticated;

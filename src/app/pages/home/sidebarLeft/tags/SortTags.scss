@@ -1,0 +1,24 @@
+@import "theme-colors";
+
+li.alphabetical {
+  display: flex;
+
+  button[name="alphabetical"] {
+    padding: 8px;
+
+    i { font-size: .9em; }
+  }
+}
+
+li button.active {
+  background-color: $accent-2;
+}
+
+li.header {
+  font-size: .9em;
+  background-color: $dark-gray;
+  color: $white;
+  padding-top: 5px;
+  height: 15px;
+  text-align: center;
+}

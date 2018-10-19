@@ -3,14 +3,14 @@ const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
 const ShowSchema = require('./show');
+const TagSchema = require('./tag');
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   shows: { type: [ShowSchema], default: [ShowSchema] },
-  tags: [String],
-  activeTags: [String],
-  activeStatus: String,
+  tags: [TagSchema],
+  status: String,
 });
 
 UserSchema.pre('save', function(next) { // eslint-disable-line

@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 
 import * as selectors from 'app/store';
 import * as handleShows from 'modules/shows/createList';
+import * as handleTags from 'modules/tags/createList';
 import handleContentEditable from 'utils/handleContentEditable';
 
 import styles from './ListItem.scss';
-import Thumbnail from './listItem/Thumbnail';
 import Title from './listItem/Title';
 import Season from './listItem/Season';
 import Episode from './listItem/Episode';
@@ -17,17 +17,21 @@ import Status from './listItem/Status';
 import Tags from './listItem/Tags';
 
 const mapStateToProps = (state, ownProps) => ({
+  isNew: selectors.isShowNew(state, ownProps.showId),
   index: selectors.getShowIndexFromAll(state, ownProps.showId),
-  activeStatus: 'completed',
-  activeTags: ['Marvel', 'Netflix'],
-  tagList: ['Marvel', 'Netflix', 'Superhero', 'Comedy', 'Anime', 'Movie'],
+  activeStatus: selectors.getActiveStatus(state),
+  activeTags: selectors.getTagNames(state, 'active'),
+  allTags: selectors.getTagNames(state, 'all'),
+  tags: selectors.getShowTags(state, ownProps.showId),
   isHidden: name => selectors.isColumnHidden(state, name),
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   addShow: (status, activeTags, prevItemIindex) => dispatch(handleShows.addShow()),
-//   updateShow: formData => dispatch(handleShows.updateShow(formData)),
-// });
+// TODO: map all dispatches
+
+const mapDispatchToProps = dispatch => ({
+  addTag: tag => dispatch(handleTags.addTag(tag)),
+  dispatch,
+});
 
 class ListItem extends Component {
   constructor(props) {
@@ -37,8 +41,7 @@ class ListItem extends Component {
       currentSeason: 1,
       currentEpisode: 1,
       comments: '',
-      status: 'completed',
-      tags: [],
+      status: '',
       data: {},
       postData: {},
     };
@@ -47,7 +50,6 @@ class ListItem extends Component {
     this.clickHandler = this.clickHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleIncDec = this.handleIncDec.bind(this);
-    this.handleTag = this.handleTag.bind(this);
     this.addShow = this.addShow.bind(this);
     this.removeShow = this.removeShow.bind(this);
     this.updateShow = this.updateShow.bind(this);
@@ -65,7 +67,6 @@ class ListItem extends Component {
       currentEpisode,
       comments,
       status,
-      tags,
       data,
     } = this.props;
     this.setState({
@@ -74,12 +75,10 @@ class ListItem extends Component {
       currentEpisode,
       comments,
       status,
-      tags,
       data,
     });
   }
 
-  // list item handlers -----------------------------------------------
   addShow() {
     const {
       index,
@@ -112,10 +111,8 @@ class ListItem extends Component {
     }, 1000);
   }
 
-  // update show properties -------------------------------------------------
-
   clickHandler(e) {
-    const { name, value } = e.target;
+    const { name, value } = e.target || e;
     this.updateShow(name, value);
   }
 
@@ -144,32 +141,12 @@ class ListItem extends Component {
     this.updateShow(name, nextValue);
   }
 
-  handleTag(e) {
-    const { name, value } = e.target;
-    const { tags } = this.state;
-    let newTags;
-    if (value === 'minus' && tags.indexOf(name) !== -1) {
-      // --------- remove tag --------------
-      const index = tags.indexOf(name);
-      newTags = [
-        ...tags.slice(0, index),
-        ...tags.slice(index + 1),
-      ];
-    } else if (name === 'suggestions') {
-      // ------- add suggested tag -----------
-      newTags = [...tags, value];
-    }
-
-    this.updateShow('tags', newTags);
-  }
-
-  // utility ---------------------------------------------------------
   generateWeakKey(data, index) {
     const { showId } = this.props;
     const name = data.replace(/ /g, '_');
-    return `${showId}_${name}_${index}`;
+    const result = `${showId}_${name}`;
+    return (index || index === 0) ? result.concat(`_${index}`) : result;
   }
-
 
   render() {
     const {
@@ -178,25 +155,37 @@ class ListItem extends Component {
       currentEpisode,
       comments,
       status,
-      tags,
-      data,
     } = this.state;
-    const { tagList, isHidden } = this.props;
+    const {
+      allTags,
+      tags,
+      isHidden,
+      isNew,
+      addTag,
+    } = this.props;
+
     const cellStyle = name => [
       styles[name],
       isHidden(name) ? styles.hidden : '',
     ].join(' ');
 
+    const tagNum = tags.length;
+    let tagsPlaceholder;
+    if (tagNum === 0) {
+      tagsPlaceholder = <i className="fas fa-plus" />;
+    } else if (tagNum < 6) {
+      tagsPlaceholder = tags.join(', ');
+    } else {
+      tagsPlaceholder = `${tags.slice(0, 5).join(', ')}, ...`;
+    }
+
     return (
       <tr className={styles.listItem}>
-        <Thumbnail
-          styleClass={styles.thumbnail}
-        />
-
         <Title
           styleClass={cellStyle('title')}
           title={title}
           handleChange={this.handleChange}
+          isNew={isNew}
         />
 
         <Season
@@ -213,29 +202,30 @@ class ListItem extends Component {
           handleIncDec={this.handleIncDec}
         />
 
+        <Tags
+          styleClass={cellStyle('tags')}
+          placeholder={tagsPlaceholder}
+          tags={tags}
+          allTags={allTags}
+          addTag={addTag}
+          updateShow={this.updateShow}
+          generateWeakKey={this.generateWeakKey}
+        />
+
+        <Status
+          styleClass={cellStyle('status')}
+          status={status}
+          placeholder={status}
+          clickHandler={this.clickHandler}
+          generateWeakKey={this.generateWeakKey}
+        />
+
         <Comment
           styleClass={cellStyle('comment')}
           comments={comments}
           handleChange={this.handleChange}
         />
 
-        <Tags
-          styleClass={{
-            tags: cellStyle('tags'),
-            adding: styles.adding,
-          }}
-          tags={tags}
-          tagList={tagList}
-          handleChange={this.handleChange}
-          handleTag={this.handleTag}
-          generateWeakKey={this.generateWeakKey}
-        />
-        <Status
-          styleClass={cellStyle('status')}
-          status={status}
-          clickHandler={this.clickHandler}
-          generateWeakKey={this.generateWeakKey}
-        />
         <Options
           styleClass={styles.options}
           addShow={this.addShow}
@@ -253,13 +243,15 @@ ListItem.propTypes = {
   currentEpisode: PropTypes.number,
   comments: PropTypes.string,
   status: PropTypes.string,
-  tags: PropTypes.arrayOf(PropTypes.string),
-  tagList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   data: PropTypes.object, // eslint-disable-line
   activeStatus: PropTypes.string.isRequired,
   activeTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   index: PropTypes.number,
+  isNew: PropTypes.bool.isRequired,
   isHidden: PropTypes.func.isRequired,
+  addTag: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
@@ -268,11 +260,10 @@ ListItem.defaultProps = {
   currentSeason: 1,
   currentEpisode: 1,
   comments: '',
-  status: '',
-  tags: [],
+  status: 'current',
   data: {},
   index: 0,
 };
 
 
-export default connect(mapStateToProps)(ListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem);

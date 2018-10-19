@@ -15,23 +15,42 @@ export const UPDATE_SHOW_SUCCESS = 'tv-watch-list/shows/UPDATE_SHOW_SUCCESS';
 // ----------------------- Reducer ---------------------------
 
 const createList = (status) => {
+  const statusMatches = showStatus => (
+    status === showStatus || status === 'all'
+  );
+
   const ids = (state = [], action) => {
-    if (action.status !== status && status !== 'all') {
-      return state;
-    }
     switch (action.type) {
-      case FETCH_SHOWS_SUCCESS:
-        return action.result.map(show => show._id);
+      case FETCH_SHOWS_SUCCESS: {
+        const nextState = [];
+        action.result.forEach((show) => {
+          if (statusMatches(show.status)) {
+            nextState.push(show._id);
+          }
+        });
+        return nextState;
+      }
       case ADD_SHOW_SUCCESS: {
-        const { index } = action;
-        return [
-          ...state.slice(0, index),
+        const i = action.index ? action.index : state.length;
+        return statusMatches(action.result.status) ? [
+          ...state.slice(0, i),
           action.result._id,
-          ...state.slice(index),
-        ];
+          ...state.slice(i),
+        ] : state;
+      }
+      case UPDATE_SHOW_SUCCESS: {
+        const index = state.indexOf(action.result._id);
+        if (statusMatches(action.result.status) && index === -1) {
+          return [...state, action.result._id];
+        }
+        if (!statusMatches(action.result.status) && index !== -1) {
+          return [...state.slice(0, index), ...state.slice(index + 1)];
+        }
+        return state;
       }
       case REMOVE_SHOW_SUCCESS: {
         const index = state.indexOf(action.id);
+        if (index === -1) return state;
         return [
           ...state.slice(0, index),
           ...state.slice(index + 1),
@@ -43,9 +62,6 @@ const createList = (status) => {
   };
 
   const isFetching = (state = false, action) => {
-    if (action.status !== status && status !== 'all') {
-      return state;
-    }
     switch (action.type) {
       case FETCH_SHOWS_REQUEST:
       case UPDATE_SHOW_REQUEST:
@@ -63,9 +79,6 @@ const createList = (status) => {
   };
 
   const errorMessage = (state = null, action) => {
-    if (action.status !== status && status !== 'all') {
-      return state;
-    }
     switch (action.type) {
       case FETCH_SHOWS_FAILURE:
       case UPDATE_SHOW_FAILURE:
@@ -103,17 +116,20 @@ export const fetchShows = () => ({
   }),
 });
 
-export const addShow = (status, tags, index) => ({
-  types: [UPDATE_SHOW_REQUEST, ADD_SHOW_SUCCESS, UPDATE_SHOW_FAILURE],
-  request: new Request('/api/shows/create', {
-    method: 'POST',
-    headers: { 'Content-type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ status, tags, index }),
-  }),
-  status,
-  tags,
-  index,
-});
+export const addShow = (status, tags, index) => {
+  const stat = status === 'all' ? 'current' : status;
+  return {
+    types: [UPDATE_SHOW_REQUEST, ADD_SHOW_SUCCESS, UPDATE_SHOW_FAILURE],
+    request: new Request('/api/shows/create', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ status: stat, tags, index }),
+    }),
+    status: stat,
+    tags,
+    index,
+  };
+};
 
 export const removeShow = id => ({
   types: [UPDATE_SHOW_REQUEST, REMOVE_SHOW_SUCCESS, UPDATE_SHOW_FAILURE],
@@ -139,3 +155,4 @@ export const updateShow = data => ({
 export const getIds = state => state.ids;
 export const getIsFetching = state => state.isFetching;
 export const getErrorMessage = state => state.errorMessage;
+export const getNumberOfIds = state => state.ids.length;

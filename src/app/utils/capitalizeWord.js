@@ -10,3 +10,25 @@ export const formatHeader = (name) => {
   }
   return capitalized;
 };
+
+export const formatSpacedOutWords = (str) => {
+  let newStr;
+  if (/\s/g.test(str)) {
+    newStr = str.split(' ').map(word => capitalize(word)).join(' ');
+  } else {
+    newStr = capitalize(str);
+  }
+  return newStr;
+};
+
+export const camelCase = (str) => {
+  let newStr;
+  if (/\s/g.test(str)) {
+    newStr = str.split(' ').map((word, i) => (
+      i > 0 ? capitalize(word) : word.toLowerCase()
+    )).join('');
+  } else {
+    newStr = str;
+  }
+  return newStr;
+};
