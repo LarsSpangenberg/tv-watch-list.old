@@ -162,6 +162,8 @@ class ListItem extends Component {
       isHidden,
       isNew,
       addTag,
+      i,
+      last,
     } = this.props;
 
     const cellStyle = name => [
@@ -178,6 +180,12 @@ class ListItem extends Component {
     } else {
       tagsPlaceholder = `${tags.slice(0, 5).join(', ')}, ...`;
     }
+
+    const moveShow = direction => (
+      <button type="button" className={styles.move}>
+        <i className={`fas fa-chevron-${direction}`} />
+      </button>
+    );
 
     return (
       <tr className={styles.listItem}>
@@ -249,6 +257,8 @@ ListItem.propTypes = {
   activeStatus: PropTypes.string.isRequired,
   activeTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   index: PropTypes.number,
+  i: PropTypes.number.isRequired,
+  last: PropTypes.bool.isRequired,
   isNew: PropTypes.bool.isRequired,
   isHidden: PropTypes.func.isRequired,
   addTag: PropTypes.func.isRequired,

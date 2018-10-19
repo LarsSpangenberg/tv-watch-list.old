@@ -33,6 +33,30 @@
   }
 }
 
+@keyframes MoveUpDown {
+
+  0%,
+  100% {
+    bottom: 0;
+  }
+
+  50% {
+    bottom: 3px;
+  }
+}
+
+@keyframes MoveDownUp {
+
+  0%,
+  100% {
+    top: 0;
+  }
+
+  50% {
+    top: 3px;
+  }
+}
+
 // autoSuggest -------------------------------------------
 
 @keyframes mountDropdown {

@@ -78,7 +78,7 @@
 
 // -------------------- even row coloration -------------------
 
-.listItem:nth-of-type(even) {
+tr:nth-of-type(even) {
 
   td {
     background-color: lighten($accent-2, 22%);
@@ -97,10 +97,6 @@
     > div[contentEditable]:focus {
       background-color: $dark-gray;
     }
-  }
-
-  .options > button:hover {
-    background-color: transparent;
   }
 }
 
@@ -210,50 +206,4 @@
     opacity: 1;
     visibility: visible;
   }
-}
-
-// options column adjustments to Simple dropdown --------
-
-.listItem .options {
-  padding: 5px 0;
-
-  > button {
-    background-color: $white;
-    color: $dark-gray;
-    margin-top: 0;
-    width: 90%;
-    height: 30px;
-    opacity: 0;
-    animation: appear .3s ease;
-    z-index: 5;
-
-    i {
-      font-size: 1.5em;
-      transition: all .3s;
-    }
-  }
-
-  > button:hover,
-  > button:focus {
-    background-color: transparent;
-
-    i {
-      transform: rotate(90deg);
-      -webkit-transform-origin: 50%  51%;
-    }
-  }
-
-  > div {
-    left: -50px;
-    top: -15px;
-  }
-}
-
-.listItem:hover .options button {
-  opacity: 1;
-}
-
-.options button:focus {
-  background-color: $main-theme;
-  color: $dark-gray;
 }

@@ -8,11 +8,11 @@
 }
 
 .hoverArea {
+  margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
   width: 20px;
-  transition: all .3s;
-  align-items: flex-end;
+  overflow: hidden;
 
   @include pulloutArea;
 }
@@ -39,11 +39,12 @@
   background-color: $dark-gray;
   color: $light-gray;
   padding-top: $header-height;
-  height: 100vh;
+  min-height: 100%;
   width: 0;
   overflow: hidden;
   box-sizing: border-box;
   transition: all .3s;
+  z-index: 5;
 }
 
 // ----------------------- icons -------------------------------------
@@ -67,11 +68,7 @@
   background-color: $dark-gray;
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
-  margin-right: -100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all .3s;
+  margin-left: 100px;
   z-index: 2;
 
   @include pullout;
@@ -82,7 +79,7 @@
 }
 
 .sidebar:hover .pullout {
-  margin-right: -5px;
+  margin-left: 5px;
 
   @include hoverPullout;
 }

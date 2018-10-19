@@ -76,7 +76,13 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement, st
 
 
     render() {
-      const { styleClass, placeholder, ...props } = this.props;
+      const {
+        styleClass,
+        placeholder,
+        abovePH,
+        belowPH,
+        ...props
+      } = this.props;
       const { active } = this.state;
 
       let displayOptions;
@@ -108,7 +114,9 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement, st
             styles.options,
           ].join(' ')}
         >
+          {active ? '' : abovePH}
           {displayOptions}
+          {active ? '' : belowPH}
         </CustomTag>
       );
     }
@@ -121,11 +129,15 @@ const SimpleDropdownComponent = (WrappedComponent, CustomTag, defaultElement, st
       PropTypes.element,
       PropTypes.number,
     ]),
+    abovePH: PropTypes.element,
+    belowPH: PropTypes.element,
   };
 
   Dropdown.defaultProps = {
     styleClass: '',
     placeholder: null,
+    abovePH: null,
+    belowPH: null,
   };
 
   return Dropdown;

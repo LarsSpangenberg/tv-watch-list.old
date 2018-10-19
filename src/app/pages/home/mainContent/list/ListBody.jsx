@@ -10,7 +10,7 @@ import LoadingShow from './listBody/LoadingShow';
 const ListBody = ({ shows }) => {
   let displayShows;
   if (shows.length > 0) {
-    displayShows = shows.map((show) => {
+    displayShows = shows.map((show, i) => {
       if (!show) {
         return <LoadingShow />;
       }
@@ -18,6 +18,8 @@ const ListBody = ({ shows }) => {
         <ListItem
           key={show._id}
           showId={show._id}
+          i={i}
+          last={i === shows.length - 1}
           title={show.title}
           currentSeason={parseInt(show.currentSeason)}
           currentEpisode={parseInt(show.currentEpisode)}
