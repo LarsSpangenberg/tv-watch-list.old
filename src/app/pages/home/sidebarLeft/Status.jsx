@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import SimpleDropdownComponent from 'components/SimpleDropdownComponent';
 
 import { allStatuses } from 'utils/statusArray';
-import { formatSpacedOutWords } from 'utils/capitalizeWord';
+import { capitalizeTitle } from 'utils/capitalizeWord';
 // import styles from './Status.scss';
 
 const Status = ({
@@ -27,7 +27,7 @@ const Status = ({
         value={stat}
         onClick={handleClick}
       >
-        {formatSpacedOutWords(stat)}
+        {capitalizeTitle(stat)}
       </button>
     </li>
   ));
@@ -41,7 +41,7 @@ const Status = ({
           value={status}
           onClick={closeDropdown}
         >
-          {formatSpacedOutWords(status)}
+          {capitalizeTitle(status)}
         </button>
       </li>
       {buttons}

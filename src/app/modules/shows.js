@@ -1,26 +1,25 @@
 import { combineReducers } from 'redux';
 // import userObj from 'assets/user.json';
 // import showItem, * as show from './show';
-import { camelCase } from 'utils/capitalizeWord';
+// import { camelCase } from 'utils/capitalizeWord';
+// import dynamicSort from 'utils/dynamicSort';
 import byId, * as show from './shows/byId';
-import createList, * as list from './shows/createList';
-import updateTracker, * as tracker from './shows/updateTracker'
+import sortedList, * as list from './shows/sortedList';
+import sortOrder, * as sort from './shows/sortOrder';
+import updateTracker, * as tracker from './shows/updateTracker';
 
 
 // ----------------------- Reducer ---------------------------
 
-const listByStatus = combineReducers({
-  all: createList('all'),
-  current: createList('current'),
-  completed: createList('completed'),
-  watchLater: createList('watch later'),
-  dropped: createList('dropped'),
-  onHold: createList('on hold'),
+const orderedList = combineReducers({
+  last: sortedList('last'),
+  custom: sortedList('custom'),
 });
 
 const shows = combineReducers({
   byId,
-  listByStatus,
+  orderedList,
+  sortOrder,
   tracker: updateTracker,
 });
 
@@ -28,43 +27,53 @@ export default shows;
 
 // ------------------------- Selectors ----------------------
 
-export const getShowsbyStatus = (state, status, tags) => {
-  const ids = list.getIds(state.listByStatus[camelCase(status)]);
+const getListName = (state) => {
+  const order = sort.getActiveSort(state.sortOrder);
+  return order === 'custom' ? 'custom' : 'last';
+};
+
+export const getVisibleShows = (state, status, tags) => {
+  const listName = getListName(state);
+  const ids = list.getIds(state.orderedList[listName]);
   const visibleShows = [];
+
   ids.forEach((id) => {
     const showObj = show.getShow(state.byId, id);
     let isVisible = false;
-
-    if (tags.length > 0) {
-      const containsActiveTag = tag => (
-        showObj.tags.includes(tag) && !isVisible
-      );
-      if (tags.some(containsActiveTag)) {
+    if (status === show.status || status === 'all') {
+      if (tags.length > 0) {
+        const containsActiveTag = tag => (
+          showObj.tags.includes(tag) && !isVisible
+        );
+        if (tags.some(containsActiveTag)) {
+          visibleShows.push(showObj);
+          isVisible = true;
+        }
+      } else if (!isVisible) {
         visibleShows.push(showObj);
         isVisible = true;
       }
-    } else if (!isVisible) {
-      visibleShows.push(showObj);
-      isVisible = true;
     }
   });
   return visibleShows;
 };
 
-export const getIsFetchingbyStatus = (state, status) => (
-  list.getIsFetching(state.listByStatus[status])
+export const getSortOrder = state => sort.getActiveSort(state.sortOrder);
+
+export const getIsFetching = state => (
+  list.getIsFetching(state.orderedList[getListName(state)])
 );
 
-export const getShowIds = (state, listName) => (
-  list.getIds(state.listByStatus[listName])
+export const getShowIds = state => (
+  list.getIds(state.orderedList[getListName(state)])
 );
 
-export const getShowIndexFromAll = (state, id) => (
-  list.getIds(state.listByStatus.all).indexOf(id)
+export const getShowIndex = (state, id) => (
+  list.getIds(state.orderedList[getListName(state)]).indexOf(id)
 );
 
-export const getNumberOfShows = (state, status) => (
-  list.getNumberOfIds(state.listByStatus[status])
+export const getNumberOfShows = state => (
+  list.getNumberOfIds(state.orderedList.last)
 );
 
 export const getShowTags = (state, id) => (

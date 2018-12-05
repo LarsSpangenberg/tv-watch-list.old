@@ -15,7 +15,6 @@ const ShowSchema = new Schema({
     default: 'current',
   },
   tags: [String],
-  data: {},
 });
 
 module.exports = ShowSchema;

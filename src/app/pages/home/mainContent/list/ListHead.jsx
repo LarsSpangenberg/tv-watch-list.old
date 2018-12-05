@@ -20,6 +20,7 @@ class ListHead extends Component {
   constructor(props) {
     super(props);
     this.toggleColumn = this.toggleColumn.bind(this);
+    this.showAll = this.showAll.bind(this);
   }
 
   toggleColumn(e) {
@@ -27,17 +28,21 @@ class ListHead extends Component {
     const { value } = e.target;
     const {
       hidden,
-      isHidden,
       dispatch,
     } = this.props;
-    if (hidden < 5 || isHidden(value)) {
+    if (hidden < 5) {
       dispatch(handleColumns.toggleListColumn(value));
     }
   }
 
+  showAll() {
+    const { dispatch } = this.props;
+    dispatch(handleColumns.showAll());
+  }
+
 
   render() {
-    const { isHidden } = this.props;
+    const { isHidden, hidden } = this.props;
     const styleClass = name => [
       styles[name],
       styles.hideable,
@@ -67,8 +72,8 @@ class ListHead extends Component {
           {headers}
           <ColumnSettings
             styleClass={styles.settings}
-            toggleColumn={this.toggleColumn}
-            isHidden={isHidden}
+            showAll={this.showAll}
+            hidden={hidden}
           />
         </tr>
       </thead>

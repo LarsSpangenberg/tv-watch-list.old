@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as selectors from 'app/store';
+import { changeSortOrder } from 'modules/shows/sortOrder';
 import { changeStatus } from 'modules/status';
 import * as handleTags from 'modules/tags/createList';
-import { formatSpacedOutWords } from 'utils/capitalizeWord';
+
+import { capitalizeTitle } from 'utils/capitalizeWord';
 
 import styles from './SidebarLeft.scss';
+import Sort from './sidebarLeft/Sort';
 import Status from './sidebarLeft/Status';
 import Tags from './sidebarLeft/Tags';
 
@@ -16,6 +19,7 @@ const mapStateToProps = state => ({
   signedIn: selectors.getSignedIn(state),
   status: selectors.getActiveStatus(state),
   tagsCount: selectors.getNumberOfTags(state),
+  sortOrder: selectors.getSortOrder(state),
   getTags: (property, order, byActive) => (
     selectors.getSortedTags(state, property, order, byActive)
   ),
@@ -24,6 +28,7 @@ const mapStateToProps = state => ({
 class SidebarLeft extends Component {
   constructor(props) {
     super(props);
+    this.changeSortOrder = this.changeSortOrder.bind(this);
     this.changeStatus = this.changeStatus.bind(this);
     this.editTag = this.editTag.bind(this);
   }
@@ -33,6 +38,11 @@ class SidebarLeft extends Component {
     if (signedIn !== prevProps.signedIn && signedIn === true) {
       dispatch(handleTags.fetchTags());
     }
+  }
+
+  changeSortOrder(e) {
+    const { dispatch } = this.props;
+    dispatch(changeSortOrder(e.target.value));
   }
 
   changeStatus(e) {
@@ -57,6 +67,7 @@ class SidebarLeft extends Component {
       status,
       tagsCount,
       getTags,
+      sortOrder,
       handleActive,
       isActive,
     } = this.props;
@@ -69,6 +80,18 @@ class SidebarLeft extends Component {
           <div className={styles.brandBackdrop} />
           <div className={styles.content}>
 
+            <div className={styles.sort}>
+              <div className={styles.label}>
+                <h2>Sort Shows:</h2>
+              </div>
+              <Sort
+                styleClass={styles.list}
+                currentOrder={sortOrder}
+                placeholder={capitalizeTitle(sortOrder)}
+                clickHandler={this.changeSortOrder}
+              />
+            </div>
+
             <div className={styles.status}>
               <div className={styles.label}>
                 <h2>Status:</h2>
@@ -76,7 +99,7 @@ class SidebarLeft extends Component {
               <Status
                 styleClass={styles.list}
                 status={status}
-                placeholder={formatSpacedOutWords(status)}
+                placeholder={capitalizeTitle(status)}
                 clickHandler={this.changeStatus}
               />
             </div>
@@ -111,6 +134,7 @@ class SidebarLeft extends Component {
 
 SidebarLeft.propTypes = {
   signedIn: PropTypes.bool.isRequired,
+  sortOrder: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   tagsCount: PropTypes.number.isRequired,
   getTags: PropTypes.func.isRequired,

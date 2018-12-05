@@ -7,7 +7,8 @@ import status, * as handleStatus from 'modules/status';
 import tags, * as handleTags from 'modules/tags';
 import ui, * as handleUi from 'modules/ui';
 
-import { formatSpacedOutWords } from 'utils/capitalizeWord';
+import { capitalizeTitle } from 'utils/capitalizeWord';
+// import dynamicSort from 'utils/dynamicSort';
 import apiService from './middleware/api-service';
 
 const rootReducer = combineReducers({
@@ -36,12 +37,14 @@ export const getSignedIn = state => handleUser.getSignedIn(state.user);
 export const getVisibleShows = (state) => {
   const activeStatus = handleStatus.getActiveStatus(state.status);
   const activeTags = handleTags.getTagNames(state.tags, 'active');
-  return handleShows.getShowsbyStatus(state.shows, activeStatus, activeTags);
+  return handleShows.getVisibleShows(state.shows, activeStatus, activeTags);
 };
+
+export const getSortOrder = state => handleShows.getSortOrder(state.shows);
 
 export const isListUpdating = (state) => {
   const activeStatus = handleStatus.getActiveStatus(state.status);
-  return handleShows.getIsFetchingbyStatus(state.shows, activeStatus);
+  return handleShows.getIsFetching(state.shows, activeStatus);
 };
 
 export const getShowIds = (state, listName) => (
@@ -52,8 +55,8 @@ export const isShowNew = (state, id) => (
   handleShows.getLastAdded(state.shows) === id
 );
 
-export const getShowIndexFromAll = (state, id) => (
-  handleShows.getShowIndexFromAll(state.shows, id)
+export const getShowIndex = (state, id) => (
+  handleShows.getShowIndex(state.shows, id)
 );
 
 export const getNumberOfShows = (state, listName) => (
@@ -65,7 +68,7 @@ export const getShowTags = (state, id) => (
 );
 
 export const createListCaption = (state) => {
-  const activeStatus = formatSpacedOutWords(handleStatus.getActiveStatus(state.status));
+  const activeStatus = capitalizeTitle(handleStatus.getActiveStatus(state.status));
   const activeTags = handleTags.getTagNames(state.tags, 'active');
   let tagString;
   if (activeTags.length === 2) {

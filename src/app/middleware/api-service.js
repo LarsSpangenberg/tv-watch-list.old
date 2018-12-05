@@ -7,7 +7,8 @@ const apiService = store => next => (action) => {
   }
 
   const [REQUEST, SUCCESS, FAILURE, NO_DATA_SUCCESS] = types;
-  next({ ...rest, type: REQUEST });
+
+  if (REQUEST) next({ ...rest, type: REQUEST });
 
   return fetch(request).then((res) => {
     if (res.status === 200) {
@@ -18,7 +19,7 @@ const apiService = store => next => (action) => {
           type: SUCCESS,
         }));
     }
-    if (!res.ok) {
+    if (!res.ok && FAILURE) {
       return res.json().then(errors => (
         next({
           ...rest,

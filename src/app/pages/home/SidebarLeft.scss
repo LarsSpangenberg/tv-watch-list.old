@@ -113,6 +113,7 @@
 // Status adjustments to SimpleDropdownComponent -------------------------
 
 .status .list,
+.sort .list,
 .tags {
   max-width: 200px;
 
@@ -165,12 +166,14 @@
   }
 }
 
-.status .list ul {
+.status .list ul,
+.sort .list ul {
   position: static;
   box-shadow: none;
 }
 
-.status ul li:first-of-type button {
+.status ul li:first-of-type button,
+.sort ul li:first-of-type button {
   background-color: $accent-2;
   color: $dark-gray;
 }
@@ -182,8 +185,8 @@
 
 // ------- label headers -----------------------
 .label {
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 0;
   width: 100%;
   display: inline-flex;
 

@@ -4,6 +4,7 @@
 
 td.options {
   min-height: 100%;
+  width: 30px;
   padding: 0;
 
   button {
@@ -13,6 +14,7 @@ td.options {
     padding: 0;
     border-radius: 0;
     opacity: 0;
+    visibility: hidden;
     animation: appear .3s ease;
     transition: all .3s ease-in-out;
   }
@@ -64,6 +66,7 @@ td.options {
   button.addShow {
     background-color: $main-theme;
     margin-left: 0;
+    padding-left: 5px;
     padding-top: 2px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -75,11 +78,12 @@ td.options {
   button.removeShow {
     height: 25px;
     margin-left: 10%;
-    padding-left: 3px;
+    padding-left: 9px;
     padding-top: 3px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    width: 80%;
+    width: 30px;
+    text-align: left;
     z-index: 1;
   }
 
@@ -125,6 +129,7 @@ td.options {
 
   button {
     opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -133,6 +138,7 @@ tr:hover {
   .addShow,
   .removeShow {
     opacity: 1;
+    visibility: visible;
   }
 
   .removeShow {

@@ -11,5 +11,6 @@ router.post('/update', showController.update);
 
 router.put('/remove', showController.remove);
 
+router.put('/sortOrder', showController.sortOrder);
 
 module.exports = router;

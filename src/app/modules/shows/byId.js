@@ -4,7 +4,7 @@ import {
   FETCH_SHOWS_SUCCESS,
   UPDATE_SHOW_SUCCESS,
   REMOVE_SHOW_SUCCESS,
-} from './createList';
+} from './sortedList';
 import { REMOVE_TAG_SUCCESS } from '../tags/createList';
 
 // ----------------------- Reducer ---------------------------
@@ -13,11 +13,11 @@ const byId = (state = {}, action) => {
   switch (action.type) {
     case REMOVE_TAG_SUCCESS:
     case FETCH_SHOWS_SUCCESS: {
-      const { result } = action;
-      const nextState = { ...state };
-      const shows = result.updatedShows ? result.updatedShows : result;
-      shows.forEach((show) => { nextState[show._id] = show; });
-      return nextState;
+      const { shows } = action.result;
+      // const nextState = { ...state };
+      // const array = updatedShows || action.result;
+      // array.forEach((show) => { nextState[show._id] = show; });
+      return shows || state;
     }
     case ADD_SHOW_SUCCESS:
     case UPDATE_SHOW_SUCCESS:

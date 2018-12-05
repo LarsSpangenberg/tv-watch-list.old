@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as selectors from 'app/store';
-import * as handleShows from 'modules/shows/createList';
+import * as handleShows from 'modules/shows/sortedList';
 
 import showsType from 'types';
 import styles from './List.scss';
@@ -51,7 +51,9 @@ class List extends Component {
     const { shows, caption } = this.props;
     return (
       <table className={styles.list}>
-        <caption>{caption}</caption>
+        <caption>
+          {caption}
+        </caption>
         <ListHead />
         <ListBody shows={shows} />
       </table>

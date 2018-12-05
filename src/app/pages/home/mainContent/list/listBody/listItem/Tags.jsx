@@ -166,7 +166,7 @@ class Tags extends Component {
       const icon = name === 'tags' ? 'minus' : 'plus';
       return array.map((suggestion) => {
         const id = generateWeakKey('suggestions', i);
-        const index = i;
+        // const index = i;
         i += 1;
         return (
           <li
@@ -206,6 +206,7 @@ class Tags extends Component {
           className={styles.tags}
         >
           <input
+            autoComplete="off"
             name="search"
             value={input}
             type="text"

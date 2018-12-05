@@ -11,10 +11,30 @@ export const formatHeader = (name) => {
   return capitalized;
 };
 
-export const formatSpacedOutWords = (str) => {
+export const capitalizeTitle = (str) => {
   let newStr;
+  const dontCapitalize = [
+    'an',
+    'and',
+    'at',
+    'but',
+    'by',
+    'for',
+    'from',
+    'the',
+    'to',
+  ];
   if (/\s/g.test(str)) {
-    newStr = str.split(' ').map(word => capitalize(word)).join(' ');
+    newStr = str.split(' ').map((word, i) => {
+      if (
+        i !== 0
+        && i !== str.length - 1
+        && dontCapitalize.includes(word)
+      ) {
+        return word;
+      }
+      return capitalize(word);
+    }).join(' ');
   } else {
     newStr = capitalize(str);
   }

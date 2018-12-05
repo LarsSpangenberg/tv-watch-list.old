@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as selectors from 'app/store';
-import * as handleShows from 'modules/shows/createList';
+import * as handleShows from 'modules/shows/sortedList';
 import * as handleTags from 'modules/tags/createList';
 import handleContentEditable from 'utils/handleContentEditable';
 
@@ -18,11 +18,12 @@ import Tags from './listItem/Tags';
 
 const mapStateToProps = (state, ownProps) => ({
   isNew: selectors.isShowNew(state, ownProps.showId),
-  index: selectors.getShowIndexFromAll(state, ownProps.showId),
+  index: selectors.getShowIndex(state, ownProps.showId),
   activeStatus: selectors.getActiveStatus(state),
   activeTags: selectors.getTagNames(state, 'active'),
   allTags: selectors.getTagNames(state, 'all'),
   tags: selectors.getShowTags(state, ownProps.showId),
+  order: selectors.getSortOrder(state),
   isHidden: name => selectors.isColumnHidden(state, name),
 });
 
@@ -81,12 +82,19 @@ class ListItem extends Component {
 
   addShow() {
     const {
-      index,
-      activeStatus,
-      activeTags,
+      index: i,
+      activeStatus: status,
+      activeTags: tags,
+      order,
       dispatch,
     } = this.props;
-    dispatch(handleShows.addShow(activeStatus, activeTags, index + 1));
+    const params = {
+      status,
+      tags,
+      index: i + 1,
+      order
+    };
+    dispatch(handleShows.addShow(params));
   }
 
   removeShow() {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as selectors from 'app/store';
-import { addShow } from 'modules/shows/createList';
+import { addShow } from 'modules/shows/sortedList';
 import styles from './NoShows.scss';
 
 function mapStateToProps(state) {

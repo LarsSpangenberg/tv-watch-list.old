@@ -3,7 +3,7 @@ import {
   ADD_SHOW_SUCCESS,
   UPDATE_SHOW_SUCCESS,
   REMOVE_SHOW_SUCCESS,
-} from './createList';
+} from './sortedList';
 
 const defaultState = {
   lastAdded: '',

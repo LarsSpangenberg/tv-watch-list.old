@@ -36,29 +36,33 @@
 
 // ----------- hideable Sidebar content -----------------------------
 .pulloutInner {
-  background-color: $dark-gray;
+  // background-color: $dark-gray;
   color: $light-gray;
-  padding-top: $header-height;
+  // padding-top: $header-height;
   min-height: 100%;
   width: 0;
   overflow: hidden;
   box-sizing: border-box;
   transition: all .3s;
   z-index: 5;
+
+  button {
+    background-color: transparent;
+  }
 }
 
 // ----------------------- icons -------------------------------------
 
 .icons {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-
 }
 
 .icon {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 // --------------- pullout tab styles --------------------------------

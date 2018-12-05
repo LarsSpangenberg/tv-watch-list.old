@@ -9,6 +9,11 @@ const UserSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   shows: { type: [ShowSchema], default: [ShowSchema] },
+  sortShows: {
+    order: { type: String, default: '' },
+    lastOrder: [String],
+    customOrder: [String],
+  },
   tags: [TagSchema],
   status: String,
 });

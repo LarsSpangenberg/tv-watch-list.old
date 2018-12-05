@@ -17,7 +17,7 @@
     background-color: $main-theme;
     font-size: 1.2em;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 10px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: center;
@@ -27,6 +27,11 @@
   th {
     top: 40px;
   }
+
+  // tr {
+  //   position: relative;
+  //   z-index: 0;
+  // }
 
   td {
     padding: 10px;
@@ -54,4 +59,10 @@
     background-color: $dark-gray;
     color: $white;
   }
+}
+
+.sortShows {
+  background-color: transparent;
+  border-radius: 5px;
+  float: right;
 }

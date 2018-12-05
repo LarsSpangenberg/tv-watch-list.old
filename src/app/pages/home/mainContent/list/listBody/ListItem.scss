@@ -149,8 +149,8 @@ tr:nth-of-type(even) {
 
 // status and tags column adjustments to Simple dropdown --------
 
-.listItem td.status,
-.listItem td.tags {
+.listItem .status,
+.listItem .tags {
   min-width: 120px;
 
   > button {

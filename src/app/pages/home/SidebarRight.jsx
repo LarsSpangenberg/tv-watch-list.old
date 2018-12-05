@@ -6,7 +6,7 @@ export default class SidebarRight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isActive: false,
+      isActive: true,
     };
     this.handleActive = this.handleActive.bind(this);
   }
@@ -22,25 +22,29 @@ export default class SidebarRight extends React.Component {
     return (
       <aside className={`${styles.sidebar} ${isActive ? styles.active : ''}`}>
 
-        <div className={styles.hoverArea}>
-          <div className={styles.headerColor} />
-          <button
-            className={styles.pullout}
-            onClick={this.handleActive}
-            type="button"
-          >
-            <i className="fas fa-chevron-left" />
-          </button>
-        </div>
         <div className={styles.pulloutInner}>
           <div className={styles.icons}>
-            <i className={`fas fa-sort-alpha-down ${styles.icon}`} />
-            <i className={`fas fa-th-list ${styles.icon}`} />
-            <i className={`far fa-calendar-alt ${styles.icon}`} />
-            <i className={`fas fa-cogs ${styles.icon}`} />
+            <button type="button">
+              <i className={`fas fa-cog ${styles.icon}`} />
+            </button>
+            <button type="button" className={styles.sortShows}>
+              <i className={`fas fa-sort-alpha-down ${styles.icon}`} />
+            </button>
           </div>
         </div>
       </aside>
     );
   }
 }
+
+
+// <div className={styles.hoverArea}>
+//   <div className={styles.headerColor} />
+//   <button
+//     className={styles.pullout}
+//     onClick={this.handleActive}
+//     type="button"
+//   >
+//     <i className="fas fa-chevron-left" />
+//   </button>
+// </div>

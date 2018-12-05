@@ -10,52 +10,41 @@ export const FETCH_SHOWS_SUCCESS = 'tv-watch-list/shows/FETCH_SHOWS_SUCCESS';
 export const ADD_SHOW_SUCCESS = 'tv-watch-list/shows/ADD_SHOW_SUCCESS';
 export const REMOVE_SHOW_SUCCESS = 'tv-watch-list/shows/REMOVE_SHOW_SUCCESS';
 export const UPDATE_SHOW_SUCCESS = 'tv-watch-list/shows/UPDATE_SHOW_SUCCESS';
-
+export const CHANGE_SORT_ORDER_SUCCESS = 'tv-watch-list/sortOrder/CHANGE_SORT_ORDER_SUCCESS';
 
 // ----------------------- Reducer ---------------------------
 
-const createList = (status) => {
-  const statusMatches = showStatus => (
-    status === showStatus || status === 'all'
-  );
 
+const sortedList = (listName) => {
   const ids = (state = [], action) => {
+    // const swap = (x, y) => {
+    //   const arr = [...state];
+    //   [arr[x], arr[y]] = [arr[y], arr[x]];
+    //   return arr;
+    // };
+
+    const checkListName = order => (
+      order === listName
+      || (listName !== 'custom' && order !== 'custom')
+    );
+
     switch (action.type) {
       case FETCH_SHOWS_SUCCESS: {
-        const nextState = [];
-        action.result.forEach((show) => {
-          if (statusMatches(show.status)) {
-            nextState.push(show._id);
-          }
-        });
-        return nextState;
+        const { order, lastOrder, customOrder } = action.result.sortShows;
+        return order === 'custom' ? customOrder : lastOrder;
       }
+      case CHANGE_SORT_ORDER_SUCCESS:
+        return checkListName(action.order) ? action.result.ids : state;
       case ADD_SHOW_SUCCESS: {
-        const i = action.index ? action.index : state.length;
-        return statusMatches(action.result.status) ? [
-          ...state.slice(0, i),
-          action.result._id,
-          ...state.slice(i),
-        ] : state;
-      }
-      case UPDATE_SHOW_SUCCESS: {
-        const index = state.indexOf(action.result._id);
-        if (statusMatches(action.result.status) && index === -1) {
-          return [...state, action.result._id];
-        }
-        if (!statusMatches(action.result.status) && index !== -1) {
-          return [...state.slice(0, index), ...state.slice(index + 1)];
-        }
-        return state;
+        const i = checkListName(action.order) ? action.index : state.length;
+        return [...state.slice(0, i), action.result._id, ...state.slice(i)];
       }
       case REMOVE_SHOW_SUCCESS: {
         const index = state.indexOf(action.id);
         if (index === -1) return state;
-        return [
-          ...state.slice(0, index),
-          ...state.slice(index + 1),
-        ];
+        return [...state.slice(0, index), ...state.slice(index + 1)];
       }
+      case UPDATE_SHOW_SUCCESS:
       default:
         return state;
     }
@@ -102,7 +91,7 @@ const createList = (status) => {
   });
 };
 
-export default createList;
+export default sortedList;
 
 // ---------------------- action creators ---------------------
 // ---------------- api request action creators -----------------------
@@ -116,18 +105,20 @@ export const fetchShows = () => ({
   }),
 });
 
-export const addShow = (status, tags, index) => {
-  const stat = status === 'all' ? 'current' : status;
+export const addShow = (parameters) => {
+  const { status, ...rest } = parameters;
+  const params = {
+    status: status === 'all' ? 'current' : status,
+    ...rest,
+  };
   return {
     types: [UPDATE_SHOW_REQUEST, ADD_SHOW_SUCCESS, UPDATE_SHOW_FAILURE],
     request: new Request('/api/shows/create', {
       method: 'POST',
       headers: { 'Content-type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ status: stat, tags, index }),
+      body: JSON.stringify(params),
     }),
-    status: stat,
-    tags,
-    index,
+    ...params,
   };
 };
 

@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto 1fr auto;
-  grid-template-areas: "left header right"
+  grid-template-areas: "left header header"
     "left main right"
-    "left footer right";
+    "left footer footer";
 }
